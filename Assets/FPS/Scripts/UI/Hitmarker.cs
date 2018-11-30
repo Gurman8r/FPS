@@ -2,43 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ML
+namespace FPS
 {
-    public sealed class Hitmarker : BaseElement
+    public sealed class Hitmarker : BaseImage
     {
 
         /* Variables
         * * * * * * * * * * * * * * * */
-        [SerializeField] float m_lifeSpan;
-        [SerializeField] float m_timer;
-
-        /* Properties
-        * * * * * * * * * * * * * * * */
-        public float lifeSpan
-        {
-            get { return m_lifeSpan; }
-            set { m_lifeSpan = value; }
-        }
+        [SerializeField] float m_fadeSpeed = 1f;
 
         /* Core
         * * * * * * * * * * * * * * * */
         private void Update()
         {
-            if(Application.isPlaying && m_timer <= 0f)
+            if(Application.isPlaying)
             {
-                Destroy(gameObject);
-            }
-            else
-            {
-                m_timer -= Time.deltaTime;
+                if(imageAlpha > 0f)
+                {
+                    imageAlpha -= m_fadeSpeed * Time.deltaTime;
+                }
+                else
+                {
+                    Hide();
+                }
             }
         }
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public void Spawn()
+        public void Show()
         {
-            m_timer = m_lifeSpan;
+            imageAlpha = 1f;
+        }
+
+        public void Hide()
+        {
+            imageAlpha = 0f;
         }
     }
 

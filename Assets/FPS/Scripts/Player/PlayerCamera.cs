@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ML
+namespace FPS
 {
     [RequireComponent(typeof(Camera))]
     [DisallowMultipleComponent]

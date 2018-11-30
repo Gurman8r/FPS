@@ -4,8 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace ML
+// Basically per-unit event system
+// Based on UnityEngine.EventSystems.EventTrigger
+// https://github.com/tenpn/unity3d-ui/blob/master/UnityEngine.UI/EventSystem/EventTrigger.cs
+
+namespace FPS
 {
+    [DisallowMultipleComponent]
     public class UnitTriggers : UnitBehaviour
         , ISpawnHandler
         , IDamageSource
@@ -17,13 +22,13 @@ namespace ML
         /* DS
         * * * * * * * * * * * * * * * */
         [Serializable]
-        public class TriggerEvent : UnityEvent<UnitEventData> { }
+        public class TriggerEvent : UnityEvent<UnitEvent> { }
 
         [Serializable]
         public class Entry
         {
-            public UnitTriggerType  eventID;
-            public TriggerEvent     callback;
+            public EventType    eventID;
+            public TriggerEvent callback;
         }
 
 
@@ -32,13 +37,9 @@ namespace ML
         public List<Entry> delegates;
 
 
-        /* Properties
+        /* Core
         * * * * * * * * * * * * * * * */
-
-
-        /* Functions
-        * * * * * * * * * * * * * * * */
-        private void Execute(UnitTriggerType id, UnitEventData eventData)
+        private void Execute(EventType id, UnitEvent unitEvent)
         {
             if (delegates != null)
             {
@@ -48,40 +49,48 @@ namespace ML
 
                     if (ent.eventID == id && ent.callback != null)
                     {
-                        ent.callback.Invoke(eventData);
+                        ent.callback.Invoke(unitEvent);
                     }
                 }
             }
         }
 
-        public virtual void OnSpawn(UnitEventData eventData)
+        public void Broadcast(EventType id, UnitEvent unitEvent)
         {
-            Execute(UnitTriggerType.OnSpawn, eventData);
+            BroadcastMessage(id.ToString(), unitEvent);
         }
 
-        public virtual void OnDeath(UnitEventData eventData)
+
+        /* Functions
+        * * * * * * * * * * * * * * * */
+        public virtual void OnSpawn(UnitEvent unitEvent)
         {
-            Execute(UnitTriggerType.OnDeath, eventData);
+            Execute(EventType.OnSpawn, unitEvent);
         }
 
-        public virtual void OnRecieveDamage(UnitEventData eventData)
+        public virtual void OnDeath(UnitEvent unitEvent)
         {
-            Execute(UnitTriggerType.OnRecieveDamage, eventData);
+            Execute(EventType.OnDeath, unitEvent);
         }
 
-        public virtual void OnRecieveHealing(UnitEventData eventData)
+        public virtual void OnRecieveDamage(UnitEvent unitEvent)
         {
-            Execute(UnitTriggerType.OnRecieveHealing, eventData);
+            Execute(EventType.OnRecieveDamage, unitEvent);
         }
 
-        public virtual void OnDoDamage(UnitEventData eventData)
+        public virtual void OnRecieveHealing(UnitEvent unitEvent)
         {
-            Execute(UnitTriggerType.OnDoDamage, eventData);
+            Execute(EventType.OnRecieveHealing, unitEvent);
         }
 
-        public virtual void OnDoHealing(UnitEventData eventData)
+        public virtual void OnDoDamage(UnitEvent unitEvent)
         {
-            Execute(UnitTriggerType.OnDoHealing, eventData);
+            Execute(EventType.OnDoDamage, unitEvent);
+        }
+
+        public virtual void OnDoHealing(UnitEvent unitEvent)
+        {
+            Execute(EventType.OnDoHealing, unitEvent);
         }
     }
 

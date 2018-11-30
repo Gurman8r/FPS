@@ -1,23 +1,33 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemBehaviour : MonoBehaviour
+namespace FPS
 {
+    [RequireComponent(typeof(Item))]
+    public class ItemBehaviour : MonoBehaviour
+    {
 
-	/* Variables
-	* * * * * * * * * * * * * * * */
-	
-	/* Core
-	* * * * * * * * * * * * * * * */
-	private void Start()
-	{
-	}
-	
-	private void Update()
-	{
-	}
-	
-	/* Functions
-	* * * * * * * * * * * * * * * */
+        /* Variables
+        * * * * * * * * * * * * * * * */
+        private Item m_item;
+
+        /* Properties
+        * * * * * * * * * * * * * * * */
+        public Item item
+        {
+            get
+            {
+                if(!m_item)
+                {
+                    m_item = GetComponent<Item>();
+                }
+                return m_item;
+            }
+        }
+
+        /* Functions
+        * * * * * * * * * * * * * * * */
+    }
+
 }

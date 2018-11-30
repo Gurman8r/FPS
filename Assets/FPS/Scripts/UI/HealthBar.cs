@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ML
+namespace FPS
 {
     [ExecuteInEditMode]
     public class HealthBar : MonoBehaviour

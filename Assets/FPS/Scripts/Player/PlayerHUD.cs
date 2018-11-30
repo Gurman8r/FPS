@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ML
+namespace FPS
 {
     [RequireComponent(typeof(Canvas))]
     [ExecuteInEditMode]
@@ -14,11 +14,12 @@ namespace ML
         * * * * * * * * * * * * * * * */
         private Canvas m_canvas;
 
-        [SerializeField] Reticle    m_reticle;
-        [SerializeField] Text       m_info;
-        [SerializeField] HealthBar  m_healthBar;
-        [Space]
-        [SerializeField] Hitmarker  m_hitmarkerPrefab;
+        [SerializeField] Reticle        m_reticle;
+        [SerializeField] Text           m_info;
+        [SerializeField] HealthBar      m_healthBar;
+        [SerializeField] Hitmarker      m_hitmarker;
+        [SerializeField] InventoryUI    m_inventory;
+        [SerializeField] TextFeed       m_textFeed;
 
 
         /* Properties
@@ -45,6 +46,16 @@ namespace ML
             get { return size / 2f; }
         }
 
+        public InventoryUI inventory
+        {
+            get { return m_inventory; }
+        }
+
+        public TextFeed textFeed
+        {
+            get { return m_textFeed; }
+        }
+
 
         /* Core
         * * * * * * * * * * * * * * * */
@@ -52,22 +63,31 @@ namespace ML
         {
             if(Application.isPlaying)
             {
-                ShowReticle(true);
                 SetInfoText("");
+                ShowReticle(true);
+                ShowHitmaker(false);
             }
         }
 
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public void ShowReticle(bool value)
+        public void SetHealth(float value)
         {
-            m_reticle.image.enabled = value;
+            if(m_healthBar)
+            {
+                m_healthBar.fillAmount = Mathf.Clamp(value, 0f, 1f);
+            }
+        }
+
+        public void SetInfoText(string value)
+        {
+            m_info.text = value;
         }
 
         public void SetReticlePos(Vector2 value, float speed = 0f)
         {
-            if(speed <= 0f)
+            if (speed <= 0f)
             {
                 m_reticle.transform.position = value;
             }
@@ -80,30 +100,24 @@ namespace ML
             }
         }
 
-        public void SetInfoText(string value)
+        public void ShowHitmaker(bool value = true)
         {
-            m_info.text = value;
+            if(m_hitmarker)
+            {
+                if(value)
+                {
+                    m_hitmarker.Show();
+                }
+                else
+                {
+                    m_hitmarker.Hide();
+                }
+            }
         }
 
-        public Hitmarker CreateHitmarker(Vector2 position, float lifeSpan)
+        public void ShowReticle(bool value)
         {
-            Hitmarker hit;
-            if((hit = Instantiate(m_hitmarkerPrefab)))
-            {
-                hit.gameObject.SetActive(true);
-                hit.transform.SetParent(transform);
-                hit.lifeSpan = 0.5f;
-                hit.Spawn();
-            }
-            return null;
-        }
-
-        public void SetHealth(float value)
-        {
-            if(m_healthBar)
-            {
-                m_healthBar.fillAmount = Mathf.Clamp(value, 0f, 1f);
-            }
+            m_reticle.image.enabled = value;
         }
     }
 }

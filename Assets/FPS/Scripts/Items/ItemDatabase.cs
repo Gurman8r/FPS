@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ML
+namespace FPS
 {
     [ExecuteInEditMode]
     public class ItemDatabase : MonoBehaviour
@@ -11,8 +11,8 @@ namespace ML
         [Serializable]
         public struct Element
         {
-            public string   name;
-            public Item     value;
+            public string   name;   // key
+            public Item     value;  // prefab
         }
 
         /* Variables
@@ -65,9 +65,15 @@ namespace ML
 
             for(int i = 0, imax = m_items.Count; i < imax; i++)
             {
-                if(!Register(m_items[i].name, m_items[i].value))
+                Element e = m_items[i];
+                e.name = e.value.info.name;
+                if (!Register(e.name, e.value))
                 {
-                    Debug.LogError("Item Name: " + m_items[i].name + " already exists");
+                    Debug.LogError("Item \'" + e.name + "\' already exists", e.value);
+                }
+                else if(e.name == ItemInfo.DefaultName)
+                {
+                    Debug.LogWarning("Item Info Requires Update", e.value);
                 }
             }
         }
@@ -99,6 +105,16 @@ namespace ML
                 return m_database[name];
             }
             return null;
+        }
+
+        public bool GetPrefab(string name, out Item item)
+        {
+            if((item = GetPrefab(name)))
+            {
+                return true;
+            }
+            item = null;
+            return false;
         }
     }
 }

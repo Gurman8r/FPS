@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace ML
+namespace FPS
 {
     [CustomEditor(typeof(ItemDatabase))]
     public class ItemDatabaseEditor : Editor
@@ -13,9 +13,16 @@ namespace ML
             get { return base.target as ItemDatabase; }
         }
 
+        /* Functions
+        * * * * * * * * * * * * * * * */
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
+
+            if(GUILayout.Button("Reload"))
+            {
+                target.Reload();
+            }
         }
     }
 

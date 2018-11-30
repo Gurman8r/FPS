@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ML
+namespace FPS
 {
     [RequireComponent(typeof(Collider))]
     [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(AudioSource))]
     [ExecuteInEditMode]
     public abstract class Item : MonoBehaviour
     {
@@ -15,12 +17,16 @@ namespace ML
         * * * * * * * * * * * * * * * */
         private Collider    m_collider;
         private Rigidbody   m_rigidbody;
-        private Unit        m_owner;
+        private Animator    m_animator;
+        private AudioSource m_audioSource;
 
         [Header("Item Settings")]
         [SerializeField] Transform  m_model;
         [SerializeField] Transform  m_holdPosition;
         [SerializeField] ItemInfo   m_info;
+
+        [Header("Item Runtime")]
+        [SerializeField] Unit       m_owner;
 
         /* Properties
         * * * * * * * * * * * * * * * */
@@ -48,6 +54,30 @@ namespace ML
             }
         }
 
+        public Animator animator
+        {
+            get
+            {
+                if(!m_animator)
+                {
+                    m_animator = GetComponent<Animator>();
+                }
+                return m_animator;
+            }
+        }
+
+        public AudioSource audioSource
+        {
+            get
+            {
+                if(!m_audioSource)
+                {
+                    m_audioSource = GetComponent<AudioSource>();
+                }
+                return m_audioSource;
+            }
+        }
+
         public Unit owner
         {
             get { return m_owner; }
@@ -69,8 +99,10 @@ namespace ML
         * * * * * * * * * * * * * * * */
         protected virtual void Start()
         {
-            if (gameObject.tag != Tag)
-                gameObject.tag = Tag;
+            if(Application.isPlaying)
+            {
+                if (gameObject.tag != Tag) gameObject.tag = Tag;
+            }
         }
 
         protected virtual void Update()
@@ -89,12 +121,24 @@ namespace ML
         * * * * * * * * * * * * * * * */
         public bool SetOwner(Unit value)
         {
-            if(owner != value)
+            if (!owner && value)
             {
                 owner = value;
                 return true;
             }
-            return false;
+            else if (owner && (owner == value))
+            {
+                return true;
+            }
+            else if(owner && !value)
+            {
+                owner = null;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public void EnablePhysics(bool value)
@@ -103,6 +147,23 @@ namespace ML
             rigidbody.useGravity = value;
             collider.isTrigger = !value;
         }
+
+        public void Reparent(Transform parentTransform, bool worldPositionStays)
+        {
+            transform.SetParent(parentTransform, worldPositionStays);
+
+            if(parentTransform && !worldPositionStays)
+            {
+                transform.localRotation = Quaternion.identity;
+                transform.localPosition = Vector3.zero;
+            }
+        }
+
+        public void SetActive(bool value)
+        {
+            gameObject.SetActive(value);
+        }
+
 
         public abstract void UpdatePrimary(string axis);
 

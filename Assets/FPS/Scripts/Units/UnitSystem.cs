@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ML
+namespace FPS
 {
+    [DisallowMultipleComponent]
     public class UnitSystem : MonoBehaviour
     {
 

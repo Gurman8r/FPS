@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace ML
+namespace FPS
 {
     [RequireComponent(typeof(UnitMotor))]
     [RequireComponent(typeof(NavMeshAgent))]
+    [DisallowMultipleComponent]
     public abstract class UnitController : UnitBehaviour
     {
 
         /* Variables
         * * * * * * * * * * * * * * * */
-        private UnitMotor m_motor;
-        private NavMeshAgent m_agent;
+        private UnitMotor       m_motor;
+        private NavMeshAgent    m_agent;
 
-        [SerializeField] float m_jumpHeight = 1;
-        [SerializeField] float m_moveSpeed = 1;
+        [SerializeField] float  m_jumpHeight = 1;
+        [SerializeField] float  m_moveSpeed = 1;
 
         /* Properties
         * * * * * * * * * * * * * * * */

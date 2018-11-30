@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace ML
+namespace FPS
 {
     [RequireComponent(typeof(NavMeshAgent))]
     [RequireComponent(typeof(Collider))]
     [RequireComponent(typeof(Rigidbody))]
+    [DisallowMultipleComponent]
     [ExecuteInEditMode]
     public class UnitMotor : UnitBehaviour
     {

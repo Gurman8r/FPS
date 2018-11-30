@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ML
+namespace FPS
 {
-    [RequireComponent(typeof(Image))]
-    public class Reticle : BaseElement
+    public class Reticle : BaseImage
     {
 
         /* Variables
