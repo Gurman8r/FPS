@@ -6,6 +6,7 @@ namespace FPS
 {
     [RequireComponent(typeof(UnitMetrics))]
     [RequireComponent(typeof(UnitTriggers))]
+    [RequireComponent(typeof(UnitVision))]
     [DisallowMultipleComponent]
     public sealed class Unit : MonoBehaviour
         , ISpawnHandler
@@ -20,6 +21,7 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         private UnitMetrics     m_metrics;
         private UnitTriggers    m_triggers;
+        private UnitVision      m_vision;
 
         [SerializeField] Health m_health;
 
@@ -47,6 +49,18 @@ namespace FPS
                     m_triggers = GetComponent<UnitTriggers>();
                 }
                 return m_triggers;
+            }
+        }
+
+        public UnitVision vision
+        {
+            get
+            {
+                if(!m_vision)
+                {
+                    m_vision = GetComponent<UnitVision>();
+                }
+                return m_vision;
             }
         }
 

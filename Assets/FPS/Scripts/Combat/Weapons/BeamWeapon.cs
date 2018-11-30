@@ -100,7 +100,7 @@ namespace FPS
                 combatData.owner = owner;
                 combatData.layerMask = layerMask;
                 combatData.position = shotPos.position;
-                combatData.direction = transform.forward;
+                combatData.direction = shotPos.forward;
                 combatData.speed = 0f;
                 combatData.lifeSpan = m_beamLifespan;
 

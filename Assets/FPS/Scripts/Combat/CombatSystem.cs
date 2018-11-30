@@ -5,7 +5,7 @@ using UnityEngine;
 namespace FPS
 {
     [DisallowMultipleComponent]
-    public class UnitSystem : MonoBehaviour
+    public class CombatSystem : MonoBehaviour
     {
 
         /* Variables
@@ -13,7 +13,7 @@ namespace FPS
 
         /* Properties
         * * * * * * * * * * * * * * * */
-        public static UnitSystem current
+        public static CombatSystem current
         {
             get; set;
         }
@@ -28,13 +28,13 @@ namespace FPS
             }
             else
             {
-                Debug.LogWarning("Multiple UnitSystems in scene... this is not supported");
+                Debug.LogWarning("Multiple CombatSystem in scene... this is not supported");
             }
         }
 
         private void OnDisable()
         {
-            if(current == this)
+            if (current == this)
             {
                 current = null;
             }

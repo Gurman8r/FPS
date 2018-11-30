@@ -64,7 +64,7 @@ namespace FPS
 
                 if (speed > 0f)
                 {
-
+                    // Extend / Retract
                 }
             }
         }

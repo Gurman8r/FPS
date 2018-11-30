@@ -95,16 +95,16 @@ namespace FPS
                     shotTimer += Time.deltaTime;
                 }
 
-                RaycastHit hit;
-                Ray ray = new Ray(shotPos.position, transform.forward);
-                if (Physics.Raycast(ray, out hit, maxRange, layerMask))
+                if(owner)
                 {
-                    lookPos = hit.point;
+                    lookPos = owner.vision.lookingAt;
                 }
                 else
                 {
                     lookPos = shotPos.position + (transform.forward * maxRange);
                 }
+
+                shotPos.LookAt(lookPos);
             }
         }
 

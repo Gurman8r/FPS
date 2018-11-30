@@ -108,7 +108,7 @@ namespace FPS
                 combatData.owner        = owner;
                 combatData.layerMask    = layerMask;
                 combatData.position     = shotPos.position;
-                combatData.direction    = transform.forward + GetBulletSpread();
+                combatData.direction    = shotPos.forward + GetBulletSpread();
                 combatData.speed        = m_bulletSpeed;
                 combatData.lifeSpan     = m_bulletLifespan;
 
