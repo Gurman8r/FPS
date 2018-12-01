@@ -7,6 +7,9 @@ TagManager:
   - Unit
   - Item
   - Combat
+  - Level
+  - Wall
+  - Door
   layers:
   - Default
   - TransparentFX
@@ -21,7 +24,7 @@ TagManager:
   - Unit
   - Item
   - Combat
-  - 
+  - Door
   - 
   - 
   - 

@@ -536,6 +536,6 @@ MonoBehaviour:
     type: 2}
   m_bulletCount: 1
   m_bulletDelay: 0
-  m_bulletSpread: 0.1
+  m_bulletSpread: 0
   m_bulletSpeed: 50
   m_bulletLifespan: 2.5

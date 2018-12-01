@@ -99,13 +99,21 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
+        public void Destroy()
+        {
+            if(Application.isPlaying)
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        /* Functions
+        * * * * * * * * * * * * * * * */
         public void OnDeath(UnitEvent unitEvent)
         {
             if(!health.dead)
             {
                 health.SetDead(true);
-
-                Debug.Log("Unit " + transform.name + " died", this);
             }
         }
 

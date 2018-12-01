@@ -57,7 +57,7 @@ namespace FPS
 
         public void Broadcast(EventType id, UnitEvent unitEvent)
         {
-            BroadcastMessage(id.ToString(), unitEvent);
+            gameObject.BroadcastMessage(id.ToString(), unitEvent);
         }
 
 

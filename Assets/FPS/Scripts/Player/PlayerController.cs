@@ -19,6 +19,7 @@ namespace FPS
         [SerializeField] PlayerInventory    m_inventory;
         [SerializeField] float              m_pickupRange = 2.5f;
         [SerializeField] LayerMask          m_itemLayer;
+        [SerializeField] LayerMask          m_wallLayer;
         [SerializeField] string             m_startingItem = "";
         [SerializeField] float              m_inventoryTime = 2.5f;
 
@@ -30,7 +31,7 @@ namespace FPS
         [SerializeField] int        m_selectInput = 0;
 
         private Ray        m_pickupRay = new Ray();
-        private RaycastHit m_pickupHit;
+        private RaycastHit m_hit;
 
 
         /* Properties
@@ -124,21 +125,20 @@ namespace FPS
                 // Item Pickup
                 m_pickupRay.origin = camera.transform.position;
                 m_pickupRay.direction = camera.transform.forward;
-                if (Physics.Raycast(m_pickupRay, out m_pickupHit, m_pickupRange, m_itemLayer))
+                if (Physics.Raycast(m_pickupRay, out m_hit, m_pickupRange, m_itemLayer))
                 {
-                    if (m_pickupHit.transform.tag == Item.Tag)
+                    if (m_hit.transform.tag == Item.Tag)
                     {
                         Item item;
-                        if ((item = m_pickupHit.transform.GetComponent<Item>()) && !item.owner)
+                        if ((item = m_hit.transform.GetComponent<Item>()) && !item.owner)
                         {
                             hud.ShowReticle(false);
-
-                            hud.SetInfoText(string.Format("(E) Take {0}", 
+                            hud.SetInfoText(string.Format("(E) Take {0}",
                                 item.info.name));
 
                             if (Input.GetButtonDown("Interact"))
                             {
-                                if(inventory.primary.item && inventory.Store(item))
+                                if (inventory.primary.item && inventory.Store(item))
                                 {
                                     hud.inventory.ShowForSeconds(m_inventoryTime);
 
@@ -154,6 +154,26 @@ namespace FPS
                         }
                     }
                 }
+                else if (Physics.Raycast(m_pickupRay, out m_hit, m_pickupRange, m_wallLayer))
+                {
+                    if (m_hit.transform.tag == "Door")
+                    {
+                        DL.Wall wall;
+                        if((wall = m_hit.transform.parent.GetComponent<DL.Wall>()))
+                        {
+                            if(wall.isDoor && !wall.isOpen)
+                            {
+                                hud.ShowReticle(false);
+                                hud.SetInfoText(string.Format("(E) Open"));
+
+                                if (Input.GetButtonDown("Interact"))
+                                {
+                                    wall.Open();
+                                }
+                            }
+                        }
+                    }
+                }
                 else
                 {
                     hud.ShowReticle(true);
@@ -164,15 +184,7 @@ namespace FPS
                 UpdateHand(inventory.primary);
 
                 // Set Reticle Position
-                BulletWeapon fa;
-                if (inventory.primary.item && (fa = inventory.primary.item as BulletWeapon))
-                {
-                    hud.SetReticlePos(camera.camera.WorldToScreenPoint(fa.lookPos));
-                }
-                else
-                {
-                    hud.SetReticlePos(hud.center);
-                }
+                hud.SetReticlePos(hud.center);
 
                 // Set Health Bar Value
                 hud.SetHealth(unit.health.fillAmount);
@@ -183,8 +195,8 @@ namespace FPS
                     if (Input.GetKeyDown(key))
                     {
                         m_selectInput = (key == KeyCode.Alpha0)
-                            ? (inventory.capacity - 1) 
-                            : (inventory.capacity - Mathf.Abs((int)key - (int)KeyCode.Alpha9) - 2);
+                            ? (inventory.bagCapacity - 1) 
+                            : (inventory.bagCapacity - Mathf.Abs((int)key - (int)KeyCode.Alpha9) - 2);
 
                         if (!inventory.Equip(inventory.primary, m_selectInput))
                         {
@@ -200,7 +212,7 @@ namespace FPS
                 {
                     if (m_scrollInput < 0f)
                     {
-                        if (m_selectInput < inventory.capacity - 1)
+                        if (m_selectInput < inventory.bagCapacity - 1)
                             m_selectInput++;
                         else
                             m_selectInput = 0;
@@ -210,7 +222,7 @@ namespace FPS
                         if (m_selectInput > 0)
                             m_selectInput--;
                         else
-                            m_selectInput = inventory.capacity - 1;
+                            m_selectInput = inventory.bagCapacity - 1;
                     }
 
                     if (!inventory.Equip(inventory.primary, m_selectInput))
@@ -264,7 +276,7 @@ namespace FPS
                 }
             }
         }
-
+                
         public void OnDoDamage(UnitEvent unitEvent)
         {
             hud.ShowHitmaker();

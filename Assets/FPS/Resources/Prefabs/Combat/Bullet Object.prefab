@@ -116,7 +116,7 @@ MonoBehaviour:
     owner: {fileID: 0}
     layerMask:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 512
     position: {x: 0, y: 0, z: 0}
     direction: {x: 0, y: 0, z: 0}
     speed: 0
@@ -127,22 +127,6 @@ MonoBehaviour:
       amount: 0
   m_timer: 0
   m_hitList: []
-  m_onSpawn:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  m_onHitUnit:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  m_onDeath:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  m_startingVelocity: {x: 0, y: 0, z: 0}
 --- !u!135 &135201054219490324
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -150,7 +134,7 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1402926519430590}
   m_Material: {fileID: 13400000, guid: 0baf115bb02f39f4c880abbe76615774, type: 2}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5

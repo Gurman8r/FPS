@@ -97,6 +97,14 @@ namespace FPS
 
         /* Core
         * * * * * * * * * * * * * * * */
+        private void Awake()
+        {
+            if(Application.isPlaying)
+            {
+                EnablePhysics(false);
+            }
+        }
+
         protected virtual void Start()
         {
             if(Application.isPlaying)

@@ -13,14 +13,6 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         private Rigidbody m_rigidbody;
 
-        [Header("Bullet Settings")]
-        [SerializeField] UnityEvent m_onSpawn;
-        [SerializeField] UnityEvent m_onHitUnit;
-        [SerializeField] UnityEvent m_onDeath;
-
-        [Header("Runtime")]
-        [SerializeField] Vector3    m_startingVelocity;
-
 
         /* Properties
         * * * * * * * * * * * * * * * */
@@ -66,9 +58,6 @@ namespace FPS
             rigidbody.position = data.position;
 
             rigidbody.velocity = data.direction * data.speed;
-
-            m_startingVelocity = rigidbody.velocity;
         }
-        
     }
 }
