@@ -8,6 +8,7 @@ namespace FPS
     [ExecuteInEditMode]
     public class Wall : MonoBehaviour
     {
+        public const string DoorTag = "Door";
 
         /*  Variables
         * * * * * * * * * * * * * * * * */

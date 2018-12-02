@@ -133,6 +133,7 @@ namespace FPS
             }
         }
 
+
         public virtual void Kill()
         {
             if (Application.isPlaying)
@@ -148,6 +149,20 @@ namespace FPS
         public virtual void Spawn()
         {
             timer = 0f;
+            gameObject.SetActive(true);
+        }
+
+
+        public void SpawnObject(CombatObject value)
+        {
+            CombatObject obj;
+            if(value && (obj = Instantiate(value, null)))
+            {
+                obj.transform.position = transform.position;
+                obj.transform.rotation = transform.rotation;
+                obj.data.owner = data.owner;
+                obj.Spawn();
+            }
         }
     }
 

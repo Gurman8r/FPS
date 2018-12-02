@@ -97,6 +97,19 @@ namespace FPS
 
         /* Core
         * * * * * * * * * * * * * * * */
+        private void Awake()
+        {
+            if(Application.isPlaying)
+            {
+                if (!owner)
+                {
+                    Reparent(null, true);
+                    EnablePhysics(true);
+                    EnableAnimator(false);
+                }
+            }
+        }
+
         protected virtual void Start()
         {
             if(Application.isPlaying)
@@ -104,12 +117,6 @@ namespace FPS
                 if (gameObject.tag != Tag)
                 {
                     gameObject.tag = Tag;
-                }
-
-                if(!owner)
-                {
-                    Reparent(null, true);
-                    EnablePhysics(true);
                 }
             }
         }
@@ -148,6 +155,11 @@ namespace FPS
             {
                 return false;
             }
+        }
+
+        public void EnableAnimator(bool value)
+        {
+            animator.enabled = value;
         }
 
         public void EnablePhysics(bool value)

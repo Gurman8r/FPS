@@ -8,7 +8,7 @@ namespace FPS
     {
         /* Variables
         * * * * * * * * * * * * * * * */
-        [Header("Beam Settings")]
+        [Header("Beam Weapon Settings")]
         [SerializeField] BeamObject m_beamPrefab;
         [SerializeField] float      m_beamWidth    = 0.1f;
         [SerializeField] float      m_beamPenetration = 0f;
@@ -53,8 +53,9 @@ namespace FPS
 
         public override void UpdateSecondary(string axis)
         {
-            // ADS
+            animator.SetBool("AimDownSights", Input.GetButton(axis));
         }
+
 
         protected override IEnumerator ShootCoroutine()
         {

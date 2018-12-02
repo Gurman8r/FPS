@@ -152,7 +152,7 @@ namespace FPS
                             }
                         }
                     }
-                    else if (m_hit.transform.tag == "Door")
+                    else if (m_hit.transform.tag == Wall.DoorTag)
                     {
                         Wall wall;
                         if ((wall = m_hit.transform.parent.GetComponent<Wall>()))

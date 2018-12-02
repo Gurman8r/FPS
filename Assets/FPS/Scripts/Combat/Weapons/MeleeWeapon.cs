@@ -9,19 +9,18 @@ namespace FPS
         public enum ActionType
         {
             Idle = 0,
-            StartAttack,
-            EndAttack,
+            StartAttack = 1, EndAttack = 2,
         }
 
         /* Variables
         * * * * * * * * * * * * * * * */
-        [Header("Melee Settings")]
+        [Header("Melee Weapon Settings")]
 
-        [Header("Melee Runtime")]
-        [SerializeField] ActionType m_state;
-        [SerializeField] MeleeObject m_meleeObject;
-        [SerializeField] string m_triggerName;
-        [SerializeField] bool m_canDamage;
+        [Header("Melee Weapon Runtime")]
+        [SerializeField] MeleeObject    m_meleeObject;
+        [SerializeField] ActionType     m_state;
+        [SerializeField] string         m_triggerName;
+        [SerializeField] bool           m_canDamage;
 
 
         /* Core

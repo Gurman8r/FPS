@@ -111,19 +111,14 @@ namespace FPS
             Item item;
             if((item = hand.item) && item.SetOwner(null))
             {
-                if (BagContains(item))
-                    bagList.Remove(item);
+                if (BagContains(item)) bagList.Remove(item);
 
                 hand.item = null;
                 item.Reparent(null, true);
                 item.EnablePhysics(true);
+                item.EnableAnimator(false);
                 return true;
             }
-            return false;
-        }
-
-        public bool Drop(int index)
-        {
             return false;
         }
 
@@ -132,12 +127,13 @@ namespace FPS
         {
             if (item && item.SetOwner(unit))
             {
-                if (CanAdd(item))
-                    AddToBag(item);
+                if (CanAdd(item)) AddToBag(item);
 
                 hand.item = item;
-                item.EnablePhysics(false);
                 item.Reparent(hand.transform, false);
+                item.EnablePhysics(false);
+                item.EnableAnimator(true);
+                item.SetActive(true);
                 return true;
             }
             return false;
@@ -157,11 +153,7 @@ namespace FPS
                     return true;
                 }
 
-                if(Equip(hand, item))
-                {
-                    item.gameObject.SetActive(true);
-                    return true;
-                }
+                return Equip(hand, item);
             }
             return false;
         }
@@ -185,11 +177,11 @@ namespace FPS
         {
             if (item)
             {
-                if (CanAdd(item))
-                    AddToBag(item);
+                if (CanAdd(item)) AddToBag(item);
 
-                item.EnablePhysics(false);
                 item.Reparent(bagTransform, false);
+                item.EnablePhysics(false);
+                item.EnableAnimator(false);
                 item.SetActive(false);
                 return true;
             }

@@ -16,9 +16,14 @@ namespace FPS
         private SphereCollider  m_collider;
 
         [Header("Settings")]
-        [SerializeField] bool   m_destroyOnHit;
-        [SerializeField] bool   m_penetration;
         [SerializeField] float  m_stopRadius = 0.5f;
+        [SerializeField] bool   m_destroyOnHit;
+        [SerializeField] bool   m_makeSafeOnHit;
+        [Space]
+        [SerializeField] UnityEvent m_onSpawn;
+        [SerializeField] UnityEvent m_onKill;
+        [SerializeField] UnityEvent m_onHitUnit;
+        [SerializeField] UnityEvent m_onHitAny;
 
         [Header("Runtime")]
         [SerializeField] bool m_stopped;
@@ -50,6 +55,12 @@ namespace FPS
             }
         }
 
+        public bool stopped
+        {
+            get { return m_stopped; }
+            private set { m_stopped = value; }
+        }
+
 
         /* Core
         * * * * * * * * * * * * * * * */
@@ -62,14 +73,20 @@ namespace FPS
         {
             if (Application.isPlaying)
             {
-                if (m_stopped)
-                    return;
-
-                if (!m_penetration)
+                if (!stopped)
                 {
                     if (Physics.CheckSphere(rigidbody.position, m_stopRadius, data.layerMask))
                     {
-                        MakeSafe();
+                        if (m_destroyOnHit && !m_makeSafeOnHit)
+                        {
+                            Kill();
+                        }
+                        else
+                        {
+                            MakeSafe();
+                        }
+
+                        m_onHitAny.Invoke();
                     }
                 }
 
@@ -78,7 +95,7 @@ namespace FPS
 
         private void OnTriggerEnter(Collider collider)
         {
-            if(!m_stopped)
+            if(!stopped)
             {
                 Unit other;
                 if (CheckHit(collider, out other))
@@ -87,11 +104,13 @@ namespace FPS
                     {
                         OnHit(other);
 
-                        if(m_destroyOnHit)
+                        m_onHitAny.Invoke();
+
+                        if(m_destroyOnHit && !m_makeSafeOnHit)
                         {
-                            Destroy(gameObject);
+                            Kill();
                         }
-                        else if (!m_penetration)
+                        else
                         {
                             MakeSafe();
                         }
@@ -108,14 +127,25 @@ namespace FPS
             base.Spawn();
 
             rigidbody.position = data.position;
-
             rigidbody.velocity = data.direction * data.speed;
-
-            m_stopped = false;
-
-            collider.isTrigger = true;
-
             rigidbody.interpolation = RigidbodyInterpolation.Extrapolate;
+            collider.isTrigger = true;
+            transform.LookAt(rigidbody.position + rigidbody.velocity);
+            stopped = false;
+
+            m_onSpawn.Invoke();
+        }
+
+        public override void Kill()
+        {
+            m_onKill.Invoke();
+
+            base.Kill();
+        }
+
+        protected override void OnHit(Unit other)
+        {
+            base.OnHit(other);
         }
 
         public void MakeSafe()
@@ -123,7 +153,7 @@ namespace FPS
             rigidbody.velocity = Vector3.zero;
             rigidbody.useGravity = true;
             collider.isTrigger = false;
-            m_stopped = true;
+            stopped = true;
             rigidbody.interpolation = RigidbodyInterpolation.None;
         }
     }

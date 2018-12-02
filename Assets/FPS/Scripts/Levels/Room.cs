@@ -37,7 +37,6 @@ namespace FPS
         [SerializeField] Wall[]     m_wallArray;
         [SerializeField] List<Link> m_linkList;
         [SerializeField] List<Room> m_roomList;
-        [SerializeField] Material[] m_materials;
         Dictionary<Wall, Wall>      m_linkMap = new Dictionary<Wall, Wall>();
 
 

@@ -8,7 +8,7 @@ namespace FPS
     {
         /* Variables
         * * * * * * * * * * * * * * * */
-        [Header("Bullet Settings")]
+        [Header("Bullet Weapon Settings")]
         [SerializeField] BulletObject   m_bulletPrefab;         // Prefab to spawn
         [SerializeField] int            m_bulletCount   = 1;    // Bullets per shot
         [SerializeField] float          m_bulletDelay   = 0.1f; // Delay between bullets
@@ -58,6 +58,7 @@ namespace FPS
         public override void UpdateSecondary(string axis)
         {
             // ADS
+            animator.SetBool("AimDownSights", Input.GetButton(axis));
         }
 
         protected override IEnumerator ShootCoroutine()
@@ -68,7 +69,6 @@ namespace FPS
                 if (obj = SpawnBullet(m_bulletPrefab))
                 {
                     obj.Spawn();
-
                     obj.rigidbody.velocity += GetBulletSpread();
 
                     if (audio.clip) audio.Play();
