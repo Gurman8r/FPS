@@ -39,7 +39,7 @@ Transform:
   m_GameObject: {fileID: 1402926519430590}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -59,7 +59,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: c693f1ea72392834982f602291301075, type: 2}
+  - {fileID: 2100000, guid: 71213919b6bf01240a9468acfe830a29, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -93,7 +93,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1402926519430590}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.01
   m_Drag: 0
   m_AngularDrag: 0
   m_UseGravity: 0
@@ -116,7 +116,7 @@ MonoBehaviour:
     owner: {fileID: 0}
     layerMask:
       serializedVersion: 2
-      m_Bits: 512
+      m_Bits: 1536
     position: {x: 0, y: 0, z: 0}
     direction: {x: 0, y: 0, z: 0}
     speed: 0
@@ -127,6 +127,10 @@ MonoBehaviour:
       amount: 0
   m_timer: 0
   m_hitList: []
+  m_destroyOnHit: 0
+  m_penetration: 0
+  m_stopRadius: 0.25
+  m_stopped: 0
 --- !u!135 &135201054219490324
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -134,7 +138,7 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1402926519430590}
   m_Material: {fileID: 13400000, guid: 0baf115bb02f39f4c880abbe76615774, type: 2}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5

@@ -66,7 +66,7 @@ namespace FPS
             }
         }
 
-        public AudioSource audioSource
+        public new AudioSource audio
         {
             get
             {
@@ -97,19 +97,20 @@ namespace FPS
 
         /* Core
         * * * * * * * * * * * * * * * */
-        private void Awake()
-        {
-            if(Application.isPlaying)
-            {
-                EnablePhysics(false);
-            }
-        }
-
         protected virtual void Start()
         {
             if(Application.isPlaying)
             {
-                if (gameObject.tag != Tag) gameObject.tag = Tag;
+                if (gameObject.tag != Tag)
+                {
+                    gameObject.tag = Tag;
+                }
+
+                if(!owner)
+                {
+                    Reparent(null, true);
+                    EnablePhysics(true);
+                }
             }
         }
 

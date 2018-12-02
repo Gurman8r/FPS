@@ -34,7 +34,7 @@ namespace FPS
             get { return m_primary; }
         }
 
-        public int bagCapacity
+        public int capacity
         {
             get { return m_bagCapacity; }
         }

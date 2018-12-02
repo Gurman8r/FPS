@@ -6,75 +6,111 @@ namespace FPS
 {
     public class MeleeWeapon : WeaponBase
     {
+        public enum ActionType
+        {
+            Idle = 0,
+            StartAttack,
+            EndAttack,
+        }
+
         /* Variables
         * * * * * * * * * * * * * * * */
         [Header("Melee Settings")]
+
+        [Header("Melee Runtime")]
+        [SerializeField] ActionType m_state;
         [SerializeField] MeleeObject m_meleeObject;
+        [SerializeField] string m_triggerName;
+        [SerializeField] bool m_canDamage;
+
 
         /* Core
         * * * * * * * * * * * * * * * */
         protected override void Start()
         {
             base.Start();
+
+            ResetCooldown();
         }
 
         protected override void Update()
         {
-            base.Update();
+            if (Application.isPlaying)
+            {
+                if(canShoot) { /*Update Inspector*/ }
+
+                if (m_meleeObject)
+                {
+                    combatData.owner = owner;
+                    combatData.layerMask = layerMask;
+                    combatData.position = shotPos.position;
+                    combatData.direction = transform.forward;
+                    m_meleeObject.data = combatData;
+                    m_meleeObject.SetActive(m_canDamage);
+                }
+            }
         }
 
         /* Functions
         * * * * * * * * * * * * * * * */
         public override void UpdatePrimary(string axis)
         {
-            switch (shotMode)
+            if (Input.GetButtonDown(axis))
             {
-            case Mode.SingleShot:
-            {
-                if (Input.GetButtonDown(axis))
-                {
-                    Shoot();
-                }
-            }
-            break;
-            case Mode.Continuous:
-            {
-                if (Input.GetButtonDown(axis)) { }
-                if (Input.GetButton(axis)) { }
-                if (Input.GetButtonUp(axis)) { }
-            }
-            break;
+                m_triggerName = "MeleePrimary";
+                Shoot();
             }
         }
 
         public override void UpdateSecondary(string axis)
         {
-            // Block
+            if (Input.GetButtonDown(axis))
+            {
+                m_triggerName = "MeleeSecondary";
+                Shoot();
+            }
+        }
+
+        protected override void Shoot()
+        {
+            if (canShoot)
+            {
+                StartCoroutine(ShootCoroutine());
+
+                StartCooldown();
+            }
         }
 
         protected override IEnumerator ShootCoroutine()
         {
-            combatData.owner = owner;
-            combatData.layerMask = layerMask;
-            combatData.position = shotPos.position;
-            combatData.direction = transform.forward;
-            combatData.speed = 1f;
-            combatData.lifeSpan = 0f;
-
-            m_meleeObject.data = combatData;
-
-            animator.SetTrigger("MeleeStart");
-
-            yield return new WaitForSeconds(shotDelay);
+            animator.SetTrigger(m_triggerName);
+            if (audio.clip)
+                audio.Play();
+            yield return null;
         }
 
-        private void OnAnimationEvent(string value)
+        private void SetState(ActionType value)
         {
-            switch(value)
+            switch (m_state = value)
             {
-            case "MeleeStart": { m_meleeObject.SetActive(true); } break;
-            case "MeleeStop": { m_meleeObject.SetActive(false); } break;
+            case ActionType.Idle:
+            {
+                ResetCooldown(); //canShoot = true
             }
+            break;
+            case ActionType.StartAttack:
+            {
+                m_canDamage = true;
+            }
+            break;
+            case ActionType.EndAttack:
+            {
+                m_triggerName = "";
+                m_canDamage = false;
+            }
+            break;
+            }
+
         }
     }
 

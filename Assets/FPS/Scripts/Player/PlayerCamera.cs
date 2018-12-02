@@ -23,6 +23,7 @@ namespace FPS
         [SerializeField] bool       m_cursorLock        = false;
 
         //[Header("Runtime")]
+        private Ray m_ray = new Ray();
 
 
         /* Properties
@@ -36,6 +37,16 @@ namespace FPS
                     m_camera = GetComponent<Camera>();
                 }
                 return m_camera;
+            }
+        }
+
+        public Ray ray
+        {
+            get
+            {
+                m_ray.origin = transform.position;
+                m_ray.direction = transform.forward;
+                return m_ray;
             }
         }
 
@@ -84,6 +95,7 @@ namespace FPS
             get { return m_cursorLock; }
             set { m_cursorLock = value; }
         }
+
 
         /* Core
         * * * * * * * * * * * * * * * */

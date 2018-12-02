@@ -17,20 +17,17 @@ namespace FPS
         [SerializeField] PlayerCamera       m_camera;
         [SerializeField] PlayerHUD          m_hud;
         [SerializeField] PlayerInventory    m_inventory;
-        [SerializeField] float              m_pickupRange = 2.5f;
-        [SerializeField] LayerMask          m_itemLayer;
-        [SerializeField] LayerMask          m_wallLayer;
+        [SerializeField] float              m_interactRange = 2.5f;
         [SerializeField] string             m_startingItem = "";
         [SerializeField] float              m_inventoryTime = 2.5f;
 
         [Header("Runtime")]
         [SerializeField] Vector2    m_moveInput;
+        [SerializeField] bool       m_sprintInput;
         [SerializeField] Vector2    m_lookInput;
         [SerializeField] float      m_scrollInput;
-        [SerializeField] Vector3    m_lookingAt;
         [SerializeField] int        m_selectInput = 0;
 
-        private Ray        m_pickupRay = new Ray();
         private RaycastHit m_hit;
 
 
@@ -107,7 +104,11 @@ namespace FPS
                 m_moveInput = new Vector2(
                     Input.GetAxis("Horizontal"),
                     Input.GetAxis("Vertical"));
-                motor.Move(m_moveInput, moveSpeed);
+
+                // Sprint
+                m_sprintInput = Input.GetButton("Sprint");
+
+                motor.Move(m_moveInput, moveSpeed * (m_sprintInput ? 2f : 1f));
 
                 // Aim
                 m_lookInput = new Vector2(
@@ -122,10 +123,8 @@ namespace FPS
                 }
 
 
-                // Item Pickup
-                m_pickupRay.origin = camera.transform.position;
-                m_pickupRay.direction = camera.transform.forward;
-                if (Physics.Raycast(m_pickupRay, out m_hit, m_pickupRange, m_itemLayer))
+                // Interaction
+                if (Physics.Raycast(camera.ray, out m_hit, m_interactRange))
                 {
                     if (m_hit.transform.tag == Item.Tag)
                     {
@@ -153,15 +152,12 @@ namespace FPS
                             }
                         }
                     }
-                }
-                else if (Physics.Raycast(m_pickupRay, out m_hit, m_pickupRange, m_wallLayer))
-                {
-                    if (m_hit.transform.tag == "Door")
+                    else if (m_hit.transform.tag == "Door")
                     {
-                        DL.Wall wall;
-                        if((wall = m_hit.transform.parent.GetComponent<DL.Wall>()))
+                        Wall wall;
+                        if ((wall = m_hit.transform.parent.GetComponent<Wall>()))
                         {
-                            if(wall.isDoor && !wall.isOpen)
+                            if (wall.isDoor && !wall.isOpen)
                             {
                                 hud.ShowReticle(false);
                                 hud.SetInfoText(string.Format("(E) Open"));
@@ -195,8 +191,8 @@ namespace FPS
                     if (Input.GetKeyDown(key))
                     {
                         m_selectInput = (key == KeyCode.Alpha0)
-                            ? (inventory.bagCapacity - 1) 
-                            : (inventory.bagCapacity - Mathf.Abs((int)key - (int)KeyCode.Alpha9) - 2);
+                            ? (inventory.capacity - 1) 
+                            : (inventory.capacity - Mathf.Abs((int)key - (int)KeyCode.Alpha9) - 2);
 
                         if (!inventory.Equip(inventory.primary, m_selectInput))
                         {
@@ -212,7 +208,7 @@ namespace FPS
                 {
                     if (m_scrollInput < 0f)
                     {
-                        if (m_selectInput < inventory.bagCapacity - 1)
+                        if (m_selectInput < inventory.capacity - 1)
                             m_selectInput++;
                         else
                             m_selectInput = 0;
@@ -222,7 +218,7 @@ namespace FPS
                         if (m_selectInput > 0)
                             m_selectInput--;
                         else
-                            m_selectInput = inventory.bagCapacity - 1;
+                            m_selectInput = inventory.capacity - 1;
                     }
 
                     if (!inventory.Equip(inventory.primary, m_selectInput))
@@ -240,7 +236,7 @@ namespace FPS
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.magenta;
-            Gizmos.DrawRay(m_pickupRay.origin, m_pickupRay.direction * m_pickupRange);
+            Gizmos.DrawRay(camera.ray.origin, camera.ray.direction * m_interactRange);
         }
 
 
@@ -275,8 +271,18 @@ namespace FPS
                     }
                 }
             }
+            else if (Input.GetButtonDown("Store"))
+            {
+                if (inventory.Equip(inventory.primary, m_selectInput))
+                {
+                    hud.inventory.ShowForSeconds(m_inventoryTime);
+                }
+            }
         }
-                
+
+
+        /* Interfaces
+        * * * * * * * * * * * * * * * */
         public void OnDoDamage(UnitEvent unitEvent)
         {
             hud.ShowHitmaker();

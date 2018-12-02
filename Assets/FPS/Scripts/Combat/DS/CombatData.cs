@@ -14,7 +14,6 @@ namespace FPS
         public Vector3      direction;
         public float        speed;
         public float        lifeSpan;
-        [Space]
         public Damage       damage;
         public Healing      healing;
 

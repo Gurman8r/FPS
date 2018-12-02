@@ -109,10 +109,7 @@ namespace FPS
                 {
                     if ((other = hit.GetComponent<Unit>()))
                     {
-                        if (other != data.owner)
-                        {
-                            return true;
-                        }
+                        return (other != data.owner);
                     }
                 }
             }

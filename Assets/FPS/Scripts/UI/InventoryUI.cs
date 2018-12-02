@@ -10,14 +10,15 @@ namespace FPS
     {
         /* Variables
         * * * * * * * * * * * * * * * */
+        [Header("Settings")]
         [SerializeField] Transform  m_content;
-        [SerializeField] int        m_slotCount;
-        [SerializeField] ItemSlot[] m_slots;
-        [SerializeField] float      m_fadeSpeed = 1f;
-        [SerializeField] bool       m_inUse;
         [SerializeField] Image      m_selector;
+        [SerializeField] float      m_fadeSpeed = 1f;
+        [SerializeField] int        m_slotCount;
 
         [Header("Runtime")]
+        [SerializeField] ItemSlot[] m_slots;
+        [SerializeField] bool       m_inUse;
         [SerializeField] Graphic[]  m_graphics;
         [SerializeField] int        m_index;
 
@@ -67,11 +68,11 @@ namespace FPS
                 {
                     imageAlpha = 1f;
                 }
-            }
 
-            if(m_selector)
-            {
-                m_selector.transform.position = m_slots[m_index].transform.position;
+                if (m_selector)
+                {
+                    m_selector.transform.position = m_slots[m_index].transform.position;
+                }
             }
         }
 

@@ -13,8 +13,6 @@ namespace FPS
         [SerializeField] int            m_bulletCount   = 1;    // Bullets per shot
         [SerializeField] float          m_bulletDelay   = 0.1f; // Delay between bullets
         [SerializeField] float          m_bulletSpread  = 0.1f; // Bullet Spread/Bloom
-        [SerializeField] float          m_bulletSpeed   = 10;   // Speed of bullet
-        [SerializeField] float          m_bulletLifespan= 1;    // Bullet lifespan
 
 
         /* Core
@@ -32,21 +30,6 @@ namespace FPS
         protected override void Update()
         {
             base.Update();
-        }
-
-        protected override void OnDrawGizmos()
-        {
-            base.OnDrawGizmos();
-
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(shotPos.position, 0.1f);
-
-            if(owner)
-            {
-                Gizmos.color = Color.yellow;
-                Gizmos.DrawLine(shotPos.position, lookPos);
-                Gizmos.DrawWireSphere(lookPos, 0.1f);
-            }
         }
 
 
@@ -86,6 +69,10 @@ namespace FPS
                 {
                     obj.Spawn();
 
+                    obj.rigidbody.velocity += GetBulletSpread();
+
+                    if (audio.clip) audio.Play();
+
                     if ((m_bulletDelay > 0f) && (i < (imax - 1)))
                     {
                         yield return new WaitForSeconds(m_bulletDelay);
@@ -95,8 +82,7 @@ namespace FPS
 
             yield return null;
         }
-
-
+        
         private BulletObject SpawnBullet(BulletObject prefab)
         {
             BulletObject obj;
@@ -108,12 +94,9 @@ namespace FPS
                 combatData.owner        = owner;
                 combatData.layerMask    = layerMask;
                 combatData.position     = shotPos.position;
-                combatData.direction    = shotPos.forward + GetBulletSpread();
-                combatData.speed        = m_bulletSpeed;
-                combatData.lifeSpan     = m_bulletLifespan;
+                combatData.direction    = shotPos.forward;
 
                 obj.data = combatData;
-
                 return obj;
             }
             return null;

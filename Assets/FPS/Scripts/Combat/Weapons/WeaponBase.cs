@@ -24,7 +24,7 @@ namespace FPS
 
         [Header("Weapon Runtime")]
         [SerializeField] CombatData m_combatData;
-        [SerializeField] Vector3    m_lookPos;
+        [SerializeField] Vector3    m_lookingAt;
         [SerializeField] bool       m_canShoot;
         [SerializeField] float      m_shotTimer;
 
@@ -61,15 +61,15 @@ namespace FPS
             get { return m_shotDelay; }
         }
 
-        public Vector3 lookPos
+        public Vector3 lookingAt
         {
-            get { return m_lookPos; }
-            protected set { m_lookPos = value; }
+            get { return m_lookingAt; }
+            protected set { m_lookingAt = value; }
         }
 
         public bool canShoot
         {
-            get { return (m_canShoot = (m_shotTimer >= m_shotDelay)); }
+            get { return (m_canShoot = (shotTimer >= shotDelay)); }
         }
 
         public float shotTimer
@@ -97,16 +97,35 @@ namespace FPS
 
                 if(owner)
                 {
-                    lookPos = owner.vision.lookingAt;
+                    lookingAt = owner.vision.lookingAt;
                 }
                 else
                 {
-                    lookPos = shotPos.position + (transform.forward * maxRange);
+                    lookingAt = shotPos.position + (transform.forward * maxRange);
                 }
 
-                shotPos.LookAt(lookPos);
+                shotPos.LookAt(lookingAt);
             }
         }
+
+        new protected virtual void OnDrawGizmos()
+        {
+            base.OnDrawGizmos();
+
+            if(shotPos)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireSphere(shotPos.position, 0.1f);
+
+                if (owner)
+                {
+                    Gizmos.color = Color.yellow;
+                    Gizmos.DrawLine(shotPos.position, lookingAt);
+                    Gizmos.DrawWireSphere(lookingAt, 0.1f);
+                }
+            }
+        }
+
 
         /* Functions
         * * * * * * * * * * * * * * * */
@@ -121,11 +140,22 @@ namespace FPS
             {
                 StartCoroutine(ShootCoroutine());
 
-                shotTimer = 0f;
+                StartCooldown();
             }
         }
 
         protected abstract IEnumerator ShootCoroutine();
+
+
+        public void StartCooldown()
+        {
+            shotTimer = 0f;
+        }
+
+        public void ResetCooldown()
+        {
+            shotTimer = shotDelay;
+        }
     }
 
 }

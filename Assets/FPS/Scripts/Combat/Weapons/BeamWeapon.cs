@@ -11,7 +11,6 @@ namespace FPS
         [Header("Beam Settings")]
         [SerializeField] BeamObject m_beamPrefab;
         [SerializeField] float      m_beamWidth    = 0.1f;
-        [SerializeField] float      m_beamLifespan  = 0.5f;
         [SerializeField] float      m_beamPenetration = 0f;
 
 
@@ -32,21 +31,6 @@ namespace FPS
             base.Update();
         }
 
-        protected override void OnDrawGizmos()
-        {
-            base.OnDrawGizmos();
-
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(shotPos.position, 0.1f);
-
-            if (owner)
-            {
-                Gizmos.color = Color.yellow;
-                Gizmos.DrawLine(shotPos.position, lookPos);
-                Gizmos.DrawWireSphere(lookPos, 0.1f);
-            }
-        }
-
 
         /* Functions
         * * * * * * * * * * * * * * * */
@@ -56,17 +40,12 @@ namespace FPS
             {
             case Mode.SingleShot:
             {
-                if(Input.GetButtonDown(axis))
-                {
-                    Shoot();
-                }
+                if(Input.GetButtonDown(axis)) { Shoot(); }
             }
             break;
             case Mode.Continuous:
             {
-                if(Input.GetButtonDown(axis)) { }
-                if(Input.GetButton(axis)) { }
-                if(Input.GetButtonUp(axis)) { }
+                if(Input.GetButton(axis)) { Shoot(); }
             }
             break;
             }
@@ -83,12 +62,13 @@ namespace FPS
             if(obj = SpawnLaser(m_beamPrefab))
             {
                 obj.Spawn();
+
+                if (audio.clip) audio.Play();
             }
 
             yield return new WaitForSeconds(shotDelay);
         }
-
-
+        
         private BeamObject SpawnLaser(BeamObject prefab)
         {
             BeamObject obj;
@@ -101,12 +81,10 @@ namespace FPS
                 combatData.layerMask = layerMask;
                 combatData.position = shotPos.position;
                 combatData.direction = shotPos.forward;
-                combatData.speed = 0f;
-                combatData.lifeSpan = m_beamLifespan;
 
                 obj.data = combatData;
-                obj.posA = shotPos.position;
-                obj.posB = lookPos + (shotPos.forward * m_beamPenetration);
+                obj.sourcePos = shotPos.position;
+                obj.targetPos = lookingAt + (shotPos.forward * m_beamPenetration);
                 obj.width = m_beamWidth;
 
                 return obj;
