@@ -138,6 +138,9 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         public void Jump(float height)
         {
+            if (!unit.status.canJump)
+                return;
+
             if(!isJumping && isGrounded)
             {
                 velocity = new Vector3(
@@ -150,12 +153,12 @@ namespace FPS
 
         public void Move(Vector2 axes, float speed)
         {
-            Vector3 forward = transform.forward * axes.y;
+            if (!unit.status.canMove)
+                return;
 
-            Vector3 strafe = transform.right * axes.x;
-
-            Vector3 direction = (forward + strafe) * speed;
-
+            Vector3 forward     = transform.forward * axes.y;
+            Vector3 strafe      = transform.right * axes.x;
+            Vector3 direction   = (forward + strafe) * speed;
             velocity = new Vector3(
                 direction.x, 
                 velocity.y,

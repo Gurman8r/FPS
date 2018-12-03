@@ -129,9 +129,9 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public abstract override void UpdatePrimary(string axis);
+        public abstract override void UpdatePrimary(bool press, bool hold, bool release);
 
-        public abstract override void UpdateSecondary(string axis);
+        public abstract override void UpdateSecondary(bool press, bool hold, bool release);
 
 
         protected virtual void Shoot()

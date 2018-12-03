@@ -16,9 +16,19 @@ namespace FPS
         private SphereCollider  m_collider;
 
         [Header("Settings")]
+        [SerializeField] bool   m_invertGravity;
+        [SerializeField] bool   m_randomMass;
+        [Range(0.0001f, 1f)]
+        [SerializeField] float  m_minMass = 0.0001f;
+        [Range(0.0001f, 1f)]
+        [SerializeField] float  m_maxMass = 1f;
+        [SerializeField] float  m_curMass = 0.5f;
+        [Space]
         [SerializeField] float  m_stopRadius = 0.5f;
         [SerializeField] bool   m_destroyOnHit;
         [SerializeField] bool   m_makeSafeOnHit;
+        [SerializeField] bool   m_makeSolid;
+        [SerializeField] bool   m_resetTimer;
         [Space]
         [SerializeField] UnityEvent m_onSpawn;
         [SerializeField] UnityEvent m_onKill;
@@ -64,9 +74,29 @@ namespace FPS
 
         /* Core
         * * * * * * * * * * * * * * * */
+        protected override void Start()
+        {
+            base.Start();
+
+            if(Application.isPlaying)
+            {
+                if (m_randomMass)
+                {
+                    m_curMass = UnityEngine.Random.Range(m_minMass, m_maxMass);
+                }
+            }
+        }
+
         protected override void Update()
         {
             base.Update();
+
+            if(!m_randomMass)
+            {
+                m_curMass = m_minMass;
+            }
+
+            rigidbody.mass = m_curMass;
         }
 
         private void FixedUpdate()
@@ -87,6 +117,15 @@ namespace FPS
                         }
 
                         m_onHitAny.Invoke();
+                    }
+                }
+                else
+                {
+                    rigidbody.useGravity = !m_invertGravity;
+
+                    if (m_invertGravity)
+                    {
+                        rigidbody.velocity = -(Physics.gravity * rigidbody.mass);
                     }
                 }
 
@@ -151,10 +190,12 @@ namespace FPS
         public void MakeSafe()
         {
             rigidbody.velocity = Vector3.zero;
-            rigidbody.useGravity = true;
-            collider.isTrigger = false;
+            collider.isTrigger = !m_makeSolid;
             stopped = true;
             rigidbody.interpolation = RigidbodyInterpolation.None;
+
+            if (m_resetTimer)
+                timer = 0f;
         }
     }
 }

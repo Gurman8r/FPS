@@ -388,7 +388,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: d77b262dcd2c0bd44840b24b3d003fad, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -520,20 +520,20 @@ MonoBehaviour:
     owner: {fileID: 0}
     layerMask:
       serializedVersion: 2
-      m_Bits: 1536
-    position: {x: 0, y: 0, z: 0}
-    direction: {x: 0, y: 0, z: 0}
-    speed: 50
-    lifeSpan: 0.1
+      m_Bits: 512
+    position: {x: 6.389222, y: 2.1972878, z: -27.79998}
+    direction: {x: 0.91544956, y: 0.049038, z: 0.39943403}
+    speed: 15
+    lifeSpan: 1
     damage:
       amount: 0.1
     healing:
       amount: 0
-  m_lookingAt: {x: 0, y: 0, z: 0}
-  m_canShoot: 0
-  m_shotTimer: 0
-  m_bulletPrefab: {fileID: 114821140140099020, guid: 8b5071bcf5d85534e9a3ea680cff655f,
+  m_lookingAt: {x: 29.259676, y: 2.5000038, z: 3.7568321}
+  m_canShoot: 1
+  m_shotTimer: 0.05
+  m_bulletPrefab: {fileID: 114821140140099020, guid: 5d07c9669af483a44837f76914bff6c9,
     type: 2}
-  m_bulletCount: 5
+  m_bulletCount: 10
   m_bulletDelay: 0
-  m_bulletSpread: 7.5
+  m_bulletSpread: 1

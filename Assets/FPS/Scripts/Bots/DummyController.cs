@@ -11,13 +11,6 @@ namespace FPS
 
         /* Core
         * * * * * * * * * * * * * * * */
-        private void Start()
-        {
-        }
-
-        private void Update()
-        {
-        }
 
         /* Functions
         * * * * * * * * * * * * * * * */

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace FPS
 {
     [RequireComponent(typeof(AudioSource))]
-    public class PlayerAudio : UnitBehaviour
+    public class UnitAudio : UnitBehaviour
     {
 
         /* Variables

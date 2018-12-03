@@ -5,7 +5,6 @@ using UnityEngine.AI;
 
 namespace FPS
 {
-    [RequireComponent(typeof(UnitMotor))]
     [RequireComponent(typeof(NavMeshAgent))]
     [DisallowMultipleComponent]
     public abstract class UnitController : UnitBehaviour
@@ -13,26 +12,26 @@ namespace FPS
 
         /* Variables
         * * * * * * * * * * * * * * * */
-        private UnitMotor       m_motor;
         private NavMeshAgent    m_agent;
 
-        [SerializeField] float  m_jumpHeight = 1;
-        [SerializeField] float  m_moveSpeed = 1;
+        [Header("Controller Settings")]
+        [SerializeField] float      m_jumpHeight = 1f;
+        [SerializeField] float      m_moveSpeed = 1f;
+        [SerializeField] float      m_sprintSpeed = 2f;
+        [SerializeField] float      m_interactRange = 2.5f;
+        [SerializeField] string     m_startingItem = "";
+
+        [Header("Controller Runtime")]
+        [SerializeField] Vector2    m_moveInput;
+        [SerializeField] bool       m_sprintInput;
+        [SerializeField] Vector2    m_lookInput;
+        [SerializeField] float      m_scrollInput;
+        [SerializeField] int        m_selectInput = 0;
+        [SerializeField] bool       m_jumpInput;
+
 
         /* Properties
         * * * * * * * * * * * * * * * */
-        public UnitMotor motor
-        {
-            get
-            {
-                if(!m_motor)
-                {
-                    m_motor = GetComponent<UnitMotor>();
-                }
-                return m_motor;
-            }
-        }
-
         public NavMeshAgent agent
         {
             get
@@ -48,13 +47,96 @@ namespace FPS
         public float jumpHeight
         {
             get { return m_jumpHeight; }
-            protected set { m_jumpHeight = value; }
         }
 
         public float moveSpeed
         {
             get { return m_moveSpeed; }
-            protected set { m_moveSpeed = value; }
+        }
+
+        public float sprintSpeed
+        {
+            get { return m_sprintSpeed; }
+        }
+
+        public float interactRange
+        {
+            get { return m_interactRange; }
+        }
+
+        public string startingItem
+        {
+            get { return m_startingItem; }
+        }
+
+
+        public Vector2 moveInput
+        {
+            get { return m_moveInput; }
+            protected set { m_moveInput = value; }
+        }
+
+        public bool sprintInput
+        {
+            get { return m_sprintInput; }
+            protected set { m_sprintInput = value; }
+        }
+        public Vector2 lookInput
+        {
+            get { return m_lookInput; }
+            protected set { m_lookInput = value; }
+        }
+
+        public float scrollInput
+        {
+            get { return m_scrollInput; }
+            protected set { m_scrollInput = value; }
+        }
+
+        public int selectInput
+        {
+            get { return m_selectInput; }
+            protected set { m_selectInput = value; }
+        }
+
+        public bool jumpInput
+        {
+            get { return m_jumpInput; }
+            protected set { m_jumpInput = value; }
+        }
+
+
+        /* Core
+        * * * * * * * * * * * * * * * */
+        protected virtual void Start()
+        {
+            if(Application.isPlaying)
+            {
+                agent.enabled = false;
+
+                if (ItemDatabase.instance)
+                {
+                    Item item;
+                    if (ItemDatabase.instance.GetPrefab(startingItem, out item))
+                    {
+                        unit.inventory.Equip(unit.inventory.primary, Instantiate(item));
+                    }
+                }
+            }
+        }
+
+        protected virtual void Update()
+        {
+            if(Application.isPlaying)
+            {
+                unit.motor.Move(moveInput, (sprintInput ? sprintSpeed : moveSpeed));
+
+                if(jumpInput)
+                {
+                    jumpInput = false;
+                    unit.motor.Jump(jumpHeight);
+                }
+            }
         }
     }
 }

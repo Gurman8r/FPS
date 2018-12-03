@@ -223,9 +223,15 @@ MonoBehaviour:
       amount: 0
   m_timer: 0
   m_hitList: []
+  m_invertGravity: 0
+  m_randomMass: 0
+  m_minMass: 0.0001
+  m_maxMass: 1
+  m_curMass: 0.5
   m_stopRadius: 0.25
   m_destroyOnHit: 0
   m_makeSafeOnHit: 1
+  m_makeSolid: 1
   m_onSpawn:
     m_PersistentCalls:
       m_Calls: []

@@ -7,7 +7,7 @@ namespace FPS
 {
     [CustomEditor(typeof(BeamWeapon))]
     [CanEditMultipleObjects]
-    public class BeamWeaponEditor : Editor
+    public class BeamWeaponEditor : WeaponBaseEditor
     {
         new BeamWeapon target
         {

@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace FPS
 {
-    [CustomEditor(typeof(Unit))]
+    [CustomEditor(typeof(MeleeWeapon))]
     [CanEditMultipleObjects]
-    public class UnitEditor : Editor
+    public class MeleeWeaponEditor : WeaponBaseEditor
     {
-        new Unit target
+        new MeleeWeapon target
         {
-            get { return base.target as Unit; }
+            get { return base.target as MeleeWeapon; }
         }
 
         /* Functions

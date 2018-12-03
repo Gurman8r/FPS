@@ -15,7 +15,8 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         public static CombatSystem current
         {
-            get; set;
+            get;
+            private set;
         }
 
         /* Core

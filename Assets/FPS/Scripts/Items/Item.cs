@@ -186,8 +186,8 @@ namespace FPS
         }
 
 
-        public abstract void UpdatePrimary(string axis);
+        public abstract void UpdatePrimary(bool press, bool hold, bool release);
 
-        public abstract void UpdateSecondary(string axis);
+        public abstract void UpdateSecondary(bool press, bool hold, bool release);
     }
 }

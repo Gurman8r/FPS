@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace FPS
 {
-    public class PlayerInventory : UnitBehaviour
+    public class UnitInventory : UnitBehaviour
     {
         [Serializable]
         public class Hand

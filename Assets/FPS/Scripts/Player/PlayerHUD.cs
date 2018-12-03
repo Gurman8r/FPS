@@ -20,6 +20,8 @@ namespace FPS
         [SerializeField] Hitmarker      m_hitmarker;
         [SerializeField] InventoryUI    m_inventory;
         [SerializeField] TextFeed       m_textFeed;
+        [SerializeField] HealthBar      m_loadBar;
+        [SerializeField] HealthBar      m_ammoBar;
 
 
         /* Properties
@@ -56,6 +58,11 @@ namespace FPS
             get { return m_textFeed; }
         }
 
+        public HealthBar loadBar
+        {
+            get { return m_loadBar; }
+        }
+
 
         /* Core
         * * * * * * * * * * * * * * * */
@@ -66,6 +73,7 @@ namespace FPS
                 SetInfoText("");
                 ShowReticle(true);
                 ShowHitmaker(false);
+                SetLoading(-1f);
             }
         }
 
@@ -118,6 +126,23 @@ namespace FPS
         public void ShowReticle(bool value)
         {
             m_reticle.image.enabled = value;
+        }
+
+        public void SetLoading(float value)
+        {
+            if(loadBar)
+            {
+                if (value >= 0f)
+                {
+                    loadBar.gameObject.SetActive(true);
+                    loadBar.fillAmount = value;
+                }
+                else
+                {
+                    loadBar.fillAmount = 0f;
+                    loadBar.gameObject.SetActive(false);
+                }
+            }
         }
     }
 }

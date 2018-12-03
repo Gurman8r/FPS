@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -5,13 +6,13 @@ using UnityEngine;
 
 namespace FPS
 {
-    [CustomEditor(typeof(BulletWeapon))]
+    [CustomEditor(typeof(WeaponBase))]
     [CanEditMultipleObjects]
-    public class BulletWeaponEditor : Editor
+    public class WeaponBaseEditor : Editor
     {
-        new BulletWeapon target
+        new WeaponBase target
         {
-            get { return base.target as BulletWeapon; }
+            get { return base.target as WeaponBase; }
         }
 
         /* Functions

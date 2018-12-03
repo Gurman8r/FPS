@@ -35,17 +35,17 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public override void UpdatePrimary(string axis)
+        public override void UpdatePrimary(bool press, bool hold, bool release)
         {
             bool button = false;
 
             switch (shotMode)
             {
             case Mode.SingleShot:
-                button = Input.GetButtonDown(axis);
+                button = press;
                 break;
             case Mode.Continuous:
-                button = Input.GetButton(axis);
+                button = hold;
                 break;
             }
 
@@ -55,10 +55,10 @@ namespace FPS
             }
         }
 
-        public override void UpdateSecondary(string axis)
+        public override void UpdateSecondary(bool press, bool hold, bool release)
         {
             // ADS
-            animator.SetBool("AimDownSights", Input.GetButton(axis));
+            animator.SetBool("AimDownSights", hold);
         }
 
         protected override IEnumerator ShootCoroutine()
@@ -69,9 +69,12 @@ namespace FPS
                 if (obj = SpawnBullet(m_bulletPrefab))
                 {
                     obj.Spawn();
+
                     obj.rigidbody.velocity += GetBulletSpread();
 
                     if (audio.clip) audio.Play();
+
+                    animator.SetTrigger("Recoil");
 
                     if ((m_bulletDelay > 0f) && (i < (imax - 1)))
                     {

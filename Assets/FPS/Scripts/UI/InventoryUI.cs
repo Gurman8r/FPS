@@ -79,7 +79,7 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public void RefreshItems(PlayerInventory playerInventory)
+        public void RefreshItems(UnitInventory playerInventory)
         {
             for(int i = 0, imax = m_slotCount; i < imax; i++)
             {

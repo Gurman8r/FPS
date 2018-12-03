@@ -34,26 +34,26 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public override void UpdatePrimary(string axis)
+        public override void UpdatePrimary(bool press, bool hold, bool release)
         {   
             switch (shotMode)
             {
             case Mode.SingleShot:
             {
-                if(Input.GetButtonDown(axis)) { Shoot(); }
+                if(press) { Shoot(); }
             }
             break;
             case Mode.Continuous:
             {
-                if(Input.GetButton(axis)) { Shoot(); }
+                if(hold) { Shoot(); }
             }
             break;
             }
         }
 
-        public override void UpdateSecondary(string axis)
+        public override void UpdateSecondary(bool press, bool hold, bool release)
         {
-            animator.SetBool("AimDownSights", Input.GetButton(axis));
+            animator.SetBool("AimDownSights", hold);
         }
 
 
@@ -65,6 +65,8 @@ namespace FPS
                 obj.Spawn();
 
                 if (audio.clip) audio.Play();
+
+                animator.SetTrigger("Recoil");
             }
 
             yield return new WaitForSeconds(shotDelay);

@@ -41,8 +41,8 @@ namespace FPS
         [SerializeField] Mask       m_mask;
         [SerializeField] Image      m_fill;
         [Space]
-        [SerializeField] Gradient   m_backColor = DefaultBackGradient;
-        [SerializeField] Gradient   m_fillColor = DefaultFillGradient;
+        [SerializeField] Gradient   m_backColor;
+        [SerializeField] Gradient   m_fillColor;
         [Range(0f, 1f)]
         [SerializeField] float      m_fillAmount = 0.5f;
 

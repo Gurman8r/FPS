@@ -4,7 +4,10 @@ using UnityEngine;
 
 namespace FPS
 {
+    [RequireComponent(typeof(UnitAudio))]
+    [RequireComponent(typeof(UnitInventory))]
     [RequireComponent(typeof(UnitMetrics))]
+    [RequireComponent(typeof(UnitMotor))]
     [RequireComponent(typeof(UnitTriggers))]
     [RequireComponent(typeof(UnitVision))]
     [DisallowMultipleComponent]
@@ -19,15 +22,43 @@ namespace FPS
 
         /* Variables
         * * * * * * * * * * * * * * * */
+        private UnitAudio       m_audio;
+        private UnitInventory   m_inventory;
         private UnitMetrics     m_metrics;
+        private UnitMotor       m_motor;
         private UnitTriggers    m_triggers;
         private UnitVision      m_vision;
 
         [SerializeField] Health m_health;
+        [SerializeField] Status m_status;
 
 
         /* Properties
         * * * * * * * * * * * * * * * */
+        public new UnitAudio audio
+        {
+            get
+            {
+                if (!m_audio)
+                {
+                    m_audio = GetComponent<UnitAudio>();
+                }
+                return m_audio;
+            }
+        }
+
+        public UnitInventory inventory
+        {
+            get
+            {
+                if (!m_inventory)
+                {
+                    m_inventory = GetComponent<UnitInventory>();
+                }
+                return m_inventory;
+            }
+        }
+
         public UnitMetrics metrics
         {
             get
@@ -37,6 +68,18 @@ namespace FPS
                     m_metrics = GetComponent<UnitMetrics>();
                 }
                 return m_metrics;
+            }
+        }
+
+        public UnitMotor motor
+        {
+            get
+            {
+                if (!m_motor)
+                {
+                    m_motor = GetComponent<UnitMotor>();
+                }
+                return m_motor;
             }
         }
 
@@ -67,7 +110,13 @@ namespace FPS
         public Health health
         {
             get { return m_health; }
-            set { m_health = value; }
+            private set { m_health = value; }
+        }
+
+        public Status status
+        {
+            get { return m_status; }
+            private set { m_status = value; }
         }
 
         

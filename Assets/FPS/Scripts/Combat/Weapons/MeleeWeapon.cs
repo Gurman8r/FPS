@@ -52,18 +52,18 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public override void UpdatePrimary(string axis)
+        public override void UpdatePrimary(bool press, bool hold, bool release)
         {
-            if (Input.GetButtonDown(axis))
+            if (press)
             {
                 m_triggerName = "MeleePrimary";
                 Shoot();
             }
         }
 
-        public override void UpdateSecondary(string axis)
+        public override void UpdateSecondary(bool press, bool hold, bool release)
         {
-            if (Input.GetButtonDown(axis))
+            if (press)
             {
                 m_triggerName = "MeleeSecondary";
                 Shoot();
