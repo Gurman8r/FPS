@@ -215,7 +215,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1495279891107322}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 2.5, z: 10}
+  m_LocalPosition: {x: 2, y: 1.75, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4264203998229590}
@@ -823,6 +823,7 @@ MonoBehaviour:
   m_maxRange: 100
   m_maxAmmo: 4
   m_reloadDelay: 3
+  m_fixedReload: 1
   m_autoReload: 1
   m_reticleOn: 0
   m_objectData:
@@ -835,7 +836,7 @@ MonoBehaviour:
     speed: 0
     lifeSpan: 0.1
     damage:
-      amount: 1
+      amount: 10
     healing:
       amount: 0
     owner: {fileID: 0}

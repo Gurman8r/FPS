@@ -24,8 +24,10 @@ namespace FPS
         [SerializeField] float      m_fireDelay     = 1f;
         [SerializeField] float      m_minRange      = 0f;
         [SerializeField] float      m_maxRange      = 100;
+        [Space]
         [SerializeField] int        m_maxAmmo       = 0;
         [SerializeField] float      m_reloadDelay   = 2.5f;
+        [SerializeField] bool       m_fixedReload   = true;
         [SerializeField] bool       m_autoReload    = true;
         [SerializeField] bool       m_reticleOn     = false;
         [Space]
@@ -317,11 +319,16 @@ namespace FPS
         {
             isReloading = true;
 
-            for(reloadTimer = (reloadDelay * ((float)curAmmo / (float)maxAmmo)); 
+            for(reloadTimer = (m_fixedReload 
+                    ? 0f 
+                    : (reloadDelay * ((float)curAmmo / (float)maxAmmo)));
                 reloadTimer < reloadDelay; 
                 reloadTimer += Time.deltaTime)
             {
-                SetAmmo((int)(maxAmmo * reloadDelta));
+                if(!m_fixedReload)
+                {
+                    SetAmmo((int)(maxAmmo * reloadDelta));
+                }
 
                 yield return null;
             }

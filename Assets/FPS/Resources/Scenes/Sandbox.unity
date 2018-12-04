@@ -612,23 +612,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
-    - target: {fileID: 114069072145151682, guid: 6a50f96c3b8c9644197659479728a9a7,
-        type: 2}
-      propertyPath: m_objectData.damage.amount
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4631729477633128, guid: 6a50f96c3b8c9644197659479728a9a7, type: 2}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4623785349790880, guid: 6a50f96c3b8c9644197659479728a9a7, type: 2}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4292268531692000, guid: 6a50f96c3b8c9644197659479728a9a7, type: 2}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a50f96c3b8c9644197659479728a9a7, type: 2}
   m_IsPrefabAsset: 0
@@ -2095,7 +2078,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 272.00003, y: -96}
-  m_SizeDelta: {x: 512, y: 495.2113}
+  m_SizeDelta: {x: 512, y: 530.7042}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &969017668
 MonoBehaviour:
@@ -2151,7 +2134,7 @@ MonoBehaviour:
   m_Text: "Controls:\n\tPause\t\t| Escape\n\tMove\t\t| WASD\n\tLook\t\t\t| Mouse X/Y\n\tFire0\t\t|
     Left Mouse\n\tFire1\t\t| Right Mouse\n\tSelect\t\t| Scroll / Keys (0-9)\n\tSprint\t\t|
     Left Shift\n\tJump \t\t| Space\n\tInteract\t| E\n\tDrop \t\t| Q\n\tReload \t|
-    R\n\n"
+    R\n\tStore\t\t| F\n\n"
 --- !u!222 &969017670
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3237,7 +3220,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 544, y: 607.2113}
+  m_SizeDelta: {x: 544, y: 642.7042}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1644861523
 MonoBehaviour:
@@ -3585,11 +3568,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 114907402480457702, guid: 482c9646d40d39148abcf24e7e3a47d5,
-        type: 2}
-      propertyPath: m_objectData.damage.amount
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 482c9646d40d39148abcf24e7e3a47d5, type: 2}
   m_IsPrefabAsset: 0
@@ -3631,11 +3609,6 @@ Prefab:
     - target: {fileID: 4776207778902490, guid: ee9b886733b245443b6a3e0be8dcf448, type: 2}
       propertyPath: m_RootOrder
       value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 114607512379431752, guid: ee9b886733b245443b6a3e0be8dcf448,
-        type: 2}
-      propertyPath: m_objectData.damage.amount
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee9b886733b245443b6a3e0be8dcf448, type: 2}
@@ -3803,6 +3776,17 @@ Prefab:
         type: 2}
       propertyPath: m_SizeDelta.x
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114794824847486856, guid: faa87a25d496be642957b4abf55c7763,
+        type: 2}
+      propertyPath: m_regenSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114794824847486856, guid: faa87a25d496be642957b4abf55c7763,
+        type: 2}
+      propertyPath: m_format
+      value: "Total Damage:\t\t{0}\nDPS:\t\t\t\t\t{1}\nElapsed:\t\t\t\t{2}s\nHit Count:\t\t\t\t{3}\nIn
+        Combat:\t\t\t{4}s"
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114680731661747610, guid: faa87a25d496be642957b4abf55c7763, type: 2}
@@ -4080,11 +4064,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 11
       objectReference: {fileID: 0}
-    - target: {fileID: 114477007241711406, guid: 34fc13bf6afe33140b106d686bd3a67f,
-        type: 2}
-      propertyPath: m_objectData.damage.amount
-      value: 10
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34fc13bf6afe33140b106d686bd3a67f, type: 2}
   m_IsPrefabAsset: 0
@@ -4202,7 +4181,7 @@ MonoBehaviour:
   m_maxRange: 50
   m_layerMask:
     serializedVersion: 2
-    m_Bits: 3584
+    m_Bits: 1536
   m_lookingAt: {x: 0, y: 2.5, z: 0.5}
 --- !u!114 &2139804502
 MonoBehaviour:
@@ -4527,31 +4506,6 @@ Prefab:
     - target: {fileID: 4451043662430438, guid: 19c9cf7a71a3ef24fbd8bb214067324e, type: 2}
       propertyPath: m_RootOrder
       value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 114794492897902204, guid: 19c9cf7a71a3ef24fbd8bb214067324e,
-        type: 2}
-      propertyPath: m_bulletCount
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114794492897902204, guid: 19c9cf7a71a3ef24fbd8bb214067324e,
-        type: 2}
-      propertyPath: m_lookingAt.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114794492897902204, guid: 19c9cf7a71a3ef24fbd8bb214067324e,
-        type: 2}
-      propertyPath: m_lookingAt.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114794492897902204, guid: 19c9cf7a71a3ef24fbd8bb214067324e,
-        type: 2}
-      propertyPath: m_lookingAt.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114794492897902204, guid: 19c9cf7a71a3ef24fbd8bb214067324e,
-        type: 2}
-      propertyPath: m_objectData.damage.amount
-      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19c9cf7a71a3ef24fbd8bb214067324e, type: 2}
