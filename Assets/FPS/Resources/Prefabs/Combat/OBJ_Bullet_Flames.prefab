@@ -306,7 +306,7 @@ MonoBehaviour:
   m_doubleCheckRadius: 0.5
   m_checkInUpdate: 1
   m_checkInFixedUpdate: 1
-  m_checkInTrigger: 1
+  m_checkInTrigger: 0
   m_useGravity: 1
   m_invertGravity: 1
   m_destroyOnHit: 0

@@ -292,7 +292,6 @@ MonoBehaviour:
     dest: {x: 0, y: 0, z: 0}
   m_timer: 0
   m_hitList: []
-  m_usePhysics: 1
   m_minMass: 0.0001
   m_maxMass: 1
   m_curMass: 0.5
@@ -303,15 +302,18 @@ MonoBehaviour:
   m_randomScale: 0
   m_uniformScale: 1
   m_check: []
-  m_checkRadius: 0.5
+  m_firstCheckRadius: 0.1
+  m_doubleCheckRadius: 0.5
   m_checkInUpdate: 1
   m_checkInFixedUpdate: 1
-  m_checkInTrigger: 1
+  m_checkInTrigger: 0
+  m_useGravity: 1
+  m_invertGravity: 0
   m_destroyOnHit: 1
   m_piercing: 0
   m_solid: 0
-  m_buoyant: 0
-  m_persistant: 0
+  m_persistance: 0
+  m_normalScale: 0
   m_onSpawn:
     m_PersistentCalls:
       m_Calls: []

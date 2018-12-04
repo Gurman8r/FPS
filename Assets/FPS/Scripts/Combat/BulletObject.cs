@@ -220,9 +220,15 @@ namespace FPS
                     if (AddHit(u))
                     {
                         OnHitUnit(u);
+                        OnHitAny();
+                        Debug.Log("First Hit Unit");
                     }
                 }
-                OnHitAny();
+                else
+                {
+                    OnHitAny();
+                    Debug.Log("First Hit Any");
+                }
             }
             else
             {
@@ -235,9 +241,15 @@ namespace FPS
                         if (AddHit(u))
                         {
                             OnHitUnit(u);
+                            OnHitAny();
+                            Debug.Log("Second Hit Unit");
                         }
                     }
-                    OnHitAny();
+                    else
+                    {
+                        OnHitAny();
+                        Debug.Log("Second Hit Any");
+                    }
                 }
             }
         }

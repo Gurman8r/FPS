@@ -17,9 +17,9 @@ namespace FPS
     {
         /* Variables
 	    * * * * * * * * * * * * * * * */
-        [SerializeField] UnitSystem m_unitSystem;
-        [SerializeField] bool       m_used;
-        [Space]
+        private UnitSystem m_unitSystem;
+        private bool       m_used;
+
         [SerializeField] ObjectData m_combat;
 
         /* Properties
