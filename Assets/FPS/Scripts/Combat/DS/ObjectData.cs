@@ -9,7 +9,8 @@ namespace FPS
     public sealed class ObjectData
     {
         [Header("Settings")]
-        public LayerMask    layerMask;
+        public LayerMask    solidLayer;
+        public LayerMask    unitLayer;
         public float        speed;
         public float        lifeSpan;
         public Damage       damage;

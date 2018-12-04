@@ -534,9 +534,12 @@ MonoBehaviour:
   m_autoReload: 1
   m_reticleOn: 1
   m_objectData:
-    layerMask:
+    solidLayer:
       serializedVersion: 2
-      m_Bits: 1536
+      m_Bits: 512
+    unitLayer:
+      serializedVersion: 2
+      m_Bits: 1024
     speed: 20
     lifeSpan: 1
     damage:

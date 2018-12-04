@@ -32,13 +32,14 @@ namespace FPS
 
         [Header("Collisions")]
         [SerializeField] Collider[] m_check;
-        [SerializeField] float      m_firstCheckRadius  = 0.1f;
-        [SerializeField] float      m_doubleCheckRadius = 0.5f;
-        [SerializeField] bool       m_checkInUpdate     = true;
-        [SerializeField] bool       m_checkInFixedUpdate= true;
-        [SerializeField] bool       m_checkInTrigger    = true;
+        [SerializeField] float      m_checkSphereRadius     = 0.5f;
+        [SerializeField] float      m_checkRaycastRadius    = 0.5f;
+        [SerializeField] bool       m_checkUpdate           = true;
+        [SerializeField] bool       m_checkFixedUpdate      = true;
+        [SerializeField] bool       m_checkOnTriggerEnter   = true;
 
         [Header("Flags")]
+        [SerializeField] bool       m_enableLog;
         [SerializeField] bool       m_useGravity = true;
         [SerializeField] bool       m_invertGravity;
         [SerializeField] bool       m_destroyOnHit;
@@ -98,7 +99,7 @@ namespace FPS
             {
                 if (active)
                 {
-                    if(m_checkInUpdate)
+                    if(m_checkUpdate)
                     {
                         CheckForHits();
                     }
@@ -112,7 +113,7 @@ namespace FPS
             {
                 if (active)
                 {
-                    if(m_checkInFixedUpdate)
+                    if(m_checkFixedUpdate)
                     {
                         CheckForHits();
                     }
@@ -137,28 +138,19 @@ namespace FPS
             }
         }
 
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.magenta;
-            Gizmos.DrawLine(transform.position, transform.position + (transform.forward * m_firstCheckRadius));
-
-            Gizmos.DrawWireSphere(transform.position, m_doubleCheckRadius);
-        }
-
         private void OnTriggerEnter(Collider other)
         {
             if(active)
             {
-                if(m_checkInTrigger)
+                if(m_checkOnTriggerEnter)
                 {
                     Unit u;
-                    if (CheckHitUnit(other, out u))
+                    if ((u = CheckUnitCollision(other)))
                     {
-                        if (AddHit(u))
-                        {
-                            OnHitUnit(u);
-                            OnHitAny();
-                        }
+                        Debug.Log("Trigger Check");
+                        OnHitUnit(u);
+                        OnHitAny();
+                        return;
                     }
                 }
             }
@@ -210,48 +202,63 @@ namespace FPS
             m_ray.origin = rigidbody.position;
             m_ray.direction = rigidbody.velocity;
 
-            if (Physics.Raycast(m_ray, out m_hit, m_firstCheckRadius, data.layerMask))
+            // First Check
+            if (Physics.Raycast(m_ray, out m_hit, m_checkRaycastRadius, data.unitLayer))
             {
-                rigidbody.position = m_hit.point + (m_hit.normal * m_normalScale);
-
                 Unit u;
-                if (CheckHitUnit(m_hit.collider, out u))
+                if ((u = CheckUnitCollision(m_hit.collider)))
                 {
-                    if (AddHit(u))
-                    {
-                        OnHitUnit(u);
-                        OnHitAny();
-                        Debug.Log("First Hit Unit");
-                    }
-                }
-                else
-                {
+                    if (m_enableLog) Debug.Log("First Check");
+                    rigidbody.position = m_hit.point + (m_hit.normal * m_normalScale);
+                    OnHitUnit(u);
                     OnHitAny();
-                    Debug.Log("First Hit Any");
+                    return;
                 }
             }
-            else
+
+            // Second Check
+            if (Physics.Raycast(m_ray, out m_hit, m_checkRaycastRadius, data.solidLayer))
             {
-                m_check = Physics.OverlapSphere(m_ray.origin, m_doubleCheckRadius, data.layerMask);
-                foreach (Collider c in m_check)
+                if (m_enableLog) Debug.Log("Second Check");
+                rigidbody.position = m_hit.point + (m_hit.normal * m_normalScale);
+                OnHitAny();
+                return;
+            }
+
+            // Third Check
+            m_check = Physics.OverlapSphere(m_ray.origin, m_checkSphereRadius, data.unitLayer);
+            foreach (Collider c in m_check)
+            {
+                Unit u;
+                if ((u = CheckUnitCollision(c)))
                 {
-                    Unit u;
-                    if (CheckHitUnit(c, out u))
-                    {
-                        if (AddHit(u))
-                        {
-                            OnHitUnit(u);
-                            OnHitAny();
-                            Debug.Log("Second Hit Unit");
-                        }
-                    }
-                    else
-                    {
-                        OnHitAny();
-                        Debug.Log("Second Hit Any");
-                    }
+                    if (m_enableLog) Debug.Log("Third Check");
+                    OnHitUnit(u);
+                    OnHitAny();
+                    return;
                 }
             }
+
+            // Fourth Check
+            if (Physics.CheckSphere(m_ray.origin, m_checkSphereRadius, data.solidLayer))
+            {
+                if(m_enableLog) Debug.Log("Fourth Check");
+                OnHitAny();
+                return;
+            }
+        }
+
+        private Unit CheckUnitCollision(Collider c)
+        {
+            Unit u;
+            if (CheckHitUnit(m_hit.collider, out u))
+            {
+                if (AddHit(u))
+                {
+                    return u;
+                }
+            }
+            return null;
         }
 
         private void OnHitAny()

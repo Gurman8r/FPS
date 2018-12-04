@@ -103,10 +103,13 @@ namespace FPS
 
         protected virtual void OnHitUnit(Unit other)
         {
-            other.triggers.Broadcast(EventType.OnRecieveDamage, new UnitEvent
+            if(other)
             {
-                combat = data
-            });
+                other.triggers.Broadcast(EventType.OnRecieveDamage, new UnitEvent
+                {
+                    combat = data
+                });
+            }
 
             if (data.owner)
             {

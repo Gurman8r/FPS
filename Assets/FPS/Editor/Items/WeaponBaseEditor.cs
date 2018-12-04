@@ -43,10 +43,10 @@ namespace FPS
             {
                 target.data.speed = EditorGUILayout.FloatField("Speed", target.data.speed);
                 target.data.lifeSpan = EditorGUILayout.FloatField("Lifespan", target.data.lifeSpan);
-                target.data.layerMask = InternalEditorUtility.ConcatenatedLayersMaskToLayerMask(
+                target.data.solidLayer = InternalEditorUtility.ConcatenatedLayersMaskToLayerMask(
                     EditorGUILayout.MaskField(
                         "Layer Mask",
-                        InternalEditorUtility.LayerMaskToConcatenatedLayersMask(target.data.layerMask),
+                        InternalEditorUtility.LayerMaskToConcatenatedLayersMask(target.data.solidLayer),
                         InternalEditorUtility.layers));
                 target.data.damage.amount = EditorGUILayout.FloatField("Damage", target.data.damage.amount);
                 target.data.healing.amount = EditorGUILayout.FloatField("Healing", target.data.healing.amount);

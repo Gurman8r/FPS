@@ -89,7 +89,6 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-
         public void SetAmmo(float value)
         {
             if (ammoBar)
@@ -106,6 +105,7 @@ namespace FPS
                 }
             }
         }
+
         public void SetHealth(float value)
         {
             if(m_healthBar)

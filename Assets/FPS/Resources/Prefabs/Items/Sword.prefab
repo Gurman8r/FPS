@@ -621,7 +621,10 @@ MonoBehaviour:
   m_autoReload: 1
   m_reticleOn: 0
   m_objectData:
-    layerMask:
+    solidLayer:
+      serializedVersion: 2
+      m_Bits: 512
+    unitLayer:
       serializedVersion: 2
       m_Bits: 1024
     speed: 0
@@ -657,7 +660,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_active: 0
   m_data:
-    layerMask:
+    solidLayer:
+      serializedVersion: 2
+      m_Bits: 0
+    unitLayer:
       serializedVersion: 2
       m_Bits: 0
     speed: 0

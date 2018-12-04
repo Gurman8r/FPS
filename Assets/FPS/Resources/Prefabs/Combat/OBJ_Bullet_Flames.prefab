@@ -277,7 +277,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_active: 0
   m_data:
-    layerMask:
+    solidLayer:
+      serializedVersion: 2
+      m_Bits: 0
+    unitLayer:
       serializedVersion: 2
       m_Bits: 0
     speed: 0
@@ -302,11 +305,12 @@ MonoBehaviour:
   m_randomScale: 1
   m_uniformScale: 1
   m_check: []
-  m_firstCheckRadius: 0.1
-  m_doubleCheckRadius: 0.5
-  m_checkInUpdate: 1
-  m_checkInFixedUpdate: 1
-  m_checkInTrigger: 0
+  m_checkSphereRadius: 0.2
+  m_checkRaycastRadius: 2
+  m_checkUpdate: 1
+  m_checkFixedUpdate: 1
+  m_checkOnTriggerEnter: 1
+  m_enableLog: 0
   m_useGravity: 1
   m_invertGravity: 1
   m_destroyOnHit: 0
