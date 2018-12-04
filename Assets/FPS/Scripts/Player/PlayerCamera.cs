@@ -11,10 +11,10 @@ namespace FPS
     {
         /* Variables
         * * * * * * * * * * * * * * * */
-        private Camera  m_camera;        
         private Ray     m_ray = new Ray();
 
         [Header("Settings")]
+        [SerializeField] Camera     m_camera;
         [SerializeField] Transform  m_parent;
         [SerializeField] Vector3    m_offset            = Vector2.zero;
         [SerializeField] Vector2    m_lookDelta         = Vector2.zero;
@@ -99,9 +99,12 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         private void Start()
         {
-            if(!parent)
+            if(Application.isPlaying)
             {
-                Debug.LogError("PlayerCamera needs parent transform", this);
+                if (!parent)
+                {
+                    Debug.LogError("PlayerCamera Parent not set");
+                }
             }
         }
 

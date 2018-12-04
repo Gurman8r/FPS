@@ -21,8 +21,8 @@ namespace FPS
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            if (useDefaultEditor) { return; }
+            else { EditorGUILayout.LabelField("", GUI.skin.horizontalSlider); }
 
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             EditorGUILayout.LabelField("Weapon Settings", EditorStyles.boldLabel);

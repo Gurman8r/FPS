@@ -63,6 +63,11 @@ namespace FPS
             get { return m_loadBar; }
         }
 
+        public HealthBar ammoBar
+        {
+            get { return m_ammoBar; }
+        }
+
 
         /* Core
         * * * * * * * * * * * * * * * */
@@ -71,9 +76,9 @@ namespace FPS
             if(Application.isPlaying)
             {
                 SetInfoText("");
-                ShowReticle(true);
+                SetReticle(0f);
                 ShowHitmaker(false);
-                SetLoading(-1f);
+                SetReticle(-1f);
             }
         }
 
@@ -123,12 +128,7 @@ namespace FPS
             }
         }
 
-        public void ShowReticle(bool value)
-        {
-            m_reticle.image.enabled = value;
-        }
-
-        public void SetLoading(float value)
+        public void SetReticle(float value)
         {
             if(loadBar)
             {
@@ -141,6 +141,23 @@ namespace FPS
                 {
                     loadBar.fillAmount = 0f;
                     loadBar.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        public void SetResource(float value)
+        {
+            if (ammoBar)
+            {
+                if (value >= 0f)
+                {
+                    ammoBar.gameObject.SetActive(true);
+                    ammoBar.fillAmount = value;
+                }
+                else
+                {
+                    ammoBar.fillAmount = 0f;
+                    ammoBar.gameObject.SetActive(false);
                 }
             }
         }

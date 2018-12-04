@@ -507,7 +507,7 @@ MonoBehaviour:
     name: SMG
     desc: Description
     color: {r: 1, g: 1, b: 1, a: 1}
-    sprite: {fileID: 21300010, guid: 5f93e18c4e703374893edac8feb316d9, type: 3}
+    sprite: {fileID: 21300000, guid: 5a3af3ff66978e0439ed0888a516f005, type: 3}
   m_owner: {fileID: 0}
   m_firePos: {fileID: 4394347567559568}
   m_fireMode: 1

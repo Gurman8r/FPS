@@ -10,6 +10,8 @@ namespace FPS
     [CanEditMultipleObjects]
     public abstract class ItemEditor : Editor
     {
+        protected static bool useDefaultEditor;
+
         new Item target
         {
             get { return base.target as Item; }
@@ -19,9 +21,9 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         public override void OnInspectorGUI()
         {
-            //base.OnInspectorGUI();
-
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            useDefaultEditor = GUILayout.Toggle(useDefaultEditor, ("Use " + (useDefaultEditor ? "Custom" : "Default") + " Editor"), "Button");
+            if (useDefaultEditor) { base.OnInspectorGUI(); return; }
+            else EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             EditorGUILayout.LabelField("Item Settings", EditorStyles.boldLabel);

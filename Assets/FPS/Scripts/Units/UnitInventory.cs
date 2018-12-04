@@ -22,7 +22,7 @@ namespace FPS
         /* Variables
         * * * * * * * * * * * * * * * */
         [SerializeField] Hand       m_primary;
-        [SerializeField] int        m_bagCapacity = 10;
+        [SerializeField] int        m_capacity = 10;
         [SerializeField] List<Item> m_bagList;
         [SerializeField] Transform  m_bagTransform;
 
@@ -36,7 +36,7 @@ namespace FPS
 
         public int capacity
         {
-            get { return m_bagCapacity; }
+            get { return m_capacity; }
         }
 
         public List<Item> bagList
@@ -47,6 +47,11 @@ namespace FPS
         public Transform bagTransform
         {
             get { return m_bagTransform; }
+        }
+
+        public int count
+        {
+            get { return m_bagList.Count; }
         }
 
 
@@ -82,7 +87,7 @@ namespace FPS
 
         public bool CanAdd(Item item)
         {
-            return !BagContains(item) && (bagList.Count < m_bagCapacity);
+            return !BagContains(item) && (bagList.Count < m_capacity);
         }
 
         public Item GetFromBag(int index)

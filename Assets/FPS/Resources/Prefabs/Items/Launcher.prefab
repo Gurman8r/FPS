@@ -507,7 +507,7 @@ MonoBehaviour:
     name: Launcher
     desc: Description
     color: {r: 1, g: 1, b: 1, a: 1}
-    sprite: {fileID: 21300012, guid: 5f93e18c4e703374893edac8feb316d9, type: 3}
+    sprite: {fileID: 21300000, guid: 3851c67834bb85846a519639c4240458, type: 3}
   m_owner: {fileID: 0}
   m_firePos: {fileID: 4631729477633128}
   m_fireMode: 0
@@ -515,18 +515,19 @@ MonoBehaviour:
   m_minRange: 1
   m_maxRange: 100
   m_objectData:
-    owner: {fileID: 0}
     layerMask:
       serializedVersion: 2
-      m_Bits: 1024
-    position: {x: 0, y: 0, z: 0}
-    direction: {x: 0, y: 0, z: 0}
-    speed: 0
-    lifeSpan: 0
+      m_Bits: 1536
+    speed: 50
+    lifeSpan: 2.5
     damage:
-      amount: 0
+      amount: 1
     healing:
       amount: 0
+    owner: {fileID: 0}
+    pos: {x: 0, y: 0, z: 0}
+    dir: {x: 0, y: 0, z: 0}
+    dest: {x: 0, y: 0, z: 0}
   m_lookingAt: {x: 0, y: 0, z: 0}
   m_canShoot: 1
   m_shotTimer: 1.0462548

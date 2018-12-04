@@ -799,7 +799,7 @@ MonoBehaviour:
     name: Sniper
     desc: Description
     color: {r: 1, g: 1, b: 1, a: 1}
-    sprite: {fileID: 21300030, guid: 5f93e18c4e703374893edac8feb316d9, type: 3}
+    sprite: {fileID: 21300000, guid: 569eb8c93754c6943bb2d6e7dd05f252, type: 3}
   m_owner: {fileID: 0}
   m_firePos: {fileID: 4983383243732686}
   m_fireMode: 0
@@ -807,18 +807,19 @@ MonoBehaviour:
   m_minRange: 1
   m_maxRange: 100
   m_objectData:
-    owner: {fileID: 0}
     layerMask:
       serializedVersion: 2
       m_Bits: 1024
-    position: {x: 0, y: 0, z: 0}
-    direction: {x: 0, y: 0, z: 0}
     speed: 0
-    lifeSpan: 0
+    lifeSpan: 0.1
     damage:
-      amount: 0
+      amount: 1
     healing:
       amount: 0
+    owner: {fileID: 0}
+    pos: {x: 0, y: 0, z: 0}
+    dir: {x: 0, y: 0, z: 0}
+    dest: {x: 0, y: 0, z: 0}
   m_lookingAt: {x: 0, y: 0, z: 0}
   m_canShoot: 1
   m_shotTimer: 1.0259519

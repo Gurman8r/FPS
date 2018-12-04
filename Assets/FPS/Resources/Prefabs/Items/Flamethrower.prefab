@@ -274,7 +274,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 455d288e1bb5fa3489bda627bc821beb, type: 2}
+  - {fileID: 2100000, guid: 40deb8f1dcb541340b12ddd6488c3a8f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -309,7 +309,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 455d288e1bb5fa3489bda627bc821beb, type: 2}
+  - {fileID: 2100000, guid: 40deb8f1dcb541340b12ddd6488c3a8f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -505,31 +505,29 @@ MonoBehaviour:
   m_holdPos: {fileID: 4330804319998020}
   m_info:
     name: Flamethrower
-    color: {r: 1, g: 1, b: 1, a: 1}
-    sprite: {fileID: 21300012, guid: 5f93e18c4e703374893edac8feb316d9, type: 3}
     desc: Description
+    color: {r: 1, g: 1, b: 1, a: 1}
+    sprite: {fileID: 21300000, guid: ba82c9518dcd74c4fa4407d3c41efb0d, type: 3}
   m_owner: {fileID: 0}
-  m_layerMask:
-    serializedVersion: 2
-    m_Bits: 1024
   m_firePos: {fileID: 4403656938081546}
-  m_fireMode: 0
-  m_fireDelay: 1
+  m_fireMode: 1
+  m_fireDelay: 0.05
   m_minRange: 1
   m_maxRange: 100
-  m_combatData:
-    owner: {fileID: 0}
+  m_objectData:
     layerMask:
       serializedVersion: 2
-      m_Bits: 512
-    position: {x: 6.389222, y: 2.1972878, z: -27.79998}
-    direction: {x: 0.91544956, y: 0.049038, z: 0.39943403}
-    speed: 15
+      m_Bits: 1536
+    speed: 20
     lifeSpan: 1
     damage:
-      amount: 0.1
+      amount: 1
     healing:
       amount: 0
+    owner: {fileID: 0}
+    pos: {x: 0, y: 0, z: 0}
+    dir: {x: 0, y: 0, z: 0}
+    dest: {x: 0, y: 0, z: 0}
   m_lookingAt: {x: 29.259676, y: 2.5000038, z: 3.7568321}
   m_canShoot: 1
   m_shotTimer: 1.0500001

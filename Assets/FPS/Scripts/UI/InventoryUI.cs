@@ -71,7 +71,16 @@ namespace FPS
 
                 if (m_selector)
                 {
-                    m_selector.transform.position = m_slots[m_index].transform.position;
+                    if(m_slots[m_index].gameObject.activeInHierarchy)
+                    {
+                        m_selector.gameObject.SetActive(true);
+
+                        m_selector.transform.position = m_slots[m_index].transform.position;
+                    }
+                    else
+                    {
+                        m_selector.gameObject.SetActive(false);
+                    }
                 }
             }
         }
@@ -86,11 +95,13 @@ namespace FPS
                 Item item;
                 if(playerInventory.GetFromBag(i, out item))
                 {
+                    m_slots[i].gameObject.SetActive(true);
                     m_slots[i].Refresh(item);
                 }
-                else
+                else if(m_slots[i].gameObject.activeInHierarchy)
                 {
                     m_slots[i].Refresh(null);
+                    m_slots[i].gameObject.SetActive(false);
                 }
             }
         }

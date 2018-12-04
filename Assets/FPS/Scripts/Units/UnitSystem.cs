@@ -13,7 +13,7 @@ namespace FPS
 
         /* Properties
         * * * * * * * * * * * * * * * */
-        public static UnitSystem current
+        public static UnitSystem instance
         {
             get; set;
         }
@@ -22,21 +22,25 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         private void OnEnable()
         {
-            if (!current)
+            if (Application.isPlaying)
             {
-                current = this;
-            }
-            else
-            {
-                Debug.LogWarning("Multiple UnitSystems in scene... this is not supported");
+                if (!instance)
+                {
+                    DontDestroyOnLoad(gameObject);
+                    instance = this;
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
             }
         }
 
         private void OnDisable()
         {
-            if(current == this)
+            if(instance == this)
             {
-                current = null;
+                instance = null;
             }
         }
 

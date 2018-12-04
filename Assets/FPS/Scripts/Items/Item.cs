@@ -11,7 +11,7 @@ namespace FPS
     [ExecuteInEditMode]
     public abstract class Item : MonoBehaviour
     {
-        public static readonly string Tag = "Item";
+        public const string Tag = "Item";
 
         /* Variables
         * * * * * * * * * * * * * * * */

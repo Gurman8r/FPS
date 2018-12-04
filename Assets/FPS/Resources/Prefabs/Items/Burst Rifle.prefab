@@ -578,31 +578,29 @@ MonoBehaviour:
   m_holdPos: {fileID: 4586376381250892}
   m_info:
     name: Burst Rifle
-    color: {r: 1, g: 1, b: 1, a: 1}
-    sprite: {fileID: 21300020, guid: 5f93e18c4e703374893edac8feb316d9, type: 3}
     desc: Description
+    color: {r: 1, g: 1, b: 1, a: 1}
+    sprite: {fileID: 21300000, guid: ef59f89fbe8c3cc4f95301394b329fcc, type: 3}
   m_owner: {fileID: 0}
-  m_layerMask:
-    serializedVersion: 2
-    m_Bits: 1024
   m_firePos: {fileID: 4616363055248110}
-  m_fireMode: 0
+  m_fireMode: 1
   m_fireDelay: 1
   m_minRange: 1
   m_maxRange: 100
-  m_combatData:
-    owner: {fileID: 0}
+  m_objectData:
     layerMask:
       serializedVersion: 2
       m_Bits: 1536
-    position: {x: 0, y: 0, z: 0}
-    direction: {x: 0, y: 0, z: 0}
     speed: 50
-    lifeSpan: 2.5
+    lifeSpan: 1
     damage:
       amount: 1
     healing:
       amount: 0
+    owner: {fileID: 0}
+    pos: {x: 0, y: 0, z: 0}
+    dir: {x: 0, y: 0, z: 0}
+    dest: {x: 0, y: 0, z: 0}
   m_lookingAt: {x: 0, y: 0, z: 0}
   m_canShoot: 1
   m_shotTimer: 1.0462548

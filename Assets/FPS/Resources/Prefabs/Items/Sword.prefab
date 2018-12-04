@@ -594,29 +594,30 @@ MonoBehaviour:
     name: Sword
     desc: Description
     color: {r: 1, g: 1, b: 1, a: 1}
-    sprite: {fileID: 21300010, guid: ff7f9959058920a4abf4d9ebe8f440f0, type: 3}
+    sprite: {fileID: 21300000, guid: bef7fccc530b30a4788e921d29c3cb7b, type: 3}
   m_owner: {fileID: 0}
   m_firePos: {fileID: 4125534153222106}
   m_fireMode: 0
-  m_fireDelay: 1
+  m_fireDelay: 0.5
   m_minRange: 0
   m_maxRange: 2.5
   m_objectData:
-    owner: {fileID: 0}
     layerMask:
       serializedVersion: 2
       m_Bits: 1024
-    position: {x: 0, y: 0, z: 0}
-    direction: {x: 0, y: 0, z: 0}
     speed: 0
     lifeSpan: 0
     damage:
-      amount: 0
+      amount: 1
     healing:
       amount: 0
+    owner: {fileID: 0}
+    pos: {x: 0, y: 0, z: 0}
+    dir: {x: 0, y: 0, z: 0}
+    dest: {x: 0, y: 0, z: 0}
   m_lookingAt: {x: 0, y: 0, z: 0}
   m_canShoot: 0
-  m_shotTimer: 1
+  m_shotTimer: 0.5
   m_meleeObject: {fileID: 114203183407447364}
   m_state: 0
   m_triggerName: 
@@ -632,19 +633,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e4a8a92d88881b499448b6c040314d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_active: 0
   m_data:
-    owner: {fileID: 0}
     layerMask:
       serializedVersion: 2
       m_Bits: 0
-    position: {x: 0, y: 0, z: 0}
-    direction: {x: 0, y: 0, z: 0}
     speed: 0
     lifeSpan: 0
     damage:
       amount: 0
     healing:
       amount: 0
+    owner: {fileID: 0}
+    pos: {x: 0, y: 0, z: 0}
+    dir: {x: 0, y: 0, z: 0}
+    dest: {x: 0, y: 0, z: 0}
   m_timer: 0
   m_hitList: []
-  m_active: 0

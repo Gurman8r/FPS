@@ -46,7 +46,7 @@ namespace FPS
         /* Constructors
 	    * * * * * * * * * * * * * * * */
         public UnitEvent()
-            : this(UnitSystem.current)
+            : this(UnitSystem.instance)
         {
         }
 
@@ -56,7 +56,7 @@ namespace FPS
         }
 
         public UnitEvent(UnitEvent copy)
-            : this(UnitSystem.current)
+            : this(UnitSystem.instance)
         {
 
         }
