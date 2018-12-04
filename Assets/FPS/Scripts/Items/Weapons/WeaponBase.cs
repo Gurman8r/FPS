@@ -2,11 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace FPS
 {
     public abstract class WeaponBase : Item
     {
+        public const float FireDelayThreshold = 0.09f;
+
         public enum FireMode
         {
             SingleShot = 0,
@@ -21,12 +24,20 @@ namespace FPS
         [SerializeField] float      m_fireDelay     = 1f;
         [SerializeField] float      m_minRange      = 0f;
         [SerializeField] float      m_maxRange      = 100;
+        [SerializeField] int        m_maxAmmo       = 0;
+        [SerializeField] float      m_reloadDelay   = 2.5f;
+        [SerializeField] bool       m_autoReload    = true;
+        [SerializeField] bool       m_reticleOn     = false;
+        [Space]
         [SerializeField] ObjectData m_objectData;
 
         [Header("Weapon Runtime")]
         [SerializeField] Vector3    m_lookingAt;
         [SerializeField] bool       m_canShoot;
-        [SerializeField] float      m_shotTimer;
+        [SerializeField] float      m_fireTimer;
+        [SerializeField] int        m_curAmmo;
+        [SerializeField] bool       m_isReloading;
+        [SerializeField] float      m_reloadTimer;
 
         /* Properties
         * * * * * * * * * * * * * * * */
@@ -60,12 +71,27 @@ namespace FPS
             set { m_maxRange = value; }
         }
 
+        public bool alwaysOn
+        {
+            get { return m_reticleOn; }
+        }
+
+        public int maxAmmo
+        {
+            get { return m_maxAmmo; }
+        }
+
+        public float reloadDelay
+        {
+            get { return m_reloadDelay; }
+        }
 
         public ObjectData data
         {
             get { return m_objectData; }
             set { m_objectData = value; }
         }
+
 
         public Vector3 lookingAt
         {
@@ -75,24 +101,83 @@ namespace FPS
 
         public bool canShoot
         {
-            get { return (m_canShoot = (shotTimer >= fireDelay)); }
+            get
+            {
+                return m_canShoot =
+                    (!isReloading) && 
+                    (fireTimer >= fireDelay) &&
+                    (hasAmmo);
+            }
         }
 
-        public float shotTimer
+        public float fireTimer
         {
-            get { return m_shotTimer; }
-            protected set { m_shotTimer = value; }
+            get { return m_fireTimer; }
+            protected set { m_fireTimer = value; }
         }
+
+        public int curAmmo
+        {
+            get { return m_curAmmo; }
+            private set { m_maxAmmo = value; }
+        }
+
+        public bool isReloading
+        {
+            get { return m_isReloading; }
+            protected set { m_isReloading = value; }
+        }
+
+        public float reloadTimer
+        {
+            get { return m_reloadTimer; }
+            protected set { m_reloadTimer = value; }
+        }
+        
 
         public float shotDelta
         {
             get
             {
-                return (fireDelay > 0f) 
-                    ? (canShoot)
-                        ? 1f
-                        : (shotTimer / fireDelay)
-                    : 1f;
+                return (isReloading)
+                    ? 0f
+                    : (alwaysOn)
+                        ? (1f)
+                        : (fireDelay > 0f)
+                            ? (!canShoot)
+                                ? (fireTimer / fireDelay)
+                                : (1f)
+                            : (1f);
+            }
+        }
+        
+        public bool hasAmmo
+        {
+            get
+            {
+                return (maxAmmo > 0)
+                    ? (curAmmo > 0)
+                    : (true);
+            }
+        }
+
+        public float ammoDelta
+        {
+            get
+            {
+                return (maxAmmo > 0)
+                    ? ((float)(curAmmo) / (float)(maxAmmo))
+                    : (1f);
+            }
+        }
+
+        public float reloadDelta
+        {
+            get
+            {
+                return (reloadDelay > 0f)
+                    ? (reloadTimer / reloadDelay)
+                    : (1f);
             }
         }
 
@@ -103,6 +188,13 @@ namespace FPS
         {
             if(Application.isPlaying)
             {
+                fireTimer = fireDelay;
+
+                SetAmmo(maxAmmo);
+
+                onDrop.AddListener(()   => { CancelReload(); });
+                onEquip.AddListener(()  => { CancelReload(); });
+                onStore.AddListener(()  => { CancelReload(); });
             }
         }
 
@@ -110,7 +202,7 @@ namespace FPS
         {
             if (Application.isPlaying)
             {
-                if(owner)
+                if (owner)
                 {
                     lookingAt = owner.vision.lookingAt;
 
@@ -131,15 +223,18 @@ namespace FPS
                     }
 
                     firePos.LookAt(lookingAt);
+
+                    if (m_autoReload && !hasAmmo)
+                    {
+                        Reload();
+                    }
                 }
-                else
-                {
-                    lookingAt = firePos.position + (transform.forward * maxRange);
-                }
+
+                animator.SetBool("Reloading", isReloading);
             }
         }
 
-        new protected virtual void OnDrawGizmos()
+        protected override void OnDrawGizmos()
         {
             base.OnDrawGizmos();
 
@@ -148,7 +243,7 @@ namespace FPS
                 Gizmos.color = Color.red;
                 Gizmos.DrawWireSphere(firePos.position, 0.1f);
 
-                if(m_minRange > 0f)
+                if(minRange > 0f)
                 {
                     Gizmos.color = Color.cyan;
                     Gizmos.DrawRay(firePos.position, transform.forward * minRange);
@@ -171,40 +266,80 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public abstract override void UpdatePrimary(bool press, bool hold, bool release);
+        public abstract override void UpdatePrimary(InputState input);
 
-        public abstract override void UpdateSecondary(bool press, bool hold, bool release);
+        public abstract override void UpdateSecondary(InputState input);
 
 
-        protected virtual void Shoot()
+        protected void Shoot()
         {
             if(canShoot)
             {
+                fireTimer = 0f;
+
                 StartCoroutine(ShootCoroutine());
 
-                StartCooldown();
+                ConsumeAmmo();
+            }
+            else if(!hasAmmo)
+            {
+                Reload();
             }
         }
 
         protected abstract IEnumerator ShootCoroutine();
+        
 
-
-        protected void StartCooldown()
+        protected virtual void UpdateCooldown()
         {
-            shotTimer = 0f;
-        }
-
-        protected void ResetCooldown()
-        {
-            shotTimer = fireDelay;
-        }
-
-        protected void UpdateCooldown()
-        {
-            if (!canShoot)
+            if (!canShoot && (fireDelay > 0f))
             {
-                shotTimer += Time.deltaTime;
+                fireTimer += Time.deltaTime;
             }
+        }
+
+
+        public void Reload()
+        {
+            if(!isReloading && (curAmmo != maxAmmo))
+            {
+                StartCoroutine(ReloadCoroutine());
+            }
+        }
+
+        public void CancelReload()
+        {
+            StopAllCoroutines();
+            isReloading = false;
+        }
+
+        private IEnumerator ReloadCoroutine()
+        {
+            isReloading = true;
+
+            for(reloadTimer = (reloadDelay * ((float)curAmmo / (float)maxAmmo)); 
+                reloadTimer < reloadDelay; 
+                reloadTimer += Time.deltaTime)
+            {
+                SetAmmo((int)(maxAmmo * reloadDelta));
+
+                yield return null;
+            }
+
+            SetAmmo(maxAmmo);
+
+            isReloading = false;
+        }
+
+
+        protected void SetAmmo(int value)
+        {
+            m_curAmmo = Mathf.Clamp(value, 0, m_maxAmmo);
+        }
+
+        protected void ConsumeAmmo()
+        {
+            SetAmmo(curAmmo - 1);
         }
     }
 

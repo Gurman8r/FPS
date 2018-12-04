@@ -15,11 +15,21 @@ namespace FPS
             get { return base.target as BulletObject; }
         }
 
+        /* Variables
+        * * * * * * * * * * * * * * * */
+        
+
         /* Functions
         * * * * * * * * * * * * * * * */
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
+
+            serializedObject.Update();
+            {
+
+            }
+            serializedObject.ApplyModifiedProperties();
         }
     }
 

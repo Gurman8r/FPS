@@ -47,34 +47,32 @@ namespace FPS
         protected override void Start()
         {
             base.Start();
-
-            if(Application.isPlaying)
-            {
-                shotTimer = fireDelay;
-            }
         }
 
         protected override void Update()
         {
             base.Update();
 
-            UpdateCooldown();
+            if(Application.isPlaying)
+            {
+                UpdateCooldown();
+            }
         }
 
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public override void UpdatePrimary(bool press, bool hold, bool release)
+        public override void UpdatePrimary(InputState input)
         {
             bool button = false;
 
             switch (fireMode)
             {
             case FireMode.SingleShot:
-                button = press;
+                button = input.press;
                 break;
             case FireMode.Continuous:
-                button = hold;
+                button = input.hold;
                 break;
             }
 
@@ -84,10 +82,10 @@ namespace FPS
             }
         }
 
-        public override void UpdateSecondary(bool press, bool hold, bool release)
+        public override void UpdateSecondary(InputState input)
         {
             // ADS
-            animator.SetBool("AimDownSights", hold);
+            animator.SetBool("AimDownSights", !isReloading && input.hold);
         }
 
         protected override IEnumerator ShootCoroutine()
@@ -102,12 +100,15 @@ namespace FPS
                     obj.rigidbody.velocity += GetBulletSpread();
 
                     if (audio.clip) audio.Play();
-
+                    
                     animator.SetTrigger("Recoil");
 
-                    if ((bulletDelay > 0f) && (i < (imax - 1)))
+                    if (bulletDelay > 0f) 
                     {
-                        yield return new WaitForSeconds(bulletDelay);
+                        if((i < (imax - 1)))
+                        {
+                            yield return new WaitForSeconds(bulletDelay);
+                        }
                     }
                 }
             }

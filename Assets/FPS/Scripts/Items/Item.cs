@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace FPS
 {
@@ -24,6 +25,10 @@ namespace FPS
         [SerializeField] Transform  m_model;
         [SerializeField] Transform  m_holdPos;
         [SerializeField] ItemInfo   m_info;
+        [Space]
+        [SerializeField] UnityEvent m_onDrop;
+        [SerializeField] UnityEvent m_onEquip;
+        [SerializeField] UnityEvent m_onStore;
 
         [Header("Item Runtime")]
         [SerializeField] Unit       m_owner;
@@ -76,6 +81,22 @@ namespace FPS
                 }
                 return m_audioSource;
             }
+        }
+
+
+        public UnityEvent onDrop
+        {
+            get { return m_onDrop; }
+        }
+
+        public UnityEvent onEquip
+        {
+            get { return m_onEquip; }
+        }
+
+        public UnityEvent onStore
+        {
+            get { return m_onStore; }
         }
 
 
@@ -144,6 +165,34 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
+        public void EnableAnimator(bool value)
+        {
+            animator.enabled = value;
+        }
+
+        public void EnableGameObject(bool value)
+        {
+            gameObject.SetActive(value);
+        }
+
+        public void EnablePhysics(bool value)
+        {
+            rigidbody.isKinematic = !value;
+            rigidbody.useGravity = value;
+            collider.enabled = value;
+        }
+
+        public void Reparent(Transform parentTransform, bool worldPositionStays)
+        {
+            transform.SetParent(parentTransform, worldPositionStays);
+
+            if (parentTransform && !worldPositionStays)
+            {
+                transform.localRotation = Quaternion.identity;
+                transform.localPosition = Vector3.zero;
+            }
+        }
+
         public bool SetOwner(Unit value)
         {
             if (!owner && value)
@@ -155,7 +204,7 @@ namespace FPS
             {
                 return true;
             }
-            else if(owner && !value)
+            else if (owner && !value)
             {
                 owner = null;
                 return true;
@@ -166,37 +215,25 @@ namespace FPS
             }
         }
 
-        public void EnableAnimator(bool value)
+
+        public abstract void UpdatePrimary(InputState input);
+
+        public abstract void UpdateSecondary(InputState input);
+
+
+        public virtual void OnDrop()
         {
-            animator.enabled = value;
+            m_onDrop.Invoke();
         }
 
-        public void EnablePhysics(bool value)
+        public virtual void OnEquip()
         {
-            rigidbody.isKinematic = !value;
-            rigidbody.useGravity = value;
-            collider.isTrigger = !value;
+            m_onEquip.Invoke();
         }
 
-        public void Reparent(Transform parentTransform, bool worldPositionStays)
+        public virtual void OnStore()
         {
-            transform.SetParent(parentTransform, worldPositionStays);
-
-            if(parentTransform && !worldPositionStays)
-            {
-                transform.localRotation = Quaternion.identity;
-                transform.localPosition = Vector3.zero;
-            }
+            m_onStore.Invoke();
         }
-
-        public void SetActive(bool value)
-        {
-            gameObject.SetActive(value);
-        }
-
-
-        public abstract void UpdatePrimary(bool press, bool hold, bool release);
-
-        public abstract void UpdateSecondary(bool press, bool hold, bool release);
     }
 }

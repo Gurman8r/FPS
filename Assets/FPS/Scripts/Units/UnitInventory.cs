@@ -119,6 +119,7 @@ namespace FPS
                 if (BagContains(item)) bagList.Remove(item);
 
                 hand.item = null;
+                item.OnDrop();
                 item.Reparent(null, true);
                 item.EnablePhysics(true);
                 item.EnableAnimator(false);
@@ -138,7 +139,8 @@ namespace FPS
                 item.Reparent(hand.transform, false);
                 item.EnablePhysics(false);
                 item.EnableAnimator(true);
-                item.SetActive(true);
+                item.EnableGameObject(true);
+                item.OnEquip();
                 return true;
             }
             return false;
@@ -184,10 +186,11 @@ namespace FPS
             {
                 if (CanAdd(item)) AddToBag(item);
 
+                item.OnStore();
                 item.Reparent(bagTransform, false);
                 item.EnablePhysics(false);
                 item.EnableAnimator(false);
-                item.SetActive(false);
+                item.EnableGameObject(false);
                 return true;
             }
             return false;

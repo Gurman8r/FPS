@@ -12,12 +12,13 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         [Header("Settings")]
         [SerializeField] Transform  m_content;
+        [SerializeField] ItemSlot   m_slotPrefab;
+        [SerializeField] int        m_slotCount = 10;
         [SerializeField] Image      m_selector;
         [SerializeField] float      m_fadeSpeed = 1f;
-        [SerializeField] int        m_slotCount;
 
         [Header("Runtime")]
-        [SerializeField] ItemSlot[] m_slots;
+        [SerializeField] ItemSlot[] m_slots = null;
         [SerializeField] bool       m_inUse;
         [SerializeField] Graphic[]  m_graphics;
         [SerializeField] int        m_index;
@@ -40,12 +41,29 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         private void Start()
         {
-            imageAlpha = 1f;
-
             if(Application.isPlaying)
             {
-                RefreshSlots();
-                RefreshGraphics();
+                if(m_content)
+                {
+                    for (int i = (m_content.childCount - 1); i >= 0; i--)
+                    {
+                        Destroy(m_content.GetChild(i));
+                    }
+
+                    if (m_slotPrefab && (m_slotCount > 0))
+                    {
+                        m_slots = new ItemSlot[m_slotCount];
+
+                        for (int i = 0, imax = m_slotCount; i < imax; i++)
+                        {
+                            m_slots[i] = Instantiate(m_slotPrefab, m_content);
+                        }
+                    }
+                }
+
+                m_graphics = GetComponentsInChildren<Graphic>();
+
+                imageAlpha = 1f;
             }
         }
 
@@ -69,7 +87,7 @@ namespace FPS
                     imageAlpha = 1f;
                 }
 
-                if (m_selector)
+                if (m_selector && (m_slots != null) && (m_index < m_slots.Length))
                 {
                     if(m_slots[m_index].gameObject.activeInHierarchy)
                     {
@@ -90,7 +108,7 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         public void RefreshItems(UnitInventory playerInventory)
         {
-            for(int i = 0, imax = m_slotCount; i < imax; i++)
+            for(int i = 0, imax = m_slots.Length; i < imax; i++)
             {
                 Item item;
                 if(playerInventory.GetFromBag(i, out item))
@@ -116,18 +134,6 @@ namespace FPS
             inUse = true;
             yield return new WaitForSeconds(value);
             inUse = false;
-        }
-
-        private void RefreshSlots()
-        {
-            m_slots = m_content.GetComponentsInChildren<ItemSlot>();
-
-            m_slotCount = m_slots.Length;
-        }
-
-        private void RefreshGraphics()
-        {
-            m_graphics = GetComponentsInChildren<Graphic>();
         }
 
         protected override void SetAlpha(float value)

@@ -9,37 +9,38 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1011015415995986}
+  m_RootGameObject: {fileID: 1402926519430590}
   m_IsPrefabAsset: 1
---- !u!1 &1011015415995986
+--- !u!1 &1402926519430590
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4571061747530532}
-  - component: {fileID: 33862988109270742}
-  - component: {fileID: 23590730125249756}
-  - component: {fileID: 135255529148645164}
-  - component: {fileID: 82340556024128822}
-  - component: {fileID: 114380639095367262}
+  - component: {fileID: 4843297064409342}
+  - component: {fileID: 33756912791222542}
+  - component: {fileID: 23734057230355572}
+  - component: {fileID: 135201054219490324}
+  - component: {fileID: 54547470667305530}
+  - component: {fileID: 82038271439388502}
+  - component: {fileID: 114821140140099020}
   m_Layer: 12
-  m_Name: Explosion Object
+  m_Name: OBJ_Bullet_Rocket
   m_TagString: Combat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!1 &1995561316519910
+--- !u!1 &1758347922437988
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4163648019866532}
-  - component: {fileID: 108666983794041512}
+  - component: {fileID: 4051579891574452}
+  - component: {fileID: 108057016896034268}
   m_Layer: 12
   m_Name: Point Light
   m_TagString: Untagged
@@ -47,39 +48,39 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4163648019866532
+--- !u!4 &4051579891574452
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1995561316519910}
+  m_GameObject: {fileID: 1758347922437988}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4571061747530532}
+  m_Father: {fileID: 4843297064409342}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4571061747530532
+--- !u!4 &4843297064409342
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1011015415995986}
+  m_GameObject: {fileID: 1402926519430590}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
-  - {fileID: 4163648019866532}
+  - {fileID: 4051579891574452}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23590730125249756
+--- !u!23 &23734057230355572
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1011015415995986}
+  m_GameObject: {fileID: 1402926519430590}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -89,7 +90,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: d0cdff5ae8837d742a93f4ac2ed7370b, type: 2}
+  - {fileID: 2100000, guid: 71213919b6bf01240a9468acfe830a29, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -109,23 +110,38 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33862988109270742
+--- !u!33 &33756912791222542
 MeshFilter:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1011015415995986}
+  m_GameObject: {fileID: 1402926519430590}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!82 &82340556024128822
+--- !u!54 &54547470667305530
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1402926519430590}
+  serializedVersion: 2
+  m_Mass: 0.5
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 2
+--- !u!82 &82038271439388502
 AudioSource:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1011015415995986}
+  m_GameObject: {fileID: 1402926519430590}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 48c641f840478a94b973ba1fa7cf5167, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -211,12 +227,12 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!108 &108666983794041512
+--- !u!108 &108057016896034268
 Light:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1995561316519910}
+  m_GameObject: {fileID: 1758347922437988}
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 2
@@ -248,15 +264,15 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &114380639095367262
+--- !u!114 &114821140140099020
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1011015415995986}
+  m_GameObject: {fileID: 1402926519430590}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b58de1014c3728c4a98cc7d577c02553, type: 3}
+  m_Script: {fileID: 11500000, guid: 9f85c716a8ef13646bdccc9d92b7d5e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_active: 0
@@ -265,9 +281,9 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 0
     speed: 0
-    lifeSpan: 0.7
+    lifeSpan: 0
     damage:
-      amount: 1
+      amount: 0
     healing:
       amount: 0
     owner: {fileID: 0}
@@ -276,17 +292,61 @@ MonoBehaviour:
     dest: {x: 0, y: 0, z: 0}
   m_timer: 0
   m_hitList: []
-  m_minSize: 0.1
-  m_maxSize: 5
-  m_curSize: 0
---- !u!135 &135255529148645164
+  m_usePhysics: 1
+  m_minMass: 0.0001
+  m_maxMass: 1
+  m_curMass: 0.5
+  m_randomMass: 0
+  m_curScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_minScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_maxScale: {x: 2, y: 2, z: 2}
+  m_randomScale: 0
+  m_uniformScale: 1
+  m_check: []
+  m_checkRadius: 0.5
+  m_checkInUpdate: 1
+  m_checkInFixedUpdate: 1
+  m_checkInTrigger: 1
+  m_destroyOnHit: 1
+  m_piercing: 0
+  m_solid: 0
+  m_buoyant: 0
+  m_persistant: 0
+  m_onSpawn:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  m_onKill:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114821140140099020}
+        m_MethodName: SpawnObject
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 114380639095367262, guid: 9d773b10095b5514bbf6d28834b46cfb,
+            type: 2}
+          m_ObjectArgumentAssemblyTypeName: FPS.CombatObject, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  m_onStop:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!135 &135201054219490324
 SphereCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1011015415995986}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_GameObject: {fileID: 1402926519430590}
+  m_Material: {fileID: 13400000, guid: 0baf115bb02f39f4c880abbe76615774, type: 2}
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5

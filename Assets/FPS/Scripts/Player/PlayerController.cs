@@ -18,8 +18,11 @@ namespace FPS
         [SerializeField] float          m_inventoryTime = 2.5f;
 
         [Header("Player Runtime")]
-        [SerializeField] bool m_hasKeyboard;
-        [SerializeField] bool m_hasGamepad;
+        [SerializeField] InputState m_fire0;
+        [SerializeField] InputState m_fire1;
+        [SerializeField] bool       m_hasKeyboard;
+        [SerializeField] bool       m_hasGamepad;
+        [SerializeField] bool       m_canInteract;
 
         private Rewired.Player  m_input;
         private RaycastHit      m_hit;
@@ -36,6 +39,7 @@ namespace FPS
         {
             get { return m_hud; }
         }
+
 
         /* Core
         * * * * * * * * * * * * * * * */
@@ -72,6 +76,11 @@ namespace FPS
                     camera.cursorLock = !camera.cursorLock;
                 }
 
+                hud.SetPaused(!camera.cursorLock);
+
+                if (!camera.cursorLock)
+                    return;
+
                 // Move
                 moveInput = new Vector2(
                     m_input.GetAxis("Move Horizontal"),
@@ -89,62 +98,13 @@ namespace FPS
                     m_input.GetAxis("Look Vertical"));
                 camera.SetLookDelta(lookInput);
 
-                UpdateInteraction();
-
-                UpdateHand(unit.inventory.primary);
-
-                // Set Reticle Position
-                hud.SetReticlePos(hud.center);
-
-                // Set Health Bar Value
                 hud.SetHealth(unit.health.fillAmount);
-
-                // Select Item (0-9)
-                for (KeyCode key = KeyCode.Alpha0; key <= KeyCode.Alpha9; key++)
-                {
-                    if (Input.GetKeyDown(key))
-                    {
-                        selectInput = (key == KeyCode.Alpha0)
-                            ? (9)
-                            : (8 - Mathf.Abs((int)key - (int)KeyCode.Alpha9));
-
-                        if (!unit.inventory.Equip(unit.inventory.primary, selectInput))
-                        {
-                            unit.inventory.Store(unit.inventory.primary);
-                        }
-
-                        hud.inventory.ShowForSeconds(m_inventoryTime);
-
-                        break;
-                    }
-                }
-
-                // Scroll m_input
-                if ((scrollInput = m_input.GetAxis("Select Scroll")) != 0f)
-                {
-                    if (scrollInput < 0f)
-                    {
-                        selectInput = (selectInput < unit.inventory.count - 1)
-                            ? (selectInput + 1)
-                            : (0);
-                    }
-                    else if (scrollInput > 0f)
-                    {
-                        selectInput = (selectInput > 0)
-                            ? (selectInput - 1)
-                            : (unit.inventory.count - 1);
-                    }
-
-                    if (!unit.inventory.Equip(unit.inventory.primary, selectInput))
-                    {
-                        unit.inventory.Store(unit.inventory.primary);
-                    }
-
-                    hud.inventory.ShowForSeconds(m_inventoryTime);
-                }
-
                 hud.inventory.RefreshItems(unit.inventory);
                 hud.inventory.index = selectInput;
+
+                UpdateInteraction();
+                UpdateItemUsage(unit.inventory.primary);
+                UpdateItemSelection();
             }
 
             base.Update();
@@ -192,7 +152,7 @@ namespace FPS
 
         private void UpdateInteraction()
         {
-            if (Physics.Raycast(camera.ray, out m_hit, interactRange))
+            if (m_canInteract = Physics.Raycast(camera.ray, out m_hit, interactRange))
             {
                 switch (m_hit.transform.tag)
                 {
@@ -201,9 +161,7 @@ namespace FPS
                     Item item;
                     if ((item = m_hit.transform.GetComponent<Item>()) && !item.owner)
                     {
-                        //hud.ShowReticle(false);
-                        hud.SetInfoText(string.Format("(E) Take {0}",
-                            item.info.name));
+                        hud.reticle.SetText(string.Format("(E) Take {0}", item.info.name));
 
                         if (m_input.GetButtonDown("Interact"))
                         {
@@ -228,8 +186,7 @@ namespace FPS
                     {
                         if (wall.isDoor && !wall.isOpen)
                         {
-                            //hud.ShowReticle(false);
-                            hud.SetInfoText(string.Format("(E) Open"));
+                            hud.reticle.SetText(string.Format("(E) Open"));
 
                             if (m_input.GetButtonDown("Interact"))
                             {
@@ -241,45 +198,58 @@ namespace FPS
                 break;
                 default:
                 {
-                    //hud.ShowReticle(true);
-                    hud.SetInfoText("");
+                    hud.reticle.SetText("");
                 }
                 break;
                 }
             }
             else
             {
-                //hud.ShowReticle(true);
-                hud.SetInfoText("");
+                hud.reticle.SetText("");
             }
         }
 
-        private void UpdateHand(UnitInventory.Hand hand)
+        private void UpdateItemUsage(UnitInventory.Hand hand)
         {
             Item item;
             if (item = hand.item)
             {
-                WeaponBase w;
-                if ((w = item as WeaponBase))
+                WeaponBase weapon;
+                if ((weapon = item as WeaponBase))
                 {
-                    hud.SetReticle(w.shotDelta);
+                    hud.reticle.SetFill(weapon.isReloading 
+                        ? weapon.reloadDelta 
+                        : weapon.shotDelta);
+
+                    hud.SetAmmo(weapon.ammoDelta);
+
+                    if(m_input.GetButtonDown("Reload"))
+                    {
+                        weapon.Reload();
+                    }
+
+                    if(weapon.isReloading)
+                    {
+                        hud.reticle.SetText("Reloading");
+                    }
                 }
                 else
                 {
-                    hud.SetReticle(0f);
+                    hud.reticle.SetFill(0f);
+                    hud.SetAmmo(0f);
                 }
 
                 item.transform.localPosition = item.holdPos.localPosition;
 
-                item.UpdatePrimary(
-                    m_input.GetButtonDown("Use Item Primary"),
-                    m_input.GetButton("Use Item Primary"),
-                    m_input.GetButtonUp("Use Item Primary"));
+                m_fire0.press = m_input.GetButtonDown("Fire0");
+                m_fire0.hold = m_input.GetButton("Fire0");
+                m_fire0.release = m_input.GetButtonUp("Fire0");
+                item.UpdatePrimary(m_fire0);
 
-                item.UpdateSecondary(
-                    m_input.GetButtonDown("Use Item Secondary"),
-                    m_input.GetButton("Use Item Secondary"),
-                    m_input.GetButtonUp("Use Item Secondary"));
+                m_fire1.press = m_input.GetButtonDown("Fire1");
+                m_fire1.hold = m_input.GetButton("Fire1");
+                m_fire1.release = m_input.GetButtonUp("Fire1");
+                item.UpdateSecondary(m_fire1);
 
                 if (m_input.GetButtonDown("Drop"))
                 {
@@ -305,7 +275,8 @@ namespace FPS
             }
             else
             {
-                hud.SetReticle(0f);
+                hud.reticle.SetFill(0f);
+                hud.SetAmmo(-1f);
 
                 if (m_input.GetButtonDown("Store"))
                 {
@@ -317,12 +288,59 @@ namespace FPS
             }
         }
 
+        private void UpdateItemSelection()
+        {
+            // Select Item (0-9)
+            for (KeyCode key = KeyCode.Alpha0; key <= KeyCode.Alpha9; key++)
+            {
+                if (Input.GetKeyDown(key))
+                {
+                    selectInput = (key == KeyCode.Alpha0)
+                        ? (9)
+                        : (8 - Mathf.Abs((int)key - (int)KeyCode.Alpha9));
+
+                    if (!unit.inventory.Equip(unit.inventory.primary, selectInput))
+                    {
+                        unit.inventory.Store(unit.inventory.primary);
+                    }
+
+                    hud.inventory.ShowForSeconds(m_inventoryTime);
+
+                    break;
+                }
+            }
+
+            // Scroll m_input
+            if ((scrollInput = m_input.GetAxis("Select Scroll")) != 0f)
+            {
+                if (scrollInput < 0f)
+                {
+                    selectInput = (selectInput < unit.inventory.count - 1)
+                        ? (selectInput + 1)
+                        : (0);
+                }
+                else if (scrollInput > 0f)
+                {
+                    selectInput = (selectInput > 0)
+                        ? (selectInput - 1)
+                        : (unit.inventory.count - 1);
+                }
+
+                if (!unit.inventory.Equip(unit.inventory.primary, selectInput))
+                {
+                    unit.inventory.Store(unit.inventory.primary);
+                }
+
+                hud.inventory.ShowForSeconds(m_inventoryTime);
+            }
+        }
+
 
         /* Interfaces
         * * * * * * * * * * * * * * * */
         public void OnDoDamage(UnitEvent unitEvent)
         {
-            hud.ShowHitmaker();
+            hud.reticle.ShowHitmaker();
         }
     }
 }

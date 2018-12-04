@@ -40,43 +40,41 @@ namespace FPS
         protected override void Start()
         {
             base.Start();
-
-            if (Application.isPlaying)
-            {
-                shotTimer = fireDelay;
-            }
         }
 
         protected override void Update()
         {
             base.Update();
 
-            UpdateCooldown();
+            if (Application.isPlaying)
+            {
+                UpdateCooldown();
+            }
         }
 
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public override void UpdatePrimary(bool press, bool hold, bool release)
+        public override void UpdatePrimary(InputState input)
         {   
             switch (fireMode)
             {
             case FireMode.SingleShot:
             {
-                if(press) { Shoot(); }
+                if(input.press) { Shoot(); }
             }
             break;
             case FireMode.Continuous:
             {
-                if(hold) { Shoot(); }
+                if(input.hold) { Shoot(); }
             }
             break;
             }
         }
 
-        public override void UpdateSecondary(bool press, bool hold, bool release)
+        public override void UpdateSecondary(InputState input)
         {
-            animator.SetBool("AimDownSights", hold);
+            animator.SetBool("AimDownSights", !isReloading && input.hold);
         }
 
 

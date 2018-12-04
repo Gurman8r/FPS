@@ -11,6 +11,22 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1402926519430590}
   m_IsPrefabAsset: 1
+--- !u!1 &1056571193264480
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4669331070212628}
+  - component: {fileID: 108947037131469132}
+  m_Layer: 12
+  m_Name: Point Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1402926519430590
 GameObject:
   m_ObjectHideFlags: 0
@@ -23,37 +39,21 @@ GameObject:
   - component: {fileID: 23734057230355572}
   - component: {fileID: 135201054219490324}
   - component: {fileID: 54547470667305530}
-  - component: {fileID: 82038271439388502}
+  - component: {fileID: 82340135168381918}
   - component: {fileID: 114821140140099020}
   m_Layer: 12
-  m_Name: Rocket Object
+  m_Name: OBJ_Bullet_Flames
   m_TagString: Combat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!1 &1758347922437988
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4051579891574452}
-  - component: {fileID: 108057016896034268}
-  m_Layer: 12
-  m_Name: Point Light
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4051579891574452
+--- !u!4 &4669331070212628
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1758347922437988}
+  m_GameObject: {fileID: 1056571193264480}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -69,9 +69,9 @@ Transform:
   m_GameObject: {fileID: 1402926519430590}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children:
-  - {fileID: 4051579891574452}
+  - {fileID: 4669331070212628}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -90,7 +90,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 71213919b6bf01240a9468acfe830a29, type: 2}
+  - {fileID: 2100000, guid: b88713c842133bb47b9f5edac9b87a29, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -124,15 +124,15 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1402926519430590}
   serializedVersion: 2
-  m_Mass: 0.5
+  m_Mass: 0.1
   m_Drag: 0
   m_AngularDrag: 0
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
---- !u!82 &82038271439388502
+--- !u!82 &82340135168381918
 AudioSource:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -227,18 +227,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!108 &108057016896034268
+--- !u!108 &108947037131469132
 Light:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1758347922437988}
+  m_GameObject: {fileID: 1056571193264480}
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 2
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.7844254, b: 0, a: 1}
   m_Intensity: 1
-  m_Range: 10
+  m_Range: 1
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -293,14 +293,27 @@ MonoBehaviour:
   m_timer: 0
   m_hitList: []
   m_minMass: 0.0001
-  m_maxMass: 1
-  m_randomMass: 0
-  m_stopRadius: 0.25
-  m_killOnHit: 1
-  m_stopOnHit: 0
-  m_solidOnHit: 0
-  m_respawnOnHit: 0
-  m_invertGravity: 0
+  m_maxMass: 0.1
+  m_curMass: 0.5
+  m_randomMass: 1
+  m_curScale: {x: 0, y: 0, z: 0}
+  m_minScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_maxScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_randomScale: 1
+  m_uniformScale: 1
+  m_check: []
+  m_firstCheckRadius: 0.1
+  m_doubleCheckRadius: 0.5
+  m_checkInUpdate: 1
+  m_checkInFixedUpdate: 1
+  m_checkInTrigger: 1
+  m_useGravity: 1
+  m_invertGravity: 1
+  m_destroyOnHit: 0
+  m_piercing: 0
+  m_solid: 0
+  m_persistance: 1
+  m_normalScale: 0
   m_onSpawn:
     m_PersistentCalls:
       m_Calls: []
@@ -308,19 +321,7 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   m_onKill:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114821140140099020}
-        m_MethodName: SpawnObject
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 114380639095367262, guid: 9d773b10095b5514bbf6d28834b46cfb,
-            type: 2}
-          m_ObjectArgumentAssemblyTypeName: FPS.CombatObject, Assembly-CSharp
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_onStop:
@@ -328,7 +329,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_curMass: 0.5
 --- !u!135 &135201054219490324
 SphereCollider:
   m_ObjectHideFlags: 1

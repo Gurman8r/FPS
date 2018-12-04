@@ -215,7 +215,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1495279891107322}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -1, y: 2.625, z: 9.41}
+  m_LocalPosition: {x: -2.02, y: 2.625, z: 9.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4264203998229590}
@@ -804,8 +804,12 @@ MonoBehaviour:
   m_firePos: {fileID: 4983383243732686}
   m_fireMode: 0
   m_fireDelay: 1
-  m_minRange: 1
+  m_minRange: 0
   m_maxRange: 100
+  m_maxAmmo: 4
+  m_reloadDelay: 3
+  m_autoReload: 1
+  m_reticleOn: 0
   m_objectData:
     layerMask:
       serializedVersion: 2
@@ -822,7 +826,10 @@ MonoBehaviour:
     dest: {x: 0, y: 0, z: 0}
   m_lookingAt: {x: 0, y: 0, z: 0}
   m_canShoot: 1
-  m_shotTimer: 1.0259519
+  m_fireTimer: 0
+  m_curAmmo: 0
+  m_isReloading: 0
+  m_reloadTimer: 0
   m_beamPrefab: {fileID: 114599389230684376, guid: ebd592993358af740bc105cfed1ecba7,
     type: 2}
   m_beamWidth: 0.05

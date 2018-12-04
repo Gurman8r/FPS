@@ -54,8 +54,6 @@ namespace FPS
         protected override void Start()
         {
             base.Start();
-
-            ResetCooldown();
         }
 
         protected override void Update()
@@ -69,10 +67,8 @@ namespace FPS
                 if (m_meleeObject)
                 {
                     data.owner = owner;
-                    //objectData.layerMask = layerMask;
                     data.pos = firePos.position;
                     data.dir = transform.forward;
-
                     meleeObject.data = data;
                     meleeObject.SetActive(m_canDamage);
                 }
@@ -81,31 +77,21 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public override void UpdatePrimary(bool press, bool hold, bool release)
+        public override void UpdatePrimary(InputState input)
         {
-            if (press)
+            if (input.press)
             {
                 triggerName = "MeleePrimary";
                 Shoot();
             }
         }
 
-        public override void UpdateSecondary(bool press, bool hold, bool release)
+        public override void UpdateSecondary(InputState input)
         {
-            if (press)
+            if (input.press)
             {
                 triggerName = "MeleeSecondary";
                 Shoot();
-            }
-        }
-
-        protected override void Shoot()
-        {
-            if (canShoot)
-            {
-                StartCoroutine(ShootCoroutine());
-
-                StartCooldown();
             }
         }
 
@@ -124,7 +110,7 @@ namespace FPS
             {
             case ActionType.Idle:
             {
-                ResetCooldown(); //canShoot = true
+                fireTimer = fireDelay;
             }
             break;
             case ActionType.StartAttack:

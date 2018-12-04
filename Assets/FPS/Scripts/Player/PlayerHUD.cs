@@ -14,14 +14,16 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         private Canvas m_canvas;
 
+        [Header("Settings")]
         [SerializeField] Reticle        m_reticle;
-        [SerializeField] Text           m_info;
         [SerializeField] HealthBar      m_healthBar;
-        [SerializeField] Hitmarker      m_hitmarker;
         [SerializeField] InventoryUI    m_inventory;
         [SerializeField] TextFeed       m_textFeed;
-        [SerializeField] HealthBar      m_loadBar;
         [SerializeField] HealthBar      m_ammoBar;
+        [SerializeField] RectTransform  m_pauseMenu;
+
+        [Header("Runtime")]
+        [SerializeField] bool m_isPaused;
 
 
         /* Properties
@@ -38,14 +40,9 @@ namespace FPS
             }
         }
 
-        public Vector2 size
+        public Reticle reticle
         {
-            get { return new Vector2(Screen.width, Screen.height); }
-        }
-
-        public Vector2 center
-        {
-            get { return size / 2f; }
+            get { return m_reticle; }
         }
 
         public InventoryUI inventory
@@ -58,14 +55,14 @@ namespace FPS
             get { return m_textFeed; }
         }
 
-        public HealthBar loadBar
-        {
-            get { return m_loadBar; }
-        }
-
         public HealthBar ammoBar
         {
             get { return m_ammoBar; }
+        }
+
+        public RectTransform pauseMenu
+        {
+            get { return m_pauseMenu; }
         }
 
 
@@ -75,16 +72,40 @@ namespace FPS
         {
             if(Application.isPlaying)
             {
-                SetInfoText("");
-                SetReticle(0f);
-                ShowHitmaker(false);
-                SetReticle(-1f);
+                reticle.SetText("");
+                reticle.SetFill(0f);
+                reticle.ShowHitmaker(false);
+            }
+        }
+
+        private void Update()
+        {
+            if(!Application.isPlaying)
+            {
+                SetPaused(m_isPaused);
             }
         }
 
 
         /* Functions
         * * * * * * * * * * * * * * * */
+
+        public void SetAmmo(float value)
+        {
+            if (ammoBar)
+            {
+                if (value >= 0f)
+                {
+                    ammoBar.gameObject.SetActive(true);
+                    ammoBar.fillAmount = value;
+                }
+                else
+                {
+                    ammoBar.fillAmount = 0f;
+                    ammoBar.gameObject.SetActive(false);
+                }
+            }
+        }
         public void SetHealth(float value)
         {
             if(m_healthBar)
@@ -93,9 +114,21 @@ namespace FPS
             }
         }
 
-        public void SetInfoText(string value)
+        public void SetPaused(bool value)
         {
-            m_info.text = value;
+            m_isPaused = (Application.isPlaying ? value : m_isPaused);
+
+            if (pauseMenu)
+            {
+                if(m_isPaused)
+                {
+                    pauseMenu.gameObject.SetActive(true);
+                }
+                else if(pauseMenu.gameObject.activeInHierarchy)
+                {
+                    pauseMenu.gameObject.SetActive(false);
+                }
+            }
         }
 
         public void SetReticlePos(Vector2 value, float speed = 0f)
@@ -110,55 +143,6 @@ namespace FPS
                     m_reticle.transform.position,
                     value,
                     speed);
-            }
-        }
-
-        public void ShowHitmaker(bool value = true)
-        {
-            if(m_hitmarker)
-            {
-                if(value)
-                {
-                    m_hitmarker.Show();
-                }
-                else
-                {
-                    m_hitmarker.Hide();
-                }
-            }
-        }
-
-        public void SetReticle(float value)
-        {
-            if(loadBar)
-            {
-                if (value >= 0f)
-                {
-                    loadBar.gameObject.SetActive(true);
-                    loadBar.fillAmount = value;
-                }
-                else
-                {
-                    loadBar.fillAmount = 0f;
-                    loadBar.gameObject.SetActive(false);
-                }
-            }
-        }
-
-        public void SetResource(float value)
-        {
-            if (ammoBar)
-            {
-                if (value >= 0f)
-                {
-                    ammoBar.gameObject.SetActive(true);
-                    ammoBar.fillAmount = value;
-                }
-                else
-                {
-                    ammoBar.fillAmount = 0f;
-                    ammoBar.gameObject.SetActive(false);
-                }
             }
         }
     }

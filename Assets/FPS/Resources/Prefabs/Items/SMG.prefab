@@ -173,7 +173,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1443130937108420}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.2, z: 0.5}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0.5}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.15}
   m_Children: []
   m_Father: {fileID: 4837240154548854}
@@ -186,7 +186,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1444441032906708}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 1, y: 2.625, z: 9.41}
+  m_LocalPosition: {x: -0.01999998, y: 2.625, z: 9.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4837240154548854}
@@ -514,11 +514,15 @@ MonoBehaviour:
   m_fireDelay: 0.1
   m_minRange: 1
   m_maxRange: 100
+  m_maxAmmo: 32
+  m_reloadDelay: 2
+  m_autoReload: 1
+  m_reticleOn: 1
   m_objectData:
     layerMask:
       serializedVersion: 2
       m_Bits: 1536
-    speed: 50
+    speed: 100
     lifeSpan: 1
     damage:
       amount: 1
@@ -530,7 +534,10 @@ MonoBehaviour:
     dest: {x: 0, y: 0, z: 0}
   m_lookingAt: {x: 0, y: 0, z: 0}
   m_canShoot: 1
-  m_shotTimer: 1.0296874
+  m_fireTimer: 0
+  m_curAmmo: 0
+  m_isReloading: 0
+  m_reloadTimer: 0
   m_bulletPrefab: {fileID: 114821140140099020, guid: 8b5071bcf5d85534e9a3ea680cff655f,
     type: 2}
   m_bulletCount: 1
