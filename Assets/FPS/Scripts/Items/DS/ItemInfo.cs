@@ -17,10 +17,9 @@ namespace FPS
         /* Variables
         * * * * * * * * * * * * * * * */
         public string   name    = DefaultName;
-        public Color    color   = DefaultColor;
-        public Sprite   sprite    = null;
-        [TextArea(2,10)]
         public string   desc    = DefaultDesc;
+        public Color    color   = DefaultColor;
+        public Sprite   sprite  = null;
 
     }
 }

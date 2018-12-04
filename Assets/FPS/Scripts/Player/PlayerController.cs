@@ -13,11 +13,13 @@ namespace FPS
         /* Variables
         * * * * * * * * * * * * * * * */
         [Header("Player Settings")]
+        [SerializeField] int            m_playerIndex = 0;
         [SerializeField] PlayerCamera   m_camera;
         [SerializeField] PlayerHUD      m_hud;
         [SerializeField] float          m_inventoryTime = 2.5f;
 
-        private RaycastHit m_hit;
+        private Rewired.Player  m_input;
+        private RaycastHit      m_hit;
 
 
         /* Properties
@@ -40,6 +42,8 @@ namespace FPS
 
             if(Application.isPlaying)
             {
+                m_input = Rewired.ReInput.players.GetPlayer(m_playerIndex);
+
                 if (!camera)
                 {
                     Debug.LogError("Script Not Found: PlayerCamera", gameObject);
@@ -57,26 +61,26 @@ namespace FPS
             if(Application.isPlaying)
             {
                 // Cursor Lock
-                if (Input.GetButtonDown("Cancel"))
+                if (m_input.GetButtonDown("Cancel"))
                 {
                     camera.cursorLock = !camera.cursorLock;
                 }
 
                 // Move
                 moveInput = new Vector2(
-                    Input.GetAxis("Horizontal"),
-                    Input.GetAxis("Vertical"));
+                    m_input.GetAxis("Move Horizontal"),
+                    m_input.GetAxis("Move Vertical"));
 
                 // Sprint
-                sprintInput = Input.GetButton("Sprint");
+                sprintInput = m_input.GetButton("Sprint");
 
                 // Jump
-                jumpInput = Input.GetButtonDown("Jump");
+                jumpInput = m_input.GetButtonDown("Jump");
 
                 // Aim
                 lookInput = new Vector2(
-                    Input.GetAxis("Mouse X"),
-                    Input.GetAxis("Mouse Y"));
+                    m_input.GetAxis("Look Horizontal"),
+                    m_input.GetAxis("Look Vertical"));
                 camera.SetLookDelta(lookInput);
 
 
@@ -92,7 +96,7 @@ namespace FPS
                             hud.SetInfoText(string.Format("(E) Take {0}",
                                 item.info.name));
 
-                            if (Input.GetButtonDown("Interact"))
+                            if (m_input.GetButtonDown("Interact"))
                             {
                                 if (unit.inventory.primary.item && unit.inventory.Store(item))
                                 {
@@ -119,7 +123,7 @@ namespace FPS
                                 hud.ShowReticle(false);
                                 hud.SetInfoText(string.Format("(E) Open"));
 
-                                if (Input.GetButtonDown("Interact"))
+                                if (m_input.GetButtonDown("Interact"))
                                 {
                                     wall.Open();
                                 }
@@ -160,8 +164,8 @@ namespace FPS
                     }
                 }
 
-                // Scroll Input
-                if ((scrollInput = Input.GetAxis("Mouse ScrollWheel")) != 0f)
+                // Scroll m_input
+                if ((scrollInput = m_input.GetAxis("Select Scroll")) != 0f)
                 {
                     if (scrollInput < 0f)
                     {
@@ -205,19 +209,19 @@ namespace FPS
             Item item;
             if(item = hand.item)
             {
-                item.transform.localPosition = item.holdPos;
+                item.transform.localPosition = item.holdPos.localPosition;
 
                 item.UpdatePrimary(
-                    Input.GetButtonDown("Mouse Left"),
-                    Input.GetButton(    "Mouse Left"),
-                    Input.GetButtonUp(  "Mouse Left"));
+                    m_input.GetButtonDown("Use Item Primary"),
+                    m_input.GetButton(    "Use Item Primary"),
+                    m_input.GetButtonUp(  "Use Item Primary"));
 
                 item.UpdateSecondary(
-                    Input.GetButtonDown("Mouse Right"),
-                    Input.GetButton(    "Mouse Right"),
-                    Input.GetButtonUp(  "Mouse Right"));
+                    m_input.GetButtonDown("Use Item Secondary"),
+                    m_input.GetButton(    "Use Item Secondary"),
+                    m_input.GetButtonUp(  "Use Item Secondary"));
 
-                if (Input.GetButtonDown("Drop"))
+                if (m_input.GetButtonDown("Drop"))
                 {
                     if(unit.inventory.Drop(hand))
                     {
@@ -227,7 +231,7 @@ namespace FPS
                     }
                 }
 
-                if(Input.GetButtonDown("Store"))
+                if(m_input.GetButtonDown("Store"))
                 {
                     if(unit.inventory.Store(hand))
                     {
@@ -235,7 +239,7 @@ namespace FPS
                     }
                 }
             }
-            else if (Input.GetButtonDown("Store"))
+            else if (m_input.GetButtonDown("Store"))
             {
                 if (unit.inventory.Equip(unit.inventory.primary, selectInput))
                 {

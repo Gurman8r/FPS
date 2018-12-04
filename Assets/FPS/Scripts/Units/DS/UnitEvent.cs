@@ -20,7 +20,7 @@ namespace FPS
         [SerializeField] UnitSystem m_unitSystem;
         [SerializeField] bool       m_used;
         [Space]
-        [SerializeField] CombatData m_combat;
+        [SerializeField] ObjectData m_combat;
 
         /* Properties
 	    * * * * * * * * * * * * * * * */
@@ -36,7 +36,7 @@ namespace FPS
             private set { m_used = value; }
         }
 
-        public CombatData combat
+        public ObjectData combat
         {
             get { return m_combat; }
             set { m_combat = value; }

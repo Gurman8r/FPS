@@ -22,7 +22,7 @@ namespace FPS
 
         [Header("Item Settings")]
         [SerializeField] Transform  m_model;
-        [SerializeField] Transform  m_holdPosition;
+        [SerializeField] Transform  m_holdPos;
         [SerializeField] ItemInfo   m_info;
 
         [Header("Item Runtime")]
@@ -78,20 +78,29 @@ namespace FPS
             }
         }
 
-        public Unit owner
+
+        public Transform model
         {
-            get { return m_owner; }
-            private set { m_owner = value; }
+            get { return m_model; }
+            set { m_model = value; }
         }
 
-        public Vector3 holdPos
+        public Transform holdPos
         {
-            get { return m_holdPosition ? m_holdPosition.localPosition : Vector3.zero; }
+            get { return m_holdPos; }
+            set { m_holdPos = value; }
         }
 
         public ItemInfo info
         {
             get { return m_info; }
+            set { m_info = value; }
+        }
+
+        public Unit owner
+        {
+            get { return m_owner; }
+            set { m_owner = value; }
         }
 
 
@@ -129,7 +138,7 @@ namespace FPS
         protected virtual void OnDrawGizmos()
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position + holdPos, 0.1f);
+            Gizmos.DrawWireSphere(transform.position + holdPos.localPosition, 0.1f);
         }
 
 

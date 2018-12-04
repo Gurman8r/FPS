@@ -11,7 +11,8 @@ namespace FPS
     {
         /* Variables
         * * * * * * * * * * * * * * * */
-        private Camera m_camera;        
+        private Camera  m_camera;        
+        private Ray     m_ray = new Ray();
 
         [Header("Settings")]
         [SerializeField] Transform  m_parent;
@@ -21,9 +22,6 @@ namespace FPS
         [SerializeField] float      m_minHeight         = -80;
         [SerializeField] float      m_maxHeight         = 80;
         [SerializeField] bool       m_cursorLock        = false;
-
-        //[Header("Runtime")]
-        private Ray m_ray = new Ray();
 
 
         /* Properties
@@ -44,8 +42,8 @@ namespace FPS
         {
             get
             {
-                m_ray.origin = transform.position;
-                m_ray.direction = transform.forward;
+                m_ray.origin = camera.transform.position;
+                m_ray.direction = camera.transform.forward;
                 return m_ray;
             }
         }
@@ -56,7 +54,7 @@ namespace FPS
             {
                 if(!m_parent)
                 {
-                    m_parent = transform.parent;
+                    m_parent = camera.transform.parent;
                 }
                 return m_parent;
             }
@@ -109,7 +107,7 @@ namespace FPS
 
         private void Update()
         {
-            transform.localPosition = offset;
+            camera.transform.localPosition = offset;
 
             if (Application.isPlaying)
             {
@@ -119,7 +117,7 @@ namespace FPS
 
                 lookDelta = cursorLock ? lookDelta : Vector2.zero;
 
-                transform.localRotation = Quaternion.Euler(lookDelta.y, 0, 0f);
+                camera.transform.localRotation = Quaternion.Euler(lookDelta.y, 0, 0f);
 
                 parent.Rotate(0, lookDelta.x, 0);
             }
