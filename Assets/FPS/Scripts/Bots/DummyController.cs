@@ -16,17 +16,18 @@ namespace FPS
         [SerializeField] Text       m_text;
         [SerializeField] HealthBar  m_health;
         [Space]
-        [SerializeField] bool       m_inCombat;
         [SerializeField] float      m_regenSpeed = 1f;
         [SerializeField] float      m_regenDelay =  5f;
-        [SerializeField] float      m_regenTimer;
+        [SerializeField] float      m_fadeSpeed = 1f;
         [Space]
+        [SerializeField] string     m_format;
+        [SerializeField] bool       m_inCombat;
+        [SerializeField] float      m_regenTimer;
         [SerializeField] int        m_hitCount;
         [SerializeField] float      m_damageTotal;
         [SerializeField] float      m_damagePerSec;
         [SerializeField] float      m_damageDuration;
         [SerializeField] float      m_damageTime;
-        [SerializeField] string     m_format;
 
         private Camera m_camera;
 
@@ -54,18 +55,43 @@ namespace FPS
                 if (m_inCombat = (m_regenTimer > 0f))
                 {
                     m_regenTimer -= Time.deltaTime;
+
                     m_text.text = string.Format(m_format,
                         (int)m_damageTotal,
                         FormatFloat(m_damagePerSec),
                         FormatFloat(m_damageDuration),
                         m_hitCount,
                         FormatFloat(m_regenTimer));
+
+                    m_health.imageAlpha = 1f;
+
+                    Color c = m_text.color;
+                    c.a = 1f;
+                    m_text.color = c;
                 }
-                else if (unit.health.fillAmount < 1f)
+                else
                 {
-                    unit.health.Modify(Time.deltaTime * m_regenSpeed);
-                    m_damageTotal = 0f;
-                    m_text.text = "";
+                    Color c;
+                    if((c = m_text.color).a > 0f)
+                    {
+                        c.a -= Time.deltaTime * m_fadeSpeed;
+                        m_text.color = c;
+                    }
+                    else
+                    {
+                        m_text.text = "";
+                    }
+
+                    if (unit.health.fillAmount < 1f)
+                    {
+                        unit.health.Modify(Time.deltaTime * m_regenSpeed);
+
+                        m_damageTotal = 0f;
+                    }
+                    else if (m_health.imageAlpha > 0f)
+                    {
+                        m_health.imageAlpha -= Time.deltaTime * m_fadeSpeed;
+                    }
                 }
 
                 if (m_health)

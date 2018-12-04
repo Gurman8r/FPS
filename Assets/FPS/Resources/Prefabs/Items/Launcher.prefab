@@ -544,7 +544,7 @@ MonoBehaviour:
     speed: 50
     lifeSpan: 2.5
     damage:
-      amount: 10
+      amount: 5
     healing:
       amount: 0
     owner: {fileID: 0}

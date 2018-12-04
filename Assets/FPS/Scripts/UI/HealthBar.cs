@@ -18,6 +18,8 @@ namespace FPS
         [SerializeField] Gradient   m_fillColor;
         [Range(0f, 1f)]
         [SerializeField] float      m_fillAmount = 0.5f;
+        [Range(0f, 1f)]
+        [SerializeField] float      m_imageAlpha = 1f;
 
         /* Properties
         * * * * * * * * * * * * * * * */
@@ -27,6 +29,12 @@ namespace FPS
             set { m_fillAmount = value; }
         }
 
+        public float imageAlpha
+        {
+            get { return m_imageAlpha; }
+            set { m_imageAlpha = Mathf.Clamp(value, 0f, 1f); }
+        }
+
         /* Core
         * * * * * * * * * * * * * * * */
         private void Update()
@@ -34,9 +42,11 @@ namespace FPS
             if(m_back && m_mask && m_fill)
             {
                 m_mask.showMaskGraphic = false;
-                m_back.color = m_backColor.Evaluate(m_fillAmount);
+
+                m_back.color = m_backColor.Evaluate(m_fillAmount) * m_imageAlpha;
+
                 m_fill.type = Image.Type.Filled;
-                m_fill.color = m_fillColor.Evaluate(m_fillAmount);
+                m_fill.color = m_fillColor.Evaluate(m_fillAmount) * m_imageAlpha;
                 m_fill.fillAmount = m_fillAmount;
             }
         }
