@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace FPS
 {
     [ExecuteInEditMode]
-    public class DummyController : BotController
+    public class DummyController : UnitController
         , IDamageTarget
     {
         /* Variables

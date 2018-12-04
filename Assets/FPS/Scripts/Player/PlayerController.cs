@@ -77,6 +77,9 @@ namespace FPS
                 }
 
                 hud.SetPaused(!camera.cursorLock);
+                hud.SetHealth(unit.health.fillAmount);
+                hud.inventory.RefreshItems(unit.inventory);
+                hud.inventory.index = selectInput;
 
                 if (!camera.cursorLock)
                     return;
@@ -97,10 +100,6 @@ namespace FPS
                     m_input.GetAxis("Look Horizontal"),
                     m_input.GetAxis("Look Vertical"));
                 camera.SetLookDelta(lookInput);
-
-                hud.SetHealth(unit.health.fillAmount);
-                hud.inventory.RefreshItems(unit.inventory);
-                hud.inventory.index = selectInput;
 
                 UpdateInteraction();
                 UpdateItemUsage(unit.inventory.primary);
