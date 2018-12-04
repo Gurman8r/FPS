@@ -529,7 +529,7 @@ MonoBehaviour:
   m_fireDelay: 1
   m_minRange: 0
   m_maxRange: 100
-  m_maxAmmo: 3
+  m_maxAmmo: 4
   m_reloadDelay: 5
   m_fixedReload: 1
   m_autoReload: 1

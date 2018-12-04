@@ -56,10 +56,10 @@ namespace FPS
                     m_regenTimer -= Time.deltaTime;
                     m_text.text = string.Format(m_format,
                         (int)m_damageTotal,
-                        m_damagePerSec.ToString("##.#"),
-                        ((m_damageDuration > 0f) ? m_damageDuration.ToString("##.#") : "0"),
+                        FormatFloat(m_damagePerSec),
+                        FormatFloat(m_damageDuration),
                         m_hitCount,
-                        m_regenTimer.ToString("##.#"));
+                        FormatFloat(m_regenTimer));
                 }
                 else if (unit.health.fillAmount < 1f)
                 {
@@ -101,23 +101,28 @@ namespace FPS
             else
             {
                 m_damageTotal += unitEvent.combat.damage.amount;
-
-                float temp;
-                if((temp = Time.time - m_damageTime) > 0f)
-                {
-                    m_damageDuration = (Time.time - m_damageTime);
-                }
-                else
-                {
-                    m_damageDuration = 0f;
-                }
-                
+                m_damageDuration = (Time.time - m_damageTime);
                 m_damagePerSec = m_damageTotal / (m_damageDuration > 0f ? m_damageDuration : 1f);
-
                 m_hitCount++;
             }
 
             m_regenTimer = m_regenDelay;
+        }
+
+        public static string FormatFloat(float value)
+        {
+            if(value > 0f)
+            {
+                if(value >= 1f)
+                {
+                    return value.ToString("##.#");
+                }
+                else
+                {
+                    return "0" + value.ToString("##.#");
+                }
+            }
+            return "0";
         }
     }
 
