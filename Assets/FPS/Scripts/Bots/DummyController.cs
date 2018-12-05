@@ -57,6 +57,13 @@ namespace FPS
 
             if (Application.isPlaying)
             {
+                Item item;
+                if(item = unit.inventory.primary.item)
+                {
+                    item.UpdatePrimary(new InputState { press = true, hold = false, release = false });
+                    item.UpdateSecondary(new InputState { press = false, hold = false, release = false });
+                }
+
                 if (m_inCombat = (m_regenTimer > 0f))
                 {
                     m_regenTimer -= Time.deltaTime;

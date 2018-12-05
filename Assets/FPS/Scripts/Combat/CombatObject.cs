@@ -17,6 +17,7 @@ namespace FPS
 
         [Header("Object Runtime")]
         [SerializeField] float      m_timer;
+        [SerializeField] float      m_maxTimer;
         [SerializeField] List<Unit> m_hitList;
 
 
@@ -40,6 +41,12 @@ namespace FPS
             protected set { m_timer = value; }
         }
 
+        public float maxLifespan
+        {
+            get { return m_maxTimer; }
+            protected set { m_maxTimer = value; }
+        }
+
         public List<Unit> hitList
         {
             get { return m_hitList; }
@@ -60,9 +67,9 @@ namespace FPS
         {
             if(Application.isPlaying)
             {
-                if (data.lifeSpan > 0f)
+                if (maxLifespan > 0f)
                 {
-                    if (timer >= data.lifeSpan)
+                    if (timer >= maxLifespan)
                     {
                         Kill();
 
@@ -137,6 +144,7 @@ namespace FPS
         {
             active = true;
             timer = 0f;
+            maxLifespan = data.lifeSpan;
             gameObject.SetActive(true);
         }
 

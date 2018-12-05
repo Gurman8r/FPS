@@ -149,7 +149,7 @@ namespace FPS
                     {
                         Debug.Log("Trigger Check");
                         OnHitUnit(u);
-                        OnHitAny();
+                        OnHitAny(other);
                         return;
                     }
                 }
@@ -211,7 +211,7 @@ namespace FPS
                     if (m_enableLog) Debug.Log("First Check");
                     rigidbody.position = m_hit.point + (m_hit.normal * m_normalScale);
                     OnHitUnit(u);
-                    OnHitAny();
+                    OnHitAny(m_hit.collider);
                     return;
                 }
             }
@@ -221,7 +221,7 @@ namespace FPS
             {
                 if (m_enableLog) Debug.Log("Second Check");
                 rigidbody.position = m_hit.point + (m_hit.normal * m_normalScale);
-                OnHitAny();
+                OnHitAny(m_hit.collider);
                 return;
             }
 
@@ -234,7 +234,7 @@ namespace FPS
                 {
                     if (m_enableLog) Debug.Log("Third Check");
                     OnHitUnit(u);
-                    OnHitAny();
+                    OnHitAny(c);
                     return;
                 }
             }
@@ -243,7 +243,7 @@ namespace FPS
             if (Physics.CheckSphere(m_ray.origin, m_checkSphereRadius, data.solidLayer))
             {
                 if(m_enableLog) Debug.Log("Fourth Check");
-                OnHitAny();
+                OnHitAny(null);
                 return;
             }
         }
@@ -261,29 +261,22 @@ namespace FPS
             return null;
         }
 
-        private void OnHitAny()
+        private void OnHitAny(Collider c)
         {
             if (m_destroyOnHit && !m_piercing)
             {
                 Kill();
             }
-            else
-            {
-                Stop();
-            }
-        }
-        
-        private void Stop()
-        {
-            if(active)
+            else if (active)
             {
                 active = false;
-                m_onStop.Invoke();
                 collider.isTrigger = !m_solid;
                 rigidbody.velocity = Vector3.zero;
                 rigidbody.interpolation = RigidbodyInterpolation.None;
-                data.lifeSpan = m_persistance;
+                maxLifespan = m_persistance;
                 timer = 0f;
+                //if (c && !m_useGravity) transform.SetParent(c.transform, true);
+                m_onStop.Invoke();
             }
         }
     }
