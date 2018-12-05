@@ -163,7 +163,7 @@ namespace FPS
         {
             base.Spawn();
 
-            rigidbody.position = data.pos;
+            transform.position = data.pos;
 
             rigidbody.velocity = data.dir * data.speed;
 

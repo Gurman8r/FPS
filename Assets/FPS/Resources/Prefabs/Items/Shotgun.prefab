@@ -557,7 +557,7 @@ MonoBehaviour:
   m_curAmmo: 0
   m_isReloading: 0
   m_reloadTimer: 0
-  m_bulletPrefab: {fileID: 114821140140099020, guid: 8b5071bcf5d85534e9a3ea680cff655f,
+  m_bulletPrefab: {fileID: 114821140140099020, guid: eddd9657d77f09e40bec7f4c1c157bc4,
     type: 2}
   m_bulletCount: 10
   m_bulletDelay: 0
