@@ -542,9 +542,9 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 1024
     speed: 100
-    lifeSpan: 0.1
+    lifeSpan: 0.2
     damage:
-      amount: 1
+      amount: 5
     healing:
       amount: 0
     owner: {fileID: 0}

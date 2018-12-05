@@ -270,7 +270,7 @@ MonoBehaviour:
     speed: 0
     lifeSpan: 0.7
     damage:
-      amount: 10
+      amount: 45
     healing:
       amount: 0
     owner: {fileID: 0}
@@ -278,6 +278,7 @@ MonoBehaviour:
     dir: {x: 0, y: 0, z: 0}
     dest: {x: 0, y: 0, z: 0}
   m_timer: 0
+  m_maxTimer: 0
   m_hitList: []
   m_minSize: 0.1
   m_maxSize: 5

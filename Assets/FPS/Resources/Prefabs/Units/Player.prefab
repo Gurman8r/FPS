@@ -563,8 +563,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health:
-    m_current: 10
-    m_maximum: 10
+    m_current: 100
+    m_maximum: 100
     m_dead: 0
   m_status:
     m_effect: 0
