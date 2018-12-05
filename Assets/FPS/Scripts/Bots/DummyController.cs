@@ -126,7 +126,7 @@ namespace FPS
                 m_damageTotal = unitEvent.combat.damage.amount;
                 m_damageTime = Time.time;
                 m_damageDuration = 0f;
-                m_damagePerSec = 0f;
+                m_damagePerSec = m_damageTotal;
                 m_hitCount = 1;
             }
             else
