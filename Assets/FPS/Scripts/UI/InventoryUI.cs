@@ -87,7 +87,7 @@ namespace FPS
                     imageAlpha = 1f;
                 }
 
-                if (m_selector && (m_slots != null) && (m_index < m_slots.Length))
+                if (m_selector && (m_slots != null) && (m_index >= 0 && m_index < m_slots.Length))
                 {
                     if(m_slots[m_index].gameObject.activeInHierarchy)
                     {

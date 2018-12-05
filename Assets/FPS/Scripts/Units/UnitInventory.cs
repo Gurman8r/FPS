@@ -87,7 +87,7 @@ namespace FPS
 
         public bool CanAdd(Item item)
         {
-            return !BagContains(item) && (bagList.Count < m_capacity);
+            return !BagContains(item);
         }
 
         public Item GetFromBag(int index)
@@ -107,6 +107,11 @@ namespace FPS
                 return true;
             }
             return false;
+        }
+
+        public bool HasRoom()
+        {
+            return (bagList.Count < m_capacity);
         }
 
 
@@ -131,7 +136,7 @@ namespace FPS
 
         public bool Equip(Hand hand, Item item)
         {
-            if (item && item.SetOwner(unit))
+            if (HasRoom() && item && item.SetOwner(unit))
             {
                 if (CanAdd(item)) AddToBag(item);
 
@@ -182,7 +187,7 @@ namespace FPS
 
         public bool Store(Item item)
         {
-            if (item)
+            if (HasRoom() && item)
             {
                 if (CanAdd(item)) AddToBag(item);
 

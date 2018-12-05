@@ -36,17 +36,22 @@ namespace FPS
         protected override void Start()
         {
             base.Start();
-            m_camera = FindObjectOfType<Camera>();
-            m_damageTotal = 0f;
-            m_text.text = "";
+            
+            if(Application.isPlaying)
+            {
+                m_camera = FindObjectOfType<Camera>();
+                m_damageTotal = 0f;
+                m_text.text = "";
+                m_health.imageAlpha = 0f;
+            }
         }
         protected override void Update()
         {
             base.Update();
 
-            m_format =  "Total Damage:\t\t{0}\n" +
-                        "DPS:\t\t\t\t\t{1}\n" +
+            m_format =  "Damage:\t\t\t\t{0}\n" +
                         "Elapsed:\t\t\t\t{2}s\n" +
+                        "DPS:\t\t\t\t\t{1}\n" +
                         "Hit Count:\t\t\t\t{3}\n" +
                         "In Combat:\t\t\t{4}s";
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace FPS
 {
@@ -76,34 +77,39 @@ namespace FPS
                     camera.cursorLock = !camera.cursorLock;
                 }
 
+                if (camera.cursorLock)
+                {
+                    if (m_input.GetButtonDown("Restart"))
+                    {
+                        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                    }
+
+                    // Move
+                    moveInput = new Vector2(
+                        m_input.GetAxis("Move Horizontal"),
+                        m_input.GetAxis("Move Vertical"));
+
+                    // Sprint
+                    sprintInput = m_input.GetButton("Sprint");
+
+                    // Jump
+                    jumpInput = m_input.GetButtonDown("Jump");
+
+                    // Aim
+                    lookInput = new Vector2(
+                        m_input.GetAxis("Look Horizontal"),
+                        m_input.GetAxis("Look Vertical"));
+                    camera.SetLookDelta(lookInput);
+
+                    UpdateInteraction();
+                    UpdateItemUsage(unit.inventory.primary);
+                    UpdateItemSelection();
+                }
+
                 hud.SetPaused(!camera.cursorLock);
                 hud.SetHealth(unit.health.fillAmount);
                 hud.inventory.RefreshItems(unit.inventory);
                 hud.inventory.index = selectInput;
-
-                if (!camera.cursorLock)
-                    return;
-
-                // Move
-                moveInput = new Vector2(
-                    m_input.GetAxis("Move Horizontal"),
-                    m_input.GetAxis("Move Vertical"));
-
-                // Sprint
-                sprintInput = m_input.GetButton("Sprint");
-
-                // Jump
-                jumpInput = m_input.GetButtonDown("Jump");
-
-                // Aim
-                lookInput = new Vector2(
-                    m_input.GetAxis("Look Horizontal"),
-                    m_input.GetAxis("Look Vertical"));
-                camera.SetLookDelta(lookInput);
-
-                UpdateInteraction();
-                UpdateItemUsage(unit.inventory.primary);
-                UpdateItemSelection();
             }
 
             base.Update();
@@ -160,19 +166,21 @@ namespace FPS
                     Item item;
                     if ((item = m_hit.transform.GetComponent<Item>()) && !item.owner)
                     {
-                        hud.reticle.SetText(string.Format("(E) Take {0}", item.info.name));
-
-                        if (m_input.GetButtonDown("Interact"))
+                        if(unit.inventory.HasRoom())
                         {
-                            if (unit.inventory.primary.item && unit.inventory.Store(item))
+                            hud.reticle.SetText("(E) Take " + item.info.name);
+                            if (m_input.GetButtonDown("Interact"))
                             {
-                                hud.inventory.ShowForSeconds(m_inventoryTime);
-                                hud.textFeed.Print("+" + item.info.name);
-                            }
-                            else if (unit.inventory.Equip(unit.inventory.primary, item))
-                            {
-                                hud.inventory.ShowForSeconds(m_inventoryTime);
-                                hud.textFeed.Print("+" + item.info.name);
+                                if (unit.inventory.primary.item && unit.inventory.Store(item))
+                                {
+                                    hud.inventory.ShowForSeconds(m_inventoryTime);
+                                    hud.textFeed.Print("+" + item.info.name);
+                                }
+                                else if (unit.inventory.Equip(unit.inventory.primary, item))
+                                {
+                                    hud.inventory.ShowForSeconds(m_inventoryTime);
+                                    hud.textFeed.Print("+" + item.info.name);
+                                }
                             }
                         }
                     }
@@ -257,7 +265,10 @@ namespace FPS
                         hud.inventory.ShowForSeconds(m_inventoryTime);
                         hud.textFeed.Print("-" + item.info.name);
 
-                        if(unit.inventory.Equip(hand, selectInput))
+                        if (selectInput >= unit.inventory.count)
+                            selectInput = unit.inventory.count - 1;
+
+                        if (unit.inventory.Equip(hand, selectInput))
                         {
                             return;
                         }
