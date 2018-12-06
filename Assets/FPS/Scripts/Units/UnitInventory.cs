@@ -23,8 +23,8 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         [SerializeField] Hand       m_primary;
         [SerializeField] int        m_capacity = 10;
-        [SerializeField] int        m_bagIndex = 0;
-        [SerializeField] List<Item> m_bagList;
+        [SerializeField] int        m_index = 0;
+        [SerializeField] List<Item> m_list;
         [SerializeField] Transform  m_bagTransform;
 
 
@@ -40,15 +40,15 @@ namespace FPS
             get { return m_capacity; }
         }
 
-        public int bagIndex
+        public int index
         {
-            get { return m_bagIndex; }
-            set { m_bagIndex = value; }
+            get { return m_index; }
+            set { m_index = Mathf.Clamp(value, 0, list.Count - 1); }
         }
 
-        public List<Item> bagList
+        public List<Item> list
         {
-            get { return m_bagList; }
+            get { return m_list; }
         }
 
         public Transform bagTransform
@@ -58,7 +58,7 @@ namespace FPS
 
         public int count
         {
-            get { return m_bagList.Count; }
+            get { return m_list.Count; }
         }
 
 
@@ -83,13 +83,13 @@ namespace FPS
         {
             if (CanAdd(item))
             {
-                bagList.Add(item);
+                list.Add(item);
             }
         }
 
         public bool BagContains(Item item)
         {
-            return item && bagList.Contains(item);
+            return item && list.Contains(item);
         }
 
         public bool CanAdd(Item item)
@@ -99,9 +99,9 @@ namespace FPS
 
         public Item GetFromBag(int index)
         {
-            if (index >= 0 && index < bagList.Count)
+            if (index >= 0 && index < list.Count)
             {
-                return bagList[index];
+                return list[index];
             }
             return null;
         }
@@ -118,7 +118,7 @@ namespace FPS
 
         public bool HasRoom()
         {
-            return (bagList.Count < m_capacity);
+            return (list.Count < m_capacity);
         }
 
 
@@ -128,7 +128,7 @@ namespace FPS
             Item item;
             if((item = hand.item) && item.SetOwner(null))
             {
-                if (BagContains(item)) bagList.Remove(item);
+                if (BagContains(item)) list.Remove(item);
 
                 hand.item = null;
                 item.OnDrop();

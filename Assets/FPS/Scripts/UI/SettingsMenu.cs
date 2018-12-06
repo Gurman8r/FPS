@@ -67,10 +67,10 @@ namespace FPS
 
                 m_screenResolution.options.Add(new Dropdown.OptionData
                 {
-                    text = str.Substring(0, str.IndexOf('@'))
+                    text = str
                 });
             }
-            //m_screenResolution.captionText.text = string.Format("{0} x {1}", Screen.width, Screen.height);
+            m_screenResolution.captionText.text = Screen.currentResolution.ToString();
             m_screenResolution.onValueChanged.RemoveAllListeners();
             m_screenResolution.onValueChanged.AddListener((int value) =>
             {

@@ -34,8 +34,9 @@ namespace FPS
         public int index
         {
             get { return m_index; }
-            set { m_index = value; }
+            set { m_index = Mathf.Clamp(value, 0, m_slots.Length - 1); }
         }
+
 
         /* Core
         * * * * * * * * * * * * * * * */
@@ -87,9 +88,13 @@ namespace FPS
                     imageAlpha = 1f;
                 }
 
-                if (m_selector && (m_slots != null) && (m_index >= 0 && m_index < m_slots.Length))
+                if (m_selector)
                 {
-                    m_selector.transform.position = m_slots[m_index].transform.position;
+                    ItemSlot slot;
+                    if (slot = m_slots[index])
+                    {
+                        m_selector.transform.position = m_slots[index].transform.position;
+                    }
                 }
             }
         }
@@ -99,7 +104,7 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         public void Refresh(UnitInventory inventory)
         {
-            index = inventory.bagIndex;
+            index = inventory.index;
 
             for (int i = 0, imax = m_slots.Length; i < imax; i++)
             {

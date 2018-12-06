@@ -194,15 +194,19 @@ namespace FPS
                             hud.reticle.SetText("(E) Take " + item.info.name);
                             if (m_input.GetButtonDown("Interact"))
                             {
-                                if (unit.inventory.primary.item && unit.inventory.Store(item))
+                                if(unit.inventory.HasRoom())
                                 {
-                                    hud.inventory.ShowForSeconds(m_inventoryTime);
-                                    hud.textFeed.Print("+" + item.info.name);
-                                }
-                                else if (unit.inventory.Equip(unit.inventory.primary, item))
-                                {
-                                    hud.inventory.ShowForSeconds(m_inventoryTime);
-                                    hud.textFeed.Print("+" + item.info.name);
+                                    if (unit.inventory.primary.item && 
+                                        unit.inventory.Store(item))
+                                    {
+                                        hud.inventory.ShowForSeconds(m_inventoryTime);
+                                        hud.textFeed.Print("+" + item.info.name);
+                                    }
+                                    else if (unit.inventory.Equip(unit.inventory.primary, item))
+                                    {
+                                        hud.inventory.ShowForSeconds(m_inventoryTime);
+                                        hud.textFeed.Print("+" + item.info.name);
+                                    }
                                 }
                             }
                         }
@@ -246,13 +250,18 @@ namespace FPS
             {
                 if (Input.GetKeyDown(key))
                 {
-                    unit.inventory.bagIndex = (key == KeyCode.Alpha0)
+                    int index = (key == KeyCode.Alpha0)
                         ? (9)
                         : (8 - Mathf.Abs((int)key - (int)KeyCode.Alpha9));
 
-                    if (!unit.inventory.Equip(unit.inventory.primary, unit.inventory.bagIndex))
+                    if (index >= 0 && index < unit.inventory.list.Count)
                     {
-                        unit.inventory.Store(unit.inventory.primary);
+                        unit.inventory.index = index;
+
+                        if (!unit.inventory.Equip(unit.inventory.primary, unit.inventory.index))
+                        {
+                            unit.inventory.Store(unit.inventory.primary);
+                        }
                     }
 
                     hud.inventory.ShowForSeconds(m_inventoryTime);
@@ -266,18 +275,18 @@ namespace FPS
             {
                 if (scrollInput < 0f)
                 {
-                    unit.inventory.bagIndex = (unit.inventory.bagIndex < unit.inventory.count - 1)
-                        ? (unit.inventory.bagIndex + 1)
+                    unit.inventory.index = (unit.inventory.index < unit.inventory.count - 1)
+                        ? (unit.inventory.index + 1)
                         : (0);
                 }
                 else if (scrollInput > 0f)
                 {
-                    unit.inventory.bagIndex = (unit.inventory.bagIndex > 0)
-                        ? (unit.inventory.bagIndex - 1)
+                    unit.inventory.index = (unit.inventory.index > 0)
+                        ? (unit.inventory.index - 1)
                         : (unit.inventory.count - 1);
                 }
 
-                if (!unit.inventory.Equip(unit.inventory.primary, unit.inventory.bagIndex))
+                if (!unit.inventory.Equip(unit.inventory.primary, unit.inventory.index))
                 {
                     unit.inventory.Store(unit.inventory.primary);
                 }
@@ -310,10 +319,12 @@ namespace FPS
                         hud.inventory.ShowForSeconds(m_inventoryTime);
                         hud.textFeed.Print("-" + item.info.name);
 
-                        if (unit.inventory.bagIndex >= unit.inventory.count)
-                            unit.inventory.bagIndex = unit.inventory.count - 1;
+                        if (unit.inventory.index >= unit.inventory.count)
+                        {
+                            unit.inventory.index = unit.inventory.count - 1;
+                        }
 
-                        if (unit.inventory.Equip(hand, unit.inventory.bagIndex))
+                        if (unit.inventory.Equip(hand, unit.inventory.index))
                         {
                             return;
                         }
@@ -332,7 +343,7 @@ namespace FPS
             {
                 if (m_input.GetButtonDown("Store"))
                 {
-                    if (unit.inventory.Equip(unit.inventory.primary, unit.inventory.bagIndex))
+                    if (unit.inventory.Equip(unit.inventory.primary, unit.inventory.index))
                     {
                         hud.inventory.ShowForSeconds(m_inventoryTime);
                     }
