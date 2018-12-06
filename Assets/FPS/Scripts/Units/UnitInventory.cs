@@ -23,6 +23,7 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         [SerializeField] Hand       m_primary;
         [SerializeField] int        m_capacity = 10;
+        [SerializeField] int        m_bagIndex = 0;
         [SerializeField] List<Item> m_bagList;
         [SerializeField] Transform  m_bagTransform;
 
@@ -37,6 +38,12 @@ namespace FPS
         public int capacity
         {
             get { return m_capacity; }
+        }
+
+        public int bagIndex
+        {
+            get { return m_bagIndex; }
+            set { m_bagIndex = value; }
         }
 
         public List<Item> bagList

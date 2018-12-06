@@ -121,8 +121,8 @@ namespace FPS
                     camera.SetLookDelta(lookInput);
 
                     UpdateInteraction();
-                    UpdateItemUsage(unit.inventory.primary);
                     UpdateItemSelection();
+                    UpdateItemUsage(unit.inventory.primary);
                 }
                 else
                 {
@@ -132,10 +132,7 @@ namespace FPS
                     lookInput = Vector2.zero;
                 }
 
-                hud.SetPaused(!camera.cursorLock);
-                hud.SetHealth(unit.health.fillAmount);
-                hud.inventory.RefreshItems(unit.inventory);
-                hud.inventory.index = selectInput;
+                UpdateHUD();
             }
 
             base.Update();
@@ -219,7 +216,7 @@ namespace FPS
                     {
                         if (wall.isDoor && !wall.isOpen)
                         {
-                            hud.reticle.SetText(string.Format("(E) Open"));
+                            hud.reticle.SetText("(E) Open");
 
                             if (m_input.GetButtonDown("Interact"))
                             {
@@ -242,48 +239,58 @@ namespace FPS
             }
         }
 
+        private void UpdateItemSelection()
+        {
+            // Select Item (0-9)
+            for (KeyCode key = KeyCode.Alpha0; key <= KeyCode.Alpha9; key++)
+            {
+                if (Input.GetKeyDown(key))
+                {
+                    unit.inventory.bagIndex = (key == KeyCode.Alpha0)
+                        ? (9)
+                        : (8 - Mathf.Abs((int)key - (int)KeyCode.Alpha9));
+
+                    if (!unit.inventory.Equip(unit.inventory.primary, unit.inventory.bagIndex))
+                    {
+                        unit.inventory.Store(unit.inventory.primary);
+                    }
+
+                    hud.inventory.ShowForSeconds(m_inventoryTime);
+
+                    break;
+                }
+            }
+
+            // Scroll m_input
+            if ((scrollInput = m_input.GetAxis("Select Scroll")) != 0f)
+            {
+                if (scrollInput < 0f)
+                {
+                    unit.inventory.bagIndex = (unit.inventory.bagIndex < unit.inventory.count - 1)
+                        ? (unit.inventory.bagIndex + 1)
+                        : (0);
+                }
+                else if (scrollInput > 0f)
+                {
+                    unit.inventory.bagIndex = (unit.inventory.bagIndex > 0)
+                        ? (unit.inventory.bagIndex - 1)
+                        : (unit.inventory.count - 1);
+                }
+
+                if (!unit.inventory.Equip(unit.inventory.primary, unit.inventory.bagIndex))
+                {
+                    unit.inventory.Store(unit.inventory.primary);
+                }
+
+                hud.inventory.ShowForSeconds(m_inventoryTime);
+            }
+        }
+
         private void UpdateItemUsage(UnitInventory.Hand hand)
         {
             Item item;
             if (item = hand.item)
             {
-                WeaponBase weapon;
-                if ((weapon = item as WeaponBase))
-                {
-                    hud.reticle.SetFill(weapon.isReloading 
-                        ? weapon.reloadDelta 
-                        : weapon.shotDelta);
-
-                    hud.SetAmmo(weapon.ammoDelta);
-
-                    if(m_input.GetButtonDown("Reload"))
-                    {
-                        weapon.Reload();
-                    }
-
-                    if(weapon.isReloading)
-                    {
-                        hud.reticle.SetText("Reloading");
-                    }
-
-                    GunBase gun;
-                    if(gun = weapon as GunBase)
-                    {
-                        hud.reticle.SetSize(
-                            hud.reticle.originalSize +
-                            (hud.reticle.originalSize * gun.bulletSpread / 2f));
-                    }
-                    else
-                    {
-                        hud.reticle.ResetSize();
-                    }
-                }
-                else
-                {
-                    hud.reticle.SetFill(0f);
-                    hud.SetAmmo(0f);
-                }
-
                 item.transform.localPosition = item.holdPos.localPosition;
 
                 m_fire0.press = m_input.GetButtonDown("Fire0");
@@ -303,10 +310,10 @@ namespace FPS
                         hud.inventory.ShowForSeconds(m_inventoryTime);
                         hud.textFeed.Print("-" + item.info.name);
 
-                        if (selectInput >= unit.inventory.count)
-                            selectInput = unit.inventory.count - 1;
+                        if (unit.inventory.bagIndex >= unit.inventory.count)
+                            unit.inventory.bagIndex = unit.inventory.count - 1;
 
-                        if (unit.inventory.Equip(hand, selectInput))
+                        if (unit.inventory.Equip(hand, unit.inventory.bagIndex))
                         {
                             return;
                         }
@@ -323,13 +330,9 @@ namespace FPS
             }
             else
             {
-                hud.reticle.ResetSize();
-                hud.reticle.SetFill(1f);
-                hud.SetAmmo(-1f);
-
                 if (m_input.GetButtonDown("Store"))
                 {
-                    if (unit.inventory.Equip(unit.inventory.primary, selectInput))
+                    if (unit.inventory.Equip(unit.inventory.primary, unit.inventory.bagIndex))
                     {
                         hud.inventory.ShowForSeconds(m_inventoryTime);
                     }
@@ -337,51 +340,65 @@ namespace FPS
             }
         }
 
-        private void UpdateItemSelection()
+        private void UpdateHUD()
         {
-            // Select Item (0-9)
-            for (KeyCode key = KeyCode.Alpha0; key <= KeyCode.Alpha9; key++)
+            Item item;
+            if (item = unit.inventory.primary.item)
             {
-                if (Input.GetKeyDown(key))
+                WeaponBase weapon;
+                if ((weapon = item as WeaponBase))
                 {
-                    selectInput = (key == KeyCode.Alpha0)
-                        ? (9)
-                        : (8 - Mathf.Abs((int)key - (int)KeyCode.Alpha9));
+                    hud.reticle.SetFill(weapon.isReloading
+                        ? weapon.reloadDelta
+                        : weapon.shotDelta);
 
-                    if (!unit.inventory.Equip(unit.inventory.primary, selectInput))
+                    hud.SetAmmo(weapon.ammoDelta);
+
+                    if (m_input.GetButtonDown("Reload"))
                     {
-                        unit.inventory.Store(unit.inventory.primary);
+                        weapon.Reload();
                     }
 
-                    hud.inventory.ShowForSeconds(m_inventoryTime);
+                    if (weapon.isReloading)
+                    {
+                        hud.reticle.SetText("Reloading");
+                    }
 
-                    break;
+                    GunBase gun;
+                    if (gun = weapon as GunBase)
+                    {
+                        hud.reticle.sizeDelta = Vector2.Lerp(
+                            hud.reticle.sizeDelta,
+                            hud.reticle.originalSize + (hud.reticle.originalSize * gun.bulletSpread / 2f),
+                            Time.deltaTime * 10f);
+                    }
+                    else
+                    {
+                        hud.reticle.sizeDelta = Vector2.Lerp(
+                            hud.reticle.sizeDelta,
+                            hud.reticle.originalSize,
+                            Time.deltaTime * 10f);
+                    }
+                }
+                else
+                {
+                    hud.reticle.SetFill(0f);
+                    hud.SetAmmo(0f);
                 }
             }
-
-            // Scroll m_input
-            if ((scrollInput = m_input.GetAxis("Select Scroll")) != 0f)
+            else
             {
-                if (scrollInput < 0f)
-                {
-                    selectInput = (selectInput < unit.inventory.count - 1)
-                        ? (selectInput + 1)
-                        : (0);
-                }
-                else if (scrollInput > 0f)
-                {
-                    selectInput = (selectInput > 0)
-                        ? (selectInput - 1)
-                        : (unit.inventory.count - 1);
-                }
-
-                if (!unit.inventory.Equip(unit.inventory.primary, selectInput))
-                {
-                    unit.inventory.Store(unit.inventory.primary);
-                }
-
-                hud.inventory.ShowForSeconds(m_inventoryTime);
+                hud.reticle.sizeDelta = Vector2.Lerp(
+                    hud.reticle.sizeDelta,
+                    hud.reticle.originalSize,
+                    Time.deltaTime * 10f);
+                hud.reticle.SetFill(1f);
+                hud.SetAmmo(-1f);
             }
+
+            hud.SetPaused(!camera.cursorLock);
+            hud.SetHealth(unit.health.fillAmount);
+            hud.inventory.Refresh(unit.inventory);
         }
 
 

@@ -34,6 +34,12 @@ namespace FPS
             private set { m_originalSize = value; }
         }
 
+        public Vector2 sizeDelta
+        {
+            get { return m_fill.rectTransform.sizeDelta; }
+            set { m_fill.rectTransform.sizeDelta = value; }
+        }
+
 
         /* Functions
         * * * * * * * * * * * * * * * */
@@ -75,16 +81,6 @@ namespace FPS
             {
                 m_text.text = value;
             }
-        }
-
-        public void ResetSize()
-        {
-            SetSize(originalSize);
-        }
-
-        public void SetSize(Vector2 value)
-        {
-            m_fill.rectTransform.sizeDelta = value;
         }
     }
 }

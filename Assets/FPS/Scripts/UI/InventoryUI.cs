@@ -89,16 +89,7 @@ namespace FPS
 
                 if (m_selector && (m_slots != null) && (m_index >= 0 && m_index < m_slots.Length))
                 {
-                    if(m_slots[m_index].gameObject.activeInHierarchy)
-                    {
-                        m_selector.gameObject.SetActive(true);
-
-                        m_selector.transform.position = m_slots[m_index].transform.position;
-                    }
-                    else
-                    {
-                        m_selector.gameObject.SetActive(false);
-                    }
+                    m_selector.transform.position = m_slots[m_index].transform.position;
                 }
             }
         }
@@ -106,12 +97,14 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public void RefreshItems(UnitInventory playerInventory)
+        public void Refresh(UnitInventory inventory)
         {
-            for(int i = 0, imax = m_slots.Length; i < imax; i++)
+            index = inventory.bagIndex;
+
+            for (int i = 0, imax = m_slots.Length; i < imax; i++)
             {
                 Item item;
-                if(playerInventory.GetFromBag(i, out item))
+                if(inventory.GetFromBag(i, out item))
                 {
                     m_slots[i].gameObject.SetActive(true);
                     m_slots[i].Refresh(item);

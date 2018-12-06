@@ -26,7 +26,6 @@ namespace FPS
         [SerializeField] bool       m_sprintInput;
         [SerializeField] Vector2    m_lookInput;
         [SerializeField] float      m_scrollInput;
-        [SerializeField] int        m_selectInput = 0;
         [SerializeField] bool       m_jumpInput;
 
 
@@ -91,12 +90,6 @@ namespace FPS
         {
             get { return m_scrollInput; }
             protected set { m_scrollInput = value; }
-        }
-
-        public int selectInput
-        {
-            get { return m_selectInput; }
-            protected set { m_selectInput = value; }
         }
 
         public bool jumpInput

@@ -56,19 +56,21 @@ namespace FPS
 
             // Screen Resolution
             m_screenResolution.options.Clear();
-            Resolution currentRes = Screen.currentResolution;
             for (int i = 0; i < Screen.resolutions.Length; i++)
             {
-                Resolution r = Screen.resolutions[i];
+                string str = Screen.resolutions[i].ToString();
 
-                m_screenResolution.options.Add(new Dropdown.OptionData { text = r.ToString() });
-
-                if (r.ToString() == Screen.currentResolution.ToString())
+                if (str == Screen.currentResolution.ToString())
                 {
                     m_screenResolution.value = i;
                 }
+
+                m_screenResolution.options.Add(new Dropdown.OptionData
+                {
+                    text = str.Substring(0, str.IndexOf('@'))
+                });
             }
-            m_screenResolution.captionText.text = m_screenResolution.options[m_screenResolution.value].text;
+            //m_screenResolution.captionText.text = string.Format("{0} x {1}", Screen.width, Screen.height);
             m_screenResolution.onValueChanged.RemoveAllListeners();
             m_screenResolution.onValueChanged.AddListener((int value) =>
             {
