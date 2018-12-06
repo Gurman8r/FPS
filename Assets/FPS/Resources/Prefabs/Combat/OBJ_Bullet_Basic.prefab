@@ -305,10 +305,10 @@ MonoBehaviour:
   m_data:
     solidLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 512
     unitLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 1024
     speed: 0
     lifeSpan: 0
     damage:
@@ -321,7 +321,7 @@ MonoBehaviour:
     dest: {x: 0, y: 0, z: 0}
   m_timer: 0
   m_maxTimer: 0
-  m_hitList: []
+  m_hitUnits: []
   m_minMass: 0.0001
   m_maxMass: 1
   m_curMass: 0.5
@@ -331,7 +331,7 @@ MonoBehaviour:
   m_maxScale: {x: 2, y: 2, z: 2}
   m_randomScale: 0
   m_uniformScale: 1
-  m_check: []
+  m_hitColliders: []
   m_checkSphereRadius: 0.2
   m_checkRaycastRadius: 2
   m_checkUpdate: 1

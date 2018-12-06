@@ -279,10 +279,10 @@ MonoBehaviour:
   m_data:
     solidLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 512
     unitLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 1024
     speed: 0
     lifeSpan: 0.7
     damage:
@@ -295,7 +295,7 @@ MonoBehaviour:
     dest: {x: 0, y: 0, z: 0}
   m_timer: 0
   m_maxTimer: 0
-  m_hitList: []
+  m_hitUnits: []
   m_minSize: 0.1
   m_maxSize: 5
   m_curSize: 0

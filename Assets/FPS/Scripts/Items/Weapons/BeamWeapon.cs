@@ -4,14 +4,16 @@ using UnityEngine;
 
 namespace FPS
 {
-    public class BeamWeapon : WeaponBase
+    public class BeamWeapon : GunBase
     {
         /* Variables
         * * * * * * * * * * * * * * * */
         [Header("Beam Settings")]
         [SerializeField] BeamObject m_beamPrefab;
-        [SerializeField] float      m_beamWidth    = 0.1f;
-        [SerializeField] float      m_beamPen = 0f;
+        [SerializeField] float      m_beamWidth     = 0.1f;
+        [SerializeField] float      m_beamRange     = 100f;
+        [Range(0f, 2f)]
+        [SerializeField] float      m_spreadFactor  = 1f;
 
 
         /* Properties
@@ -27,31 +29,7 @@ namespace FPS
             get { return m_beamWidth; }
             set { m_beamWidth = value; }
         }
-
-        public float beamPen
-        {
-            get { return m_beamPen; }
-            set { m_beamPen = value; }
-        }
-
-
-        /* Core
-        * * * * * * * * * * * * * * * */
-        protected override void Start()
-        {
-            base.Start();
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-
-            if (Application.isPlaying)
-            {
-                UpdateCooldown();
-            }
-        }
-
+        
 
         /* Functions
         * * * * * * * * * * * * * * * */
@@ -74,7 +52,8 @@ namespace FPS
 
         public override void UpdateSecondary(InputState input)
         {
-            animator.SetBool("AimDownSights", !isReloading && input.hold);
+            if(allowAds)
+                animator.SetBool("AimDownSights", !isReloading && input.hold);
         }
 
 
@@ -103,8 +82,11 @@ namespace FPS
 
                 data.owner = owner;
                 data.pos = firePos.position;
-                data.dir = firePos.forward;
-                data.dest = lookingAt + (firePos.forward * beamPen);
+                data.dir = (lookingAt - data.pos).normalized;
+                data.dest = 
+                    (data.pos) + 
+                    (data.dir * m_beamRange) + 
+                    (GetBulletSpread() * m_spreadFactor);
 
                 if (beamWidth > 0f) { obj.width = beamWidth; }
 

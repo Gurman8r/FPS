@@ -600,13 +600,11 @@ MonoBehaviour:
   m_firePos: {fileID: 4616363055248110}
   m_fireMode: 1
   m_fireDelay: 1
-  m_minRange: 0
-  m_maxRange: 100
   m_maxAmmo: 12
   m_reloadDelay: 3
   m_fixedReload: 1
   m_autoReload: 1
-  m_reticleOn: 0
+  m_staticReticle: 0
   m_objectData:
     solidLayer:
       serializedVersion: 2
@@ -630,8 +628,11 @@ MonoBehaviour:
   m_curAmmo: 0
   m_isReloading: 0
   m_reloadTimer: 0
-  m_bulletPrefab: {fileID: 114821140140099020, guid: 87a00187ec14b8241bdea351d0400d1f,
-    type: 2}
   m_bulletCount: 3
   m_bulletDelay: 0.1
-  m_bulletSpread: 0.25
+  m_allowAds: 1
+  m_hipSpread: 3
+  m_adsSpread: 0.1
+  m_bulletSpread: 0
+  m_bulletPrefab: {fileID: 114821140140099020, guid: 87a00187ec14b8241bdea351d0400d1f,
+    type: 2}

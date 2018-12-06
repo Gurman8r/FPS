@@ -4,15 +4,12 @@ using UnityEngine;
 
 namespace FPS
 {
-    public class BulletWeapon : WeaponBase
+    public class BulletWeapon : GunBase
     {
         /* Variables
         * * * * * * * * * * * * * * * */
         [Header("Bullet Settings")]
-        [SerializeField] BulletObject   m_bulletPrefab;         // Prefab to spawn
-        [SerializeField] int            m_bulletCount   = 1;    // Bullets per shot
-        [SerializeField] float          m_bulletDelay   = 0.1f; // Delay between bullets
-        [SerializeField] float          m_bulletSpread  = 0.1f; // Bullet Spread/Bloom
+        [SerializeField] BulletObject   m_bulletPrefab;
 
 
         /* Properties
@@ -23,74 +20,30 @@ namespace FPS
             set { m_bulletPrefab = value; }
         }
 
-        public int bulletCount
-        {
-            get { return m_bulletCount; }
-            set { m_bulletCount = value; }
-        }
-
-        public float bulletDelay
-        {
-            get { return m_bulletDelay; }
-            set { m_bulletDelay = value; }
-        }
-
-        public float bulletSpread
-        {
-            get { return m_bulletSpread; }
-            set { m_bulletSpread = value; }
-        }
-
-
-        /* Core
-        * * * * * * * * * * * * * * * */
-        protected override void Start()
-        {
-            base.Start();
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-
-            if(Application.isPlaying)
-            {
-                UpdateCooldown();
-            }
-        }
-
-        protected override void OnDrawGizmos()
-        {
-            base.OnDrawGizmos();
-        }
-
 
         /* Functions
         * * * * * * * * * * * * * * * */
         public override void UpdatePrimary(InputState input)
         {
-            bool button = false;
+            //bulletSpread = m_hipSpread;
 
             switch (fireMode)
             {
             case FireMode.SingleShot:
-                button = input.press;
-                break;
-            case FireMode.Continuous:
-                button = input.hold;
-                break;
-            }
-
-            if(button)
-            {
+            if(input.press)
                 Shoot();
+            break;
+            case FireMode.Continuous:
+            if(input.hold)
+                Shoot();
+            break;
             }
         }
 
         public override void UpdateSecondary(InputState input)
         {
-            // ADS
-            animator.SetBool("AimDownSights", !isReloading && input.hold);
+            if(allowAds)
+                animator.SetBool("AimDownSights", !isReloading && input.hold);
         }
 
         protected override IEnumerator ShootCoroutine()
@@ -140,17 +93,9 @@ namespace FPS
             return null;
         }
 
-        private Vector3 GetBulletSpread()
-        {
-            if (bulletSpread != 0f)
-            {
-                return new Vector3(
-                    UnityEngine.Random.Range(-bulletSpread, bulletSpread),
-                    UnityEngine.Random.Range(-bulletSpread, bulletSpread),
-                    UnityEngine.Random.Range(-bulletSpread, bulletSpread));
-            }
-            return Vector3.zero;
-        }
+        
+
+        
     }
 
 }

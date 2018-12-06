@@ -555,8 +555,11 @@ MonoBehaviour:
   m_curAmmo: 0
   m_isReloading: 0
   m_reloadTimer: 0
-  m_bulletPrefab: {fileID: 114821140140099020, guid: 87a00187ec14b8241bdea351d0400d1f,
-    type: 2}
   m_bulletCount: 1
   m_bulletDelay: 0
-  m_bulletSpread: 2
+  m_allowAds: 1
+  m_hipSpread: 4
+  m_adsSpread: 1
+  m_bulletSpread: 0
+  m_bulletPrefab: {fileID: 114821140140099020, guid: 87a00187ec14b8241bdea351d0400d1f,
+    type: 2}

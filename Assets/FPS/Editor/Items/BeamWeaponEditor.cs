@@ -28,7 +28,7 @@ namespace FPS
             {
                 target.beamPrefab = EditorGUILayout.ObjectField("Beam Prefab", target.beamPrefab, typeof(BeamObject), true) as BeamObject;
                 target.beamWidth = EditorGUILayout.FloatField("Beam Width", target.beamWidth);
-                target.beamPen = EditorGUILayout.FloatField("Beam Pen", target.beamPen);
+                //target.beamPen = EditorGUILayout.FloatField("Beam Pen", target.beamPen);
             }
             EditorGUI.indentLevel--;
             EditorGUILayout.EndVertical();

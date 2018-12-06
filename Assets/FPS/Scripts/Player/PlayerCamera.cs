@@ -114,6 +114,12 @@ namespace FPS
 
             if (Application.isPlaying)
             {
+                GameSettings gs;
+                if (gs = GameSettings.instance)
+                {
+                    lookSensitivity = new Vector2(gs.lookSensitivityX, gs.lookSensitivityY);
+                }
+
                 Cursor.lockState = cursorLock ? CursorLockMode.Locked : CursorLockMode.None;
 
                 Cursor.visible = !cursorLock;

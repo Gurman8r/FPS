@@ -279,10 +279,10 @@ MonoBehaviour:
   m_data:
     solidLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 512
     unitLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 1024
     speed: 0
     lifeSpan: 0
     damage:
@@ -294,7 +294,8 @@ MonoBehaviour:
     dir: {x: 0, y: 0, z: 0}
     dest: {x: 0, y: 0, z: 0}
   m_timer: 0
-  m_hitList: []
+  m_maxTimer: 0
+  m_hitUnits: []
   m_minMass: 0.0001
   m_maxMass: 0.1
   m_curMass: 0.5
@@ -304,8 +305,8 @@ MonoBehaviour:
   m_maxScale: {x: 0.2, y: 0.2, z: 0.2}
   m_randomScale: 1
   m_uniformScale: 1
-  m_check: []
-  m_checkSphereRadius: 0.2
+  m_hitColliders: []
+  m_checkSphereRadius: 0.5
   m_checkRaycastRadius: 2
   m_checkUpdate: 1
   m_checkFixedUpdate: 1
@@ -340,7 +341,7 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1402926519430590}
   m_Material: {fileID: 13400000, guid: 0baf115bb02f39f4c880abbe76615774, type: 2}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5

@@ -9,6 +9,7 @@ namespace FPS
     [ExecuteInEditMode]
     public class PlayerController : UnitController
         , IDamageSource
+        , IDamageTarget
     {
         /* Variables
         * * * * * * * * * * * * * * * */
@@ -265,12 +266,12 @@ namespace FPS
                         hud.reticle.SetText("Reloading");
                     }
 
-                    BulletWeapon bulletWeapon;
-                    if(bulletWeapon = weapon as BulletWeapon)
+                    GunBase gun;
+                    if(gun = weapon as GunBase)
                     {
                         hud.reticle.SetSize(
                             hud.reticle.originalSize +
-                            (hud.reticle.originalSize * bulletWeapon.bulletSpread / 2f));
+                            (hud.reticle.originalSize * gun.bulletSpread / 2f));
                     }
                     else
                     {
@@ -323,7 +324,7 @@ namespace FPS
             else
             {
                 hud.reticle.ResetSize();
-                hud.reticle.SetFill(0f);
+                hud.reticle.SetFill(1f);
                 hud.SetAmmo(-1f);
 
                 if (m_input.GetButtonDown("Store"))
@@ -389,6 +390,11 @@ namespace FPS
         public void OnDoDamage(UnitEvent unitEvent)
         {
             hud.reticle.ShowHitmaker();
+        }
+
+        public void OnRecieveDamage(UnitEvent unitEvent)
+        {
+            hud.ShowTakeDamage();
         }
     }
 }

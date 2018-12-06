@@ -21,6 +21,11 @@ namespace FPS
         [SerializeField] TextFeed       m_textFeed;
         [SerializeField] HealthBar      m_ammoBar;
         [SerializeField] RectTransform  m_pauseMenu;
+        [Space]
+        [SerializeField] Image          m_damage;
+        [SerializeField] float          m_damageValue = 0.25f;
+        [SerializeField] float          m_damageTimer = 0f;
+        [SerializeField] float          m_damageSpeed = 1f;
 
         [Header("Runtime")]
         [SerializeField] bool m_isPaused;
@@ -80,7 +85,22 @@ namespace FPS
 
         private void Update()
         {
-            if(!Application.isPlaying)
+            if (m_damage)
+            {
+                if(Application.isPlaying)
+                {
+                    if (m_damageTimer > 0f)
+                    {
+                        m_damageTimer -= Time.deltaTime * m_damageSpeed;
+                    }
+                }
+
+                Color c = m_damage.color;
+                c.a = m_damageTimer;
+                m_damage.color = c;
+            }
+
+            if (!Application.isPlaying)
             {
                 SetPaused(m_isPaused);
             }
@@ -143,6 +163,14 @@ namespace FPS
                     m_reticle.transform.position,
                     value,
                     speed);
+            }
+        }
+
+        public void ShowTakeDamage()
+        {
+            if(m_damage)
+            {
+                m_damageTimer = m_damageValue;
             }
         }
 

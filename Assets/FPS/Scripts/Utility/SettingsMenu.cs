@@ -10,9 +10,11 @@ namespace FPS
     {
         /* Variables
         * * * * * * * * * * * * * * * */
-        [SerializeField] Slider m_masterVolumeSlider;
-        [SerializeField] Slider m_soundVolumeSlider;
-        [SerializeField] Slider m_musicVolumeSlider;
+        [SerializeField] Slider m_masterVolume;
+        [SerializeField] Slider m_soundVolume;
+        [SerializeField] Slider m_musicVolume;
+        [SerializeField] Slider m_lookSensitivityX;
+        [SerializeField] Slider m_lookSensitivityY;
 
         /* Properties
         * * * * * * * * * * * * * * * */
@@ -23,10 +25,6 @@ namespace FPS
         {
             if(Application.isPlaying)
             {
-                m_masterVolumeSlider.onValueChanged.RemoveAllListeners();
-                m_soundVolumeSlider.onValueChanged.RemoveAllListeners();
-                m_musicVolumeSlider.onValueChanged.RemoveAllListeners();
-
                 GameSettings gs;
                 if (!(gs = GameSettings.instance))
                 {
@@ -34,23 +32,39 @@ namespace FPS
                     return;
                 }
 
-                m_masterVolumeSlider.value = gs.masterVolume;
-                m_soundVolumeSlider.value = gs.soundVolume;
-                m_musicVolumeSlider.value = gs.musicVolume;
-
-                m_masterVolumeSlider.onValueChanged.AddListener((float value) =>
+                m_masterVolume.value = gs.masterVolume;
+                m_masterVolume.onValueChanged.RemoveAllListeners();
+                m_masterVolume.onValueChanged.AddListener((float value) =>
                 {
-                    gs.SetMasterVolume(m_masterVolumeSlider.value);
+                    gs.masterVolume = m_masterVolume.value;
                 });
 
-                m_soundVolumeSlider.onValueChanged.AddListener((float value) =>
+                m_soundVolume.value = gs.soundVolume;
+                m_soundVolume.onValueChanged.RemoveAllListeners();
+                m_soundVolume.onValueChanged.AddListener((float value) =>
                 {
-                    gs.SetSoundVolume(m_soundVolumeSlider.value);
+                    gs.soundVolume = m_soundVolume.value;
                 });
 
-                m_musicVolumeSlider.onValueChanged.AddListener((float value) =>
+                m_musicVolume.value = gs.musicVolume;
+                m_musicVolume.onValueChanged.RemoveAllListeners();
+                m_musicVolume.onValueChanged.AddListener((float value) =>
                 {
-                    gs.SetMusicVolume(m_musicVolumeSlider.value);
+                    gs.musicVolume = m_musicVolume.value;
+                });
+
+                m_lookSensitivityX.value = gs.lookSensitivityX;
+                m_lookSensitivityX.onValueChanged.RemoveAllListeners();
+                m_lookSensitivityX.onValueChanged.AddListener((float value) =>
+                {
+                    gs.lookSensitivityX = m_lookSensitivityX.value;
+                });
+
+                m_lookSensitivityY.value = gs.lookSensitivityY;
+                m_lookSensitivityY.onValueChanged.RemoveAllListeners();
+                m_lookSensitivityY.onValueChanged.AddListener((float value) =>
+                {
+                    gs.lookSensitivityY = m_lookSensitivityY.value;
                 });
             }
         }
