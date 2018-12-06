@@ -527,13 +527,11 @@ MonoBehaviour:
   m_firePos: {fileID: 4403656938081546}
   m_fireMode: 1
   m_fireDelay: 0.05
-  m_minRange: 0
-  m_maxRange: 100
   m_maxAmmo: 100
   m_reloadDelay: 5
   m_fixedReload: 0
   m_autoReload: 1
-  m_reticleOn: 1
+  m_staticReticle: 1
   m_objectData:
     solidLayer:
       serializedVersion: 2

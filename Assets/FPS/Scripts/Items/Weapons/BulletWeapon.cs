@@ -59,6 +59,11 @@ namespace FPS
             }
         }
 
+        protected override void OnDrawGizmos()
+        {
+            base.OnDrawGizmos();
+        }
+
 
         /* Functions
         * * * * * * * * * * * * * * * */

@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace FPS
 {
+    [RequireComponent(typeof(AudioSource))]
+    [RequireComponent(typeof(Collider))]
+    [RequireComponent(typeof(Rigidbody))]
     [ExecuteInEditMode]
     public abstract class CombatObject : MonoBehaviour
     {
@@ -11,6 +14,10 @@ namespace FPS
 
         /* Variables
         * * * * * * * * * * * * * * * */
+        private AudioSource m_audio;
+        private Collider    m_collider;
+        private Rigidbody   m_rigidbody;
+
         [Header("Object Settings")]
         [SerializeField] bool       m_active;
         [SerializeField] ObjectData m_data;
@@ -18,11 +25,47 @@ namespace FPS
         [Header("Object Runtime")]
         [SerializeField] float      m_timer;
         [SerializeField] float      m_maxTimer;
-        [SerializeField] List<Unit> m_hitList;
+        [SerializeField] List<Unit> m_hitUnits;
 
 
         /* Properties
         * * * * * * * * * * * * * * * */
+        public new AudioSource audio
+        {
+            get
+            {
+                if(!m_audio)
+                {
+                    m_audio = GetComponent<AudioSource>();
+                }
+                return m_audio;
+            }
+        }
+
+        public new Collider collider
+        {
+            get
+            {
+                if(!m_collider)
+                {
+                    m_collider = GetComponent<Collider>();
+                }
+                return m_collider;
+            }
+        }
+
+        public new Rigidbody rigidbody
+        {
+            get
+            {
+                if(!m_rigidbody)
+                {
+                    m_rigidbody = GetComponent<Rigidbody>();
+                }
+                return m_rigidbody;
+            }
+        }
+        
         public bool active
         {
             get { return m_active; }
@@ -47,9 +90,9 @@ namespace FPS
             protected set { m_maxTimer = value; }
         }
 
-        public List<Unit> hitList
+        public List<Unit> hitUnits
         {
-            get { return m_hitList; }
+            get { return m_hitUnits; }
         }
 
 
@@ -60,6 +103,12 @@ namespace FPS
             if(Application.isPlaying)
             {
                 if (gameObject.tag != Tag) gameObject.tag = Tag;
+
+                GameSettings gs;
+                if(gs = GameSettings.instance)
+                {
+                    audio.volume = gs.masterVolume * gs.soundVolume;
+                }
             }
         }
 
@@ -87,9 +136,9 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         protected bool AddHit(Unit other)
         {
-            if (other && !hitList.Contains(other))
+            if (other && !hitUnits.Contains(other))
             {
-                hitList.Add(other);
+                hitUnits.Add(other);
                 return true;
             }
             return false;

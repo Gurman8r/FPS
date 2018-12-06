@@ -153,7 +153,14 @@ namespace FPS
 
         protected virtual void Update()
         {
-
+            if(Application.isPlaying)
+            {
+                GameSettings gs;
+                if (gs = GameSettings.instance)
+                {
+                    audio.volume = gs.masterVolume * gs.soundVolume;
+                }
+            }
         }
 
         protected virtual void OnDrawGizmos()

@@ -31,8 +31,6 @@ namespace FPS
                 target.firePos = EditorGUILayout.ObjectField("Fire Position", target.firePos, typeof(Transform), true) as Transform;
                 target.fireMode = (WeaponBase.FireMode)EditorGUILayout.EnumPopup("Fire Mode", target.fireMode);
                 target.fireDelay = EditorGUILayout.FloatField("Fire Delay", target.fireDelay);
-                target.minRange = EditorGUILayout.FloatField("Min Range", target.minRange);
-                target.maxRange = EditorGUILayout.FloatField("Max Range", target.maxRange);
             }
             EditorGUI.indentLevel--;
             EditorGUILayout.EndVertical();

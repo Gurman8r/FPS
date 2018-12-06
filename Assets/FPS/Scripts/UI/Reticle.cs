@@ -9,9 +9,31 @@ namespace FPS
     {
         /* Variables
         * * * * * * * * * * * * * * * */
+        [Header("Settings")]
         [SerializeField] HealthBar  m_fill;
         [SerializeField] Hitmarker  m_hitmarker;
         [SerializeField] Text       m_text;
+
+        [Header("Runtime")]
+        [SerializeField] Vector2    m_originalSize;
+
+
+        /* Core
+        * * * * * * * * * * * * * * * */
+        private void Start()
+        {
+            originalSize = m_fill.rectTransform.sizeDelta;
+        }
+
+
+        /* Properties
+        * * * * * * * * * * * * * * * */
+        public Vector2 originalSize
+        {
+            get { return m_originalSize; }
+            private set { m_originalSize = value; }
+        }
+
 
         /* Functions
         * * * * * * * * * * * * * * * */
@@ -53,6 +75,16 @@ namespace FPS
             {
                 m_text.text = value;
             }
+        }
+
+        public void ResetSize()
+        {
+            SetSize(originalSize);
+        }
+
+        public void SetSize(Vector2 value)
+        {
+            m_fill.rectTransform.sizeDelta = value;
         }
     }
 }

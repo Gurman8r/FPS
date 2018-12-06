@@ -9,8 +9,6 @@ namespace FPS
     {
         /* Variables
         * * * * * * * * * * * * * * * */
-        private SphereCollider m_collider;
-
         [Header("Explosion Settings")]
         [SerializeField] float m_minSize = 1f;
         [SerializeField] float m_maxSize = 10f;
@@ -21,17 +19,6 @@ namespace FPS
 
         /* Properties
         * * * * * * * * * * * * * * * */
-        public new SphereCollider collider
-        {
-            get
-            {
-                if(!m_collider)
-                {
-                    m_collider = GetComponent<SphereCollider>();
-                }
-                return m_collider;
-            }
-        }
 
 
         /* Core

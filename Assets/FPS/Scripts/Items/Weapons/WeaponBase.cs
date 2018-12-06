@@ -22,14 +22,12 @@ namespace FPS
         [SerializeField] Transform  m_firePos;
         [SerializeField] FireMode   m_fireMode      = FireMode.SingleShot;
         [SerializeField] float      m_fireDelay     = 1f;
-        [SerializeField] float      m_minRange      = 0f;
-        [SerializeField] float      m_maxRange      = 100;
         [Space]
         [SerializeField] int        m_maxAmmo       = 0;
         [SerializeField] float      m_reloadDelay   = 2.5f;
         [SerializeField] bool       m_fixedReload   = true;
         [SerializeField] bool       m_autoReload    = true;
-        [SerializeField] bool       m_reticleOn     = false;
+        [SerializeField] bool       m_staticReticle = false;
         [Space]
         [SerializeField] ObjectData m_objectData;
 
@@ -61,21 +59,9 @@ namespace FPS
             set { m_fireDelay = value; }
         }
 
-        public float minRange
+        public bool staticReticle
         {
-            get { return m_minRange; }
-            set { m_minRange = value; }
-        }
-
-        public float maxRange
-        {
-            get { return m_maxRange; }
-            set { m_maxRange = value; }
-        }
-
-        public bool alwaysOn
-        {
-            get { return m_reticleOn; }
+            get { return m_staticReticle; }
         }
 
         public int maxAmmo
@@ -143,7 +129,7 @@ namespace FPS
             {
                 return (isReloading)
                     ? 0f
-                    : (alwaysOn)
+                    : (staticReticle)
                         ? (1f)
                         : (fireDelay > 0f)
                             ? (!canShoot)
@@ -202,26 +188,17 @@ namespace FPS
 
         protected override void Update()
         {
+            base.Update();
+
             if (Application.isPlaying)
             {
                 if (owner)
                 {
                     lookingAt = owner.vision.lookingAt;
 
-                    if (minRange > 0f)
+                    if(isReloading)
                     {
-                        float distA = Vector3.Distance(
-                            firePos.position,
-                            owner.vision.lookingAt);
-
-                        float distB = Vector3.Distance(
-                            firePos.position,
-                            firePos.position + (transform.forward * minRange));
-
-                        if (distA < distB)
-                        {
-                            lookingAt = firePos.position + (transform.forward * minRange);
-                        }
+                        lookingAt = firePos.position + transform.forward;
                     }
 
                     firePos.LookAt(lookingAt);
@@ -244,17 +221,6 @@ namespace FPS
             {
                 Gizmos.color = Color.red;
                 Gizmos.DrawWireSphere(firePos.position, 0.1f);
-
-                if(minRange > 0f)
-                {
-                    Gizmos.color = Color.cyan;
-                    Gizmos.DrawRay(firePos.position, transform.forward * minRange);
-                    Gizmos.DrawWireSphere(firePos.position + (transform.forward * minRange), 0.05f);
-
-                    Gizmos.color = Color.green;
-                    Gizmos.DrawRay(firePos.position, firePos.forward * minRange);
-                    Gizmos.DrawWireSphere(firePos.position + (firePos.forward * minRange), 0.05f);
-                }
 
                 if (owner)
                 {

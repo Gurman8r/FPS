@@ -5,16 +5,11 @@ using UnityEngine.Events;
 
 namespace FPS
 {
-    [RequireComponent(typeof(Rigidbody))]
-    [RequireComponent(typeof(SphereCollider))]
     public class BulletObject : CombatObject
     {
 
         /* Variables
         * * * * * * * * * * * * * * * */
-        private Rigidbody           m_rigidbody;
-        private SphereCollider      m_collider;
-
         [Header("Physics")]
         [Range(0.0001f, 1f)]
         [SerializeField] float      m_minMass       = 0.0001f;
@@ -31,7 +26,7 @@ namespace FPS
         [SerializeField] bool       m_uniformScale  = true;
 
         [Header("Collisions")]
-        [SerializeField] Collider[] m_check;
+        [SerializeField] Collider[] m_hitColliders;
         [SerializeField] float      m_checkSphereRadius     = 0.5f;
         [SerializeField] float      m_checkRaycastRadius    = 0.5f;
         [SerializeField] bool       m_checkUpdate           = true;
@@ -59,29 +54,6 @@ namespace FPS
 
         /* Properties
         * * * * * * * * * * * * * * * */
-        public new Rigidbody rigidbody
-        {
-            get
-            {
-                if(!m_rigidbody)
-                {
-                    m_rigidbody = GetComponent<Rigidbody>();
-                }
-                return m_rigidbody;
-            }
-        }
-
-        public new SphereCollider collider
-        {
-            get
-            {
-                if(!m_collider)
-                {
-                    m_collider = GetComponent<SphereCollider>();
-                }
-                return m_collider;
-            }
-        }
 
 
         /* Core
@@ -226,8 +198,8 @@ namespace FPS
             }
 
             // Third Check
-            m_check = Physics.OverlapSphere(m_ray.origin, m_checkSphereRadius, data.unitLayer);
-            foreach (Collider c in m_check)
+            m_hitColliders = Physics.OverlapSphere(m_ray.origin, m_checkSphereRadius, data.unitLayer);
+            foreach (Collider c in m_hitColliders)
             {
                 Unit u;
                 if ((u = CheckUnitCollision(c)))
@@ -275,7 +247,6 @@ namespace FPS
                 rigidbody.interpolation = RigidbodyInterpolation.None;
                 maxLifespan = m_persistance;
                 timer = 0f;
-                //if (c && !m_useGravity) transform.SetParent(c.transform, true);
                 m_onStop.Invoke();
             }
         }

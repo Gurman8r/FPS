@@ -46,7 +46,7 @@ namespace FPS
         {
             if(active && !value)
             {
-                hitList.Clear();
+                hitUnits.Clear();
             }
             active = value;
         }

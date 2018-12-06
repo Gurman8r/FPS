@@ -33,12 +33,26 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         public new PlayerCamera camera
         {
-            get { return m_camera; }
+            get
+            {
+                if(!m_camera)
+                {
+                    m_camera = GetComponentInChildren<PlayerCamera>();
+                }
+                return m_camera;
+            }
         }
 
         public PlayerHUD hud
         {
-            get { return m_hud; }
+            get
+            {
+                if(!m_hud)
+                {
+                    m_hud = FindObjectOfType<PlayerHUD>();
+                }
+                return m_hud;
+            }
         }
 
 
@@ -55,12 +69,16 @@ namespace FPS
                 if (!camera)
                 {
                     Debug.LogError("Script Not Found: PlayerCamera", gameObject);
+                    return;
                 }
 
                 if (!hud)
                 {
                     Debug.LogError("Script Not Found: PlayerHUD", gameObject);
+                    return;
                 }
+
+                //hud.reticle.ResetSize();
             }
         }
 
@@ -104,6 +122,13 @@ namespace FPS
                     UpdateInteraction();
                     UpdateItemUsage(unit.inventory.primary);
                     UpdateItemSelection();
+                }
+                else
+                {
+                    moveInput = Vector2.zero;
+                    sprintInput = false;
+                    jumpInput = false;
+                    lookInput = Vector2.zero;
                 }
 
                 hud.SetPaused(!camera.cursorLock);
@@ -239,6 +264,18 @@ namespace FPS
                     {
                         hud.reticle.SetText("Reloading");
                     }
+
+                    BulletWeapon bulletWeapon;
+                    if(bulletWeapon = weapon as BulletWeapon)
+                    {
+                        hud.reticle.SetSize(
+                            hud.reticle.originalSize +
+                            (hud.reticle.originalSize * bulletWeapon.bulletSpread / 2f));
+                    }
+                    else
+                    {
+                        hud.reticle.ResetSize();
+                    }
                 }
                 else
                 {
@@ -285,6 +322,7 @@ namespace FPS
             }
             else
             {
+                hud.reticle.ResetSize();
                 hud.reticle.SetFill(0f);
                 hud.SetAmmo(-1f);
 

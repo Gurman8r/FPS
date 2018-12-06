@@ -15,7 +15,7 @@ namespace FPS
 
         /* Properties
         * * * * * * * * * * * * * * * */
-        public AudioSource audioSource
+        public new AudioSource audio
         {
             get
             {
@@ -31,10 +31,26 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         private void Start()
         {
+            if(Application.isPlaying)
+            {
+                GameSettings gs;
+                if (gs = GameSettings.instance)
+                {
+                    audio.volume = gs.masterVolume * gs.soundVolume;
+                }
+            }
         }
 
         private void Update()
         {
+            if (Application.isPlaying)
+            {
+                GameSettings gs;
+                if (gs = GameSettings.instance)
+                {
+                    audio.volume = gs.masterVolume * gs.soundVolume;
+                }
+            }
         }
 
         /* Functions

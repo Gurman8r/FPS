@@ -23,6 +23,11 @@ namespace FPS
 
         /* Properties
         * * * * * * * * * * * * * * * */
+        public RectTransform rectTransform
+        {
+            get { return transform as RectTransform; }
+        }
+
         public float fillAmount
         {
             get { return m_fillAmount; }
