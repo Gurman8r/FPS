@@ -60,6 +60,11 @@ namespace FPS
             get { return m_textFeed; }
         }
 
+        public HealthBar healthBar
+        {
+            get { return m_healthBar; }
+        }
+
         public HealthBar ammoBar
         {
             get { return m_ammoBar; }

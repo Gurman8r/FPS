@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace FPS
 {
     [ExecuteInEditMode]
-    public class DummyController : UnitController
+    public class DummyController : BotController
         , IDamageTarget
     {
         /* Variables
@@ -17,12 +17,8 @@ namespace FPS
         [SerializeField] HealthBar  m_health;
         [Space]
         [SerializeField] float      m_regenSpeed = 1f;
-        [SerializeField] float      m_regenDelay =  5f;
         [SerializeField] float      m_fadeSpeed = 1f;
-        [Space]
         [SerializeField] string     m_format;
-        [SerializeField] bool       m_inCombat;
-        [SerializeField] float      m_regenTimer;
         [SerializeField] int        m_hitCount;
         [SerializeField] float      m_damageTotal;
         [SerializeField] float      m_damagePerSec;
@@ -45,6 +41,7 @@ namespace FPS
                 m_health.imageAlpha = 0f;
             }
         }
+
         protected override void Update()
         {
             base.Update();
@@ -60,20 +57,18 @@ namespace FPS
                 Item item;
                 if(item = unit.inventory.primary.item)
                 {
-                    item.UpdatePrimary(new InputState { press = true, hold = false, release = false });
-                    item.UpdateSecondary(new InputState { press = false, hold = false, release = false });
+                    item.UpdatePrimary(fire0);
+                    item.UpdateSecondary(fire1);
                 }
 
-                if (m_inCombat = (m_regenTimer > 0f))
+                if (inCombat)
                 {
-                    m_regenTimer -= Time.deltaTime;
-
                     m_text.text = string.Format(m_format,
                         (int)m_damageTotal,
                         FormatFloat(m_damagePerSec),
                         FormatFloat(m_damageDuration),
                         m_hitCount,
-                        FormatFloat(m_regenTimer));
+                        FormatFloat(combatTimer));
 
                     m_health.imageAlpha = 1f;
 
@@ -143,8 +138,6 @@ namespace FPS
                 m_damagePerSec = m_damageTotal / (m_damageDuration > 0f ? m_damageDuration : 1f);
                 m_hitCount++;
             }
-
-            m_regenTimer = m_regenDelay;
         }
 
         public static string FormatFloat(float value)

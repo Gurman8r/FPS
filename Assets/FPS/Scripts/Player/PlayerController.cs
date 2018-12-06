@@ -8,8 +8,8 @@ namespace FPS
     [RequireComponent(typeof(UnitAudio))]
     [ExecuteInEditMode]
     public class PlayerController : UnitController
-        , IDamageSource
-        , IDamageTarget
+        //, IDamageSource
+        //, IDamageTarget
     {
         /* Variables
         * * * * * * * * * * * * * * * */
@@ -18,10 +18,10 @@ namespace FPS
         [SerializeField] PlayerCamera   m_camera;
         [SerializeField] PlayerHUD      m_hud;
         [SerializeField] float          m_inventoryTime = 2.5f;
+        [SerializeField] float          m_reticleSpeed = 10f;
+        [SerializeField] float          m_fadeSpeed = 10f;
 
         [Header("Player Runtime")]
-        [SerializeField] InputState m_fire0;
-        [SerializeField] InputState m_fire1;
         [SerializeField] bool       m_hasKeyboard;
         [SerializeField] bool       m_hasGamepad;
         [SerializeField] bool       m_canInteract;
@@ -302,15 +302,15 @@ namespace FPS
             {
                 item.transform.localPosition = item.holdPos.localPosition;
 
-                m_fire0.press = m_input.GetButtonDown("Fire0");
-                m_fire0.hold = m_input.GetButton("Fire0");
-                m_fire0.release = m_input.GetButtonUp("Fire0");
-                item.UpdatePrimary(m_fire0);
+                fire0.press = m_input.GetButtonDown("Fire0");
+                fire0.hold = m_input.GetButton("Fire0");
+                fire0.release = m_input.GetButtonUp("Fire0");
+                item.UpdatePrimary(fire0);
 
-                m_fire1.press = m_input.GetButtonDown("Fire1");
-                m_fire1.hold = m_input.GetButton("Fire1");
-                m_fire1.release = m_input.GetButtonUp("Fire1");
-                item.UpdateSecondary(m_fire1);
+                fire1.press = m_input.GetButtonDown("Fire1");
+                fire1.hold = m_input.GetButton("Fire1");
+                fire1.release = m_input.GetButtonUp("Fire1");
+                item.UpdateSecondary(fire1);
 
                 if (m_input.GetButtonDown("Drop"))
                 {
@@ -381,14 +381,14 @@ namespace FPS
                         hud.reticle.sizeDelta = Vector2.Lerp(
                             hud.reticle.sizeDelta,
                             hud.reticle.originalSize + (hud.reticle.originalSize * gun.bulletSpread / 2f),
-                            Time.deltaTime * 10f);
+                            Time.deltaTime * m_reticleSpeed);
                     }
                     else
                     {
                         hud.reticle.sizeDelta = Vector2.Lerp(
                             hud.reticle.sizeDelta,
                             hud.reticle.originalSize,
-                            Time.deltaTime * 10f);
+                            Time.deltaTime * m_reticleSpeed);
                     }
                 }
                 else
@@ -402,7 +402,8 @@ namespace FPS
                 hud.reticle.sizeDelta = Vector2.Lerp(
                     hud.reticle.sizeDelta,
                     hud.reticle.originalSize,
-                    Time.deltaTime * 10f);
+                    Time.deltaTime * m_reticleSpeed);
+
                 hud.reticle.SetFill(1f);
                 hud.SetAmmo(-1f);
             }
@@ -410,20 +411,31 @@ namespace FPS
             hud.SetPaused(!camera.cursorLock);
             hud.SetHealth(unit.health.fillAmount);
             hud.inventory.Refresh(unit.inventory);
+
+            if(inCombat && hud.healthBar.imageAlpha < 1f)
+            {
+                hud.healthBar.imageAlpha += Time.deltaTime * m_fadeSpeed;
+            }
+            else if(hud.healthBar.imageAlpha > 0f)
+            {
+                hud.healthBar.imageAlpha -= Time.deltaTime;
+            }
         }
 
 
         /* Interfaces
         * * * * * * * * * * * * * * * */
-        public void OnDoDamage(UnitEvent unitEvent)
-        {
-            hud.reticle.ShowHitmaker();
-        }
-
-        public void OnRecieveDamage(UnitEvent unitEvent)
-        {
-            hud.ShowTakeDamage();
-        }
+        //public void OnDoDamage(UnitEvent unitEvent)
+        //{
+        //    hud.reticle.ShowHitmaker();
+        //    inCombat = true;
+        //}
+        //
+        //public void OnRecieveDamage(UnitEvent unitEvent)
+        //{
+        //    hud.ShowTakeDamage();
+        //    inCombat = true;
+        //}
     }
 }
 

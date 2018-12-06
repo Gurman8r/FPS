@@ -306,7 +306,7 @@ MonoBehaviour:
   m_randomScale: 1
   m_uniformScale: 1
   m_hitColliders: []
-  m_checkSphereRadius: 0.5
+  m_checkSphereRadius: 0.2
   m_checkRaycastRadius: 2
   m_checkUpdate: 1
   m_checkFixedUpdate: 1

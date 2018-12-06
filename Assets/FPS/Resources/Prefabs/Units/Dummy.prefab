@@ -525,7 +525,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db7733e3a5baf984f94318e60b8a80ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delegates: []
+  delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 114794824847486856}
+          m_MethodName: set_inCombat
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+      m_TypeName: FPS.UnitTriggers+TriggerEvent, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
 --- !u!114 &114192653916604816
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -541,7 +558,8 @@ MonoBehaviour:
     transform: {fileID: 4164774509530762}
     item: {fileID: 0}
   m_capacity: 10
-  m_bagList: []
+  m_index: 0
+  m_list: []
   m_bagTransform: {fileID: 4411258323882546}
 --- !u!114 &114198962627765802
 MonoBehaviour:
@@ -784,22 +802,29 @@ MonoBehaviour:
   m_sprintSpeed: 2
   m_interactRange: 2.5
   m_startingItem: Sword
+  m_combatDelay: 5
+  m_fire0:
+    press: 1
+    hold: 1
+    release: 0
+  m_fire1:
+    press: 0
+    hold: 0
+    release: 0
+  m_inCombat: 0
+  m_regenTimer: 0
   m_moveInput: {x: 0, y: 0}
   m_sprintInput: 0
   m_lookInput: {x: 0, y: 0}
   m_scrollInput: 0
-  m_selectInput: 0
   m_jumpInput: 0
   m_canvas: {fileID: 223417768455271484}
   m_text: {fileID: 114930814968658006}
   m_health: {fileID: 114310740521628502}
   m_regenSpeed: 20
-  m_regenDelay: 5
   m_fadeSpeed: 1
   m_format: "Damage:\t\t\t\t{0}\nElapsed:\t\t\t\t{2}s\nDPS:\t\t\t\t\t{1}\nHit Count:\t\t\t\t{3}\nIn
     Combat:\t\t\t{4}s"
-  m_inCombat: 0
-  m_regenTimer: 0
   m_hitCount: 0
   m_damageTotal: 0
   m_damagePerSec: 0
