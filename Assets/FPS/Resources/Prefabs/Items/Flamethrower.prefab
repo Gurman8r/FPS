@@ -558,8 +558,8 @@ MonoBehaviour:
   m_bulletCount: 5
   m_bulletDelay: 0
   m_allowAds: 0
-  m_hipSpread: 5
-  m_adsSpread: 5
+  m_hipSpread: 1
+  m_adsSpread: 1
   m_bulletSpread: 0
   m_bulletPrefab: {fileID: 114821140140099020, guid: 5d07c9669af483a44837f76914bff6c9,
     type: 2}

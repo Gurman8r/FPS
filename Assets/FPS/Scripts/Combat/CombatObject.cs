@@ -103,12 +103,6 @@ namespace FPS
             if(Application.isPlaying)
             {
                 if (gameObject.tag != Tag) gameObject.tag = Tag;
-
-                GameSettings gs;
-                if(gs = GameSettings.instance)
-                {
-                    audio.volume = gs.masterVolume * gs.soundVolume;
-                }
             }
         }
 

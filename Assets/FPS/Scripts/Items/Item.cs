@@ -155,11 +155,6 @@ namespace FPS
         {
             if(Application.isPlaying)
             {
-                GameSettings gs;
-                if (gs = GameSettings.instance)
-                {
-                    audio.volume = gs.masterVolume * gs.soundVolume;
-                }
             }
         }
 
