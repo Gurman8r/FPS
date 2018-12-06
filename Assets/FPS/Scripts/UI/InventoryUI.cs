@@ -34,7 +34,7 @@ namespace FPS
         public int index
         {
             get { return m_index; }
-            set { m_index = Mathf.Clamp(value, 0, m_slots.Length - 1); }
+            set { m_index = value; }
         }
 
 
@@ -68,6 +68,7 @@ namespace FPS
             }
         }
 
+
         private void Update()
         {
             if(Application.isPlaying)
@@ -88,7 +89,7 @@ namespace FPS
                     imageAlpha = 1f;
                 }
 
-                if (m_selector)
+                if (m_selector && (index >= 0))
                 {
                     ItemSlot slot;
                     if (slot = m_slots[index])
@@ -104,7 +105,9 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         public void Refresh(UnitInventory inventory)
         {
-            index = inventory.index;
+            index = (inventory.count > 0)
+                ? inventory.index
+                : -1;
 
             for (int i = 0, imax = m_slots.Length; i < imax; i++)
             {

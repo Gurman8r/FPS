@@ -70,7 +70,7 @@ GameObject:
   - component: {fileID: 223417768455271484}
   - component: {fileID: 114295923519299300}
   m_Layer: 10
-  m_Name: Canvas
+  m_Name: HUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -231,7 +231,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4945497533833024}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4541321669575946
 Transform:
@@ -257,7 +257,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4945497533833024}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4945497533833024
 Transform:
@@ -269,10 +269,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 2, z: -2.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 224235719109453524}
   - {fileID: 4975503541319594}
   - {fileID: 4674311409509944}
   - {fileID: 4411258323882546}
-  - {fileID: 224235719109453524}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -289,7 +289,7 @@ Transform:
   - {fileID: 4541321669575946}
   - {fileID: 4164774509530762}
   m_Father: {fileID: 4945497533833024}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23617515015673682
 MeshRenderer:
@@ -1092,7 +1092,7 @@ RectTransform:
   - {fileID: 224220818332164424}
   - {fileID: 224197800794585532}
   m_Father: {fileID: 4945497533833024}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

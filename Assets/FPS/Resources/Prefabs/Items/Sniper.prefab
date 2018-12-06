@@ -834,10 +834,11 @@ MonoBehaviour:
     speed: 0
     lifeSpan: 0.1
     damage:
-      amount: 40
+      m_amount: 40
     healing:
-      amount: 0
+      m_amount: 0
     owner: {fileID: 0}
+    target: {fileID: 0}
     pos: {x: 0, y: 0, z: 0}
     dir: {x: 0, y: 0, z: 0}
     dest: {x: 0, y: 0, z: 0}

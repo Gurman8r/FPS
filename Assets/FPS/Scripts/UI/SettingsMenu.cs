@@ -10,14 +10,22 @@ namespace FPS
     {
         /* Variables
         * * * * * * * * * * * * * * * */
+        [SerializeField] bool       m_changed;
+        [Space]
         [SerializeField] Slider     m_volume;
         [SerializeField] Toggle     m_fullScreen;
         [SerializeField] Dropdown   m_screenResolution;
         [SerializeField] Slider     m_lookSensitivityX;
         [SerializeField] Slider     m_lookSensitivityY;
+        [SerializeField] Button     m_saveButton;
 
         /* Properties
         * * * * * * * * * * * * * * * */
+        public bool changed
+        {
+            get { return m_changed; }
+            private set { m_changed = value; }
+        }
 
         /* Core
         * * * * * * * * * * * * * * * */
@@ -35,12 +43,15 @@ namespace FPS
                 return;
             }
 
+            LoadAll();
+
             // Volume
             m_volume.value = AudioListener.volume;
             m_volume.onValueChanged.RemoveAllListeners();
             m_volume.onValueChanged.AddListener((float value) =>
             {
                 AudioListener.volume = m_volume.value;
+                changed = true;
             });
 
             // Fullscreen
@@ -52,6 +63,7 @@ namespace FPS
                     Screen.currentResolution.width, 
                     Screen.currentResolution.height, 
                     m_fullScreen.isOn);
+                changed = true;
             });
 
             // Screen Resolution
@@ -79,6 +91,7 @@ namespace FPS
                     r.width, 
                     r.height, 
                     Screen.fullScreen);
+                changed = true;
             });
 
             // Look Sensitivity Y
@@ -87,6 +100,7 @@ namespace FPS
             m_lookSensitivityX.onValueChanged.AddListener((float value) =>
             {
                 gs.lookSensitivityX = m_lookSensitivityX.value;
+                changed = true;
             });
 
             // Look Sensitivity Y
@@ -95,7 +109,55 @@ namespace FPS
             m_lookSensitivityY.onValueChanged.AddListener((float value) =>
             {
                 gs.lookSensitivityY = m_lookSensitivityY.value;
+                changed = true;
             });
+        }
+
+        private void Update()
+        {
+            if(m_saveButton)
+            {
+                m_saveButton.interactable = changed;
+            }
+        }
+
+
+        /* Functions
+        * * * * * * * * * * * * * * * */
+        public void LoadAll()
+        {
+            GameSettings gs;
+            if (gs = GameSettings.instance)
+            {
+                changed = false;
+                AudioListener.volume = PlayerPrefs.GetFloat("Volume", 0.5f);
+                gs.lookSensitivityX = PlayerPrefs.GetFloat("LookSensitivityX", 0.1f);
+                gs.lookSensitivityY = PlayerPrefs.GetFloat("LookSensitivityY", 0.1f);
+                Debug.Log("Loaded Settings");
+            }
+            else
+            {
+                Debug.LogError("GameSettings instance not found");
+            }
+        }
+
+        public void SaveAll()
+        {
+            GameSettings gs;
+            if(gs = GameSettings.instance)
+            {
+                changed = false;
+                PlayerPrefs.SetFloat("Volume", AudioListener.volume);
+                PlayerPrefs.SetFloat("LookSensitivityX", gs.lookSensitivityX);
+                PlayerPrefs.SetFloat("LookSensitivityY", gs.lookSensitivityY);
+                PlayerPrefs.Save();
+                Debug.Log("Saved Settings");
+            }
+            else
+            {
+                Debug.LogError("GameSettings instance not found");
+            }
+
         }
     }
 

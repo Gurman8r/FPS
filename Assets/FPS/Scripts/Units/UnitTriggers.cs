@@ -39,7 +39,7 @@ namespace FPS
 
         /* Core
         * * * * * * * * * * * * * * * */
-        private void Execute(EventType id, UnitEvent unitEvent)
+        private void Execute(EventType id, UnitEvent ev)
         {
             if (delegates != null)
             {
@@ -49,48 +49,48 @@ namespace FPS
 
                     if (ent.eventID == id && ent.callback != null)
                     {
-                        ent.callback.Invoke(unitEvent);
+                        ent.callback.Invoke(ev);
                     }
                 }
             }
         }
 
-        public void Broadcast(EventType id, UnitEvent unitEvent)
+        public void Broadcast(EventType id, UnitEvent ev)
         {
-            gameObject.BroadcastMessage(id.ToString(), unitEvent);
+            gameObject.BroadcastMessage(id.ToString(), ev);
         }
 
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public virtual void OnSpawn(UnitEvent unitEvent)
+        public virtual void OnSpawn(UnitEvent ev)
         {
-            Execute(EventType.OnSpawn, unitEvent);
+            Execute(EventType.OnSpawn, ev);
         }
 
-        public virtual void OnDeath(UnitEvent unitEvent)
+        public virtual void OnDeath(UnitEvent ev)
         {
-            Execute(EventType.OnDeath, unitEvent);
+            Execute(EventType.OnDeath, ev);
         }
 
-        public virtual void OnRecieveDamage(UnitEvent unitEvent)
+        public virtual void OnRecieveDamage(UnitEvent ev)
         {
-            Execute(EventType.OnRecieveDamage, unitEvent);
+            Execute(EventType.OnRecieveDamage, ev);
         }
 
-        public virtual void OnRecieveHealing(UnitEvent unitEvent)
+        public virtual void OnRecieveHealing(UnitEvent ev)
         {
-            Execute(EventType.OnRecieveHealing, unitEvent);
+            Execute(EventType.OnRecieveHealing, ev);
         }
 
-        public virtual void OnDoDamage(UnitEvent unitEvent)
+        public virtual void OnDoDamage(UnitEvent ev)
         {
-            Execute(EventType.OnDoDamage, unitEvent);
+            Execute(EventType.OnDoDamage, ev);
         }
 
-        public virtual void OnDoHealing(UnitEvent unitEvent)
+        public virtual void OnDoHealing(UnitEvent ev)
         {
-            Execute(EventType.OnDoHealing, unitEvent);
+            Execute(EventType.OnDoHealing, ev);
         }
     }
 

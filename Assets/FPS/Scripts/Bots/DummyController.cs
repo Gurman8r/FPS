@@ -16,7 +16,7 @@ namespace FPS
         [SerializeField] Text       m_text;
         [SerializeField] HealthBar  m_health;
         [Space]
-        [SerializeField] float      m_regenSpeed = 1f;
+        [SerializeField] float      m_regenSpeed = 20f;
         [SerializeField] float      m_fadeSpeed = 1f;
         [SerializeField] string     m_format;
         [SerializeField] int        m_hitCount;
@@ -91,7 +91,18 @@ namespace FPS
 
                     if (unit.health.fillAmount < 1f)
                     {
-                        unit.health.Modify(Time.deltaTime * m_regenSpeed);
+                        unit.triggers.Broadcast(EventType.OnDoHealing, new UnitEvent
+                        {
+                            data = new ObjectData
+                            {
+                                owner   = unit,
+                                target  = unit,
+                                healing = new Healing
+                                {
+                                    amount = m_regenSpeed * Time.deltaTime
+                                }
+                            }
+                        });
 
                         m_damageTotal = 0f;
                     }
@@ -125,7 +136,7 @@ namespace FPS
         {
             if(m_damageTotal == 0f)
             {
-                m_damageTotal = unitEvent.combat.damage.amount;
+                m_damageTotal = unitEvent.data.damage.amount;
                 m_damageTime = Time.time;
                 m_damageDuration = 0f;
                 m_damagePerSec = m_damageTotal;
@@ -133,7 +144,7 @@ namespace FPS
             }
             else
             {
-                m_damageTotal += unitEvent.combat.damage.amount;
+                m_damageTotal += unitEvent.data.damage.amount;
                 m_damageDuration = (Time.time - m_damageTime);
                 m_damagePerSec = m_damageTotal / (m_damageDuration > 0f ? m_damageDuration : 1f);
                 m_hitCount++;

@@ -158,49 +158,59 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public void OnDeath(UnitEvent unitEvent)
+        public void OnSpawn(UnitEvent ev)
+        {
+            health.SetDead(false);
+            health.Set(health.maximum);
+            ev.unitSystem.Register(this);
+        }
+
+        public void OnDeath(UnitEvent ev)
         {
             if(!health.dead)
             {
                 health.SetDead(true);
+                ev.unitSystem.Unregister(this);
             }
         }
 
-        public void OnSpawn(UnitEvent unitEvent)
+        public void OnDoDamage(UnitEvent ev)
         {
-            health.SetDead(false);
-            health.Set(health.maximum);
+            metrics.damageDealt += ev.data.damage.amount;
+
+            if (ev.data.target)
+            {
+                ev.data.target.triggers.Broadcast(EventType.OnRecieveDamage, ev);
+            }
         }
 
-        public void OnDoDamage(UnitEvent unitEvent)
+        public void OnDoHealing(UnitEvent ev)
         {
-            metrics.damageDealt += Mathf.Abs(unitEvent.combat.damage.amount);
+            metrics.healingDone += ev.data.healing.amount;
+
+            if(ev.data.target)
+            {
+                ev.data.target.triggers.Broadcast(EventType.OnRecieveHealing, ev);
+            }
         }
 
-        public void OnDoHealing(UnitEvent unitEvent)
+        public void OnRecieveDamage(UnitEvent ev)
         {
-            metrics.healingDone += Mathf.Abs(unitEvent.combat.healing.amount);
-        }
+            metrics.damageRecieved += ev.data.damage.amount;
 
-        public void OnRecieveDamage(UnitEvent unitEvent)
-        {
-            float value = Mathf.Abs(unitEvent.combat.damage.amount);
-            metrics.damageRecieved += value;
-            health.Modify(-value);
+            health.Modify(-ev.data.damage.amount);
             
             if(!health.dead && health.CheckDead())
             {
-                triggers.Broadcast(EventType.OnDeath, new UnitEvent
-                {
-                });
+                triggers.Broadcast(EventType.OnDeath, ev);
             }
         }
 
-        public void OnRecieveHealing(UnitEvent unitEvent)
+        public void OnRecieveHealing(UnitEvent ev)
         {
-            float value = Mathf.Abs(unitEvent.combat.healing.amount);
-            health.Modify(+value);
-            metrics.healingRecieved += value;
+            health.Modify(ev.data.healing.amount);
+
+            metrics.healingRecieved += ev.data.healing.amount;
         }
     }
 

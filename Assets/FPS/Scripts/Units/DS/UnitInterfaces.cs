@@ -8,27 +8,27 @@ namespace FPS
     * * * * * * * * * * * * * * * */
     public interface ISpawnHandler
     {
-        void OnSpawn(UnitEvent unitEvent);
-        void OnDeath(UnitEvent unitEvent);
+        void OnSpawn(UnitEvent ev);
+        void OnDeath(UnitEvent ev);
     }
 
     public interface IDamageTarget
     {
-        void OnRecieveDamage(UnitEvent unitEvent);
+        void OnRecieveDamage(UnitEvent ev);
     }
 
     public interface IHealingTarget
     {
-        void OnRecieveHealing(UnitEvent unitEvent);
+        void OnRecieveHealing(UnitEvent ev);
     }
 
     public interface IDamageSource
     {
-        void OnDoDamage(UnitEvent unitEvent);
+        void OnDoDamage(UnitEvent ev);
     }
 
     public interface IHealingSource
     {
-        void OnDoHealing(UnitEvent unitEvent);
+        void OnDoHealing(UnitEvent ev);
     }
 }

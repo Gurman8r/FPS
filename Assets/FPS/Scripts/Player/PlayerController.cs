@@ -5,11 +5,8 @@ using UnityEngine.SceneManagement;
 
 namespace FPS
 {
-    [RequireComponent(typeof(UnitAudio))]
     [ExecuteInEditMode]
     public class PlayerController : UnitController
-        //, IDamageSource
-        //, IDamageTarget
     {
         /* Variables
         * * * * * * * * * * * * * * * */
@@ -22,6 +19,7 @@ namespace FPS
         [SerializeField] float          m_fadeSpeed = 10f;
 
         [Header("Player Runtime")]
+        [SerializeField] bool       m_isPaused;
         [SerializeField] bool       m_hasKeyboard;
         [SerializeField] bool       m_hasGamepad;
         [SerializeField] bool       m_canInteract;
@@ -54,6 +52,12 @@ namespace FPS
                 }
                 return m_hud;
             }
+        }
+
+        public bool isPaused
+        {
+            get { return m_isPaused; }
+            set { m_isPaused = value; }
         }
 
 
@@ -93,10 +97,10 @@ namespace FPS
                 // Cursor Lock
                 if (m_input.GetButtonDown("Cancel"))
                 {
-                    camera.cursorLock = !camera.cursorLock;
+                    isPaused = !isPaused;
                 }
 
-                if (camera.cursorLock)
+                if (camera.cursorLock = !isPaused)
                 {
                     if (m_input.GetButtonDown("Restart"))
                     {
@@ -121,8 +125,8 @@ namespace FPS
                     camera.SetLookDelta(lookInput);
 
                     UpdateInteraction();
-                    UpdateItemSelection();
-                    UpdateItemUsage(unit.inventory.primary);
+                    UpdateSelection();
+                    UpdateItem(unit.inventory.primary);
                 }
                 else
                 {
@@ -243,7 +247,7 @@ namespace FPS
             }
         }
 
-        private void UpdateItemSelection()
+        private void UpdateSelection()
         {
             // Select Item (0-9)
             for (KeyCode key = KeyCode.Alpha0; key <= KeyCode.Alpha9; key++)
@@ -295,7 +299,7 @@ namespace FPS
             }
         }
 
-        private void UpdateItemUsage(UnitInventory.Hand hand)
+        private void UpdateItem(UnitInventory.Hand hand)
         {
             Item item;
             if (item = hand.item)
@@ -408,7 +412,7 @@ namespace FPS
                 hud.SetAmmo(-1f);
             }
 
-            hud.SetPaused(!camera.cursorLock);
+            hud.SetPaused(isPaused);
             hud.SetHealth(unit.health.fillAmount);
             hud.inventory.Refresh(unit.inventory);
 
@@ -421,21 +425,6 @@ namespace FPS
                 hud.healthBar.imageAlpha -= Time.deltaTime;
             }
         }
-
-
-        /* Interfaces
-        * * * * * * * * * * * * * * * */
-        //public void OnDoDamage(UnitEvent unitEvent)
-        //{
-        //    hud.reticle.ShowHitmaker();
-        //    inCombat = true;
-        //}
-        //
-        //public void OnRecieveDamage(UnitEvent unitEvent)
-        //{
-        //    hud.ShowTakeDamage();
-        //    inCombat = true;
-        //}
     }
 }
 

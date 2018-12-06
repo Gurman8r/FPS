@@ -15,20 +15,21 @@ namespace FPS
         private Canvas m_canvas;
 
         [Header("Settings")]
-        [SerializeField] Reticle        m_reticle;
-        [SerializeField] HealthBar      m_healthBar;
-        [SerializeField] InventoryUI    m_inventory;
         [SerializeField] TextFeed       m_textFeed;
+        [SerializeField] Reticle        m_reticle;
+        [SerializeField] InventoryUI    m_inventory;
+        [SerializeField] HealthBar      m_healthBar;
         [SerializeField] HealthBar      m_ammoBar;
         [SerializeField] RectTransform  m_pauseMenu;
         [Space]
         [SerializeField] Image          m_damage;
-        [SerializeField] float          m_damageValue = 0.25f;
-        [SerializeField] float          m_damageTimer = 0f;
-        [SerializeField] float          m_damageSpeed = 1f;
+        [SerializeField] float          m_damageAlpha = 0.25f;
+        [SerializeField] float          m_damageFade = 1f;
 
         [Header("Runtime")]
-        [SerializeField] bool m_isPaused;
+        [SerializeField] bool           m_showPause;
+        [SerializeField] float          m_damageTimer = 0f;
+
 
 
         /* Properties
@@ -96,7 +97,7 @@ namespace FPS
                 {
                     if (m_damageTimer > 0f)
                     {
-                        m_damageTimer -= Time.deltaTime * m_damageSpeed;
+                        m_damageTimer -= Time.deltaTime * m_damageFade;
                     }
                 }
 
@@ -107,7 +108,7 @@ namespace FPS
 
             if (!Application.isPlaying)
             {
-                SetPaused(m_isPaused);
+                SetPaused(m_showPause);
             }
         }
 
@@ -141,11 +142,11 @@ namespace FPS
 
         public void SetPaused(bool value)
         {
-            m_isPaused = (Application.isPlaying ? value : m_isPaused);
+            m_showPause = (Application.isPlaying ? value : m_showPause);
 
             if (pauseMenu)
             {
-                if(m_isPaused)
+                if(m_showPause)
                 {
                     pauseMenu.gameObject.SetActive(true);
                 }
@@ -175,7 +176,7 @@ namespace FPS
         {
             if(m_damage)
             {
-                m_damageTimer = m_damageValue;
+                m_damageTimer = m_damageAlpha;
             }
         }
 

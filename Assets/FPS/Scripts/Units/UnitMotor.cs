@@ -5,7 +5,6 @@ using UnityEngine.AI;
 
 namespace FPS
 {
-    [RequireComponent(typeof(NavMeshAgent))]
     [RequireComponent(typeof(Collider))]
     [RequireComponent(typeof(Rigidbody))]
     [DisallowMultipleComponent]

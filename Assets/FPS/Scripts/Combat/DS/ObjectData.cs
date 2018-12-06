@@ -18,6 +18,7 @@ namespace FPS
         
         [Header("Runtime")]
         public Unit         owner;
+        public Unit         target;
         public Vector3      pos;
         public Vector3      dir;
         public Vector3      dest;
