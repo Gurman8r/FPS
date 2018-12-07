@@ -38,6 +38,7 @@ namespace FPS
         [SerializeField] UseMode    m_useMode       = UseMode.Single;
         [SerializeField] float      m_useDelay      = 1f;
         [SerializeField] bool       m_staticReticle;
+        [SerializeField] bool       m_isReloadable  = true;
         [SerializeField] int        m_maxResource   = 0;        
         [SerializeField] float      m_reloadDelay   = 2.5f;
         [SerializeField] bool       m_fixedReload   = true;
@@ -147,6 +148,11 @@ namespace FPS
         public bool staticReticle
         {
             get { return m_staticReticle; }
+        }
+
+        public bool isReloadable
+        {
+            get { return m_isReloadable; }
         }
 
         public int maxResource
@@ -318,6 +324,20 @@ namespace FPS
         {
             if(Application.isPlaying)
             {
+                if(owner)
+                {
+                    transform.localPosition = holdPos.localPosition;
+                }
+
+                if (isReloadable)
+                {
+                    if (autoReload && !hasResource)
+                    {
+                        Reload();
+                    }
+
+                    animator.SetBool("Reloading", onCooldown);
+                }
             }
         }
 
@@ -416,7 +436,7 @@ namespace FPS
 
         public void Reload()
         {
-            if (!onCooldown && (curResource != maxResource))
+            if (isReloadable && !onCooldown && (curResource != maxResource))
             {
                 StartCoroutine(ReloadCoroutine());
             }

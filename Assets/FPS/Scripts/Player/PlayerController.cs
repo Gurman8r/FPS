@@ -117,7 +117,7 @@ namespace FPS
                         m_input.GetAxis("Move Vertical"));
 
                     // Sprint
-                    sprintInput = m_input.GetButton("Sprint");
+                    sprintInput = m_input.GetButton("Sprint") && !m_isAiming;
 
                     // Jump
                     jumpInput = m_input.GetButtonDown("Jump");
@@ -292,7 +292,7 @@ namespace FPS
                 m_zoomLevel = (gun = item as GunBase) ? gun.zoomLevel : PlayerCamera.MinZoom;
                 m_isAiming = (m_zoomLevel != PlayerCamera.MinZoom);
 
-                item.transform.localPosition = item.holdPos.localPosition;
+                //item.transform.localPosition = item.holdPos.localPosition;
 
                 fire0.press = m_input.GetButtonDown("Fire0");
                 fire0.hold = m_input.GetButton("Fire0");

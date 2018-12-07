@@ -824,7 +824,7 @@ MonoBehaviour:
   m_canvas: {fileID: 223417768455271484}
   m_text: {fileID: 114930814968658006}
   m_health: {fileID: 114310740521628502}
-  m_regenSpeed: 20
+  m_regenSpeed: 25
   m_fadeSpeed: 1
   m_format: "Damage:\t\t\t\t{0}\nElapsed:\t\t\t\t{2}s\nDPS:\t\t\t\t\t{1}\nHit Count:\t\t\t\t{3}\nIn
     Combat:\t\t\t{4}s"

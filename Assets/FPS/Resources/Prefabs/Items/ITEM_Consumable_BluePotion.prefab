@@ -436,6 +436,7 @@ MonoBehaviour:
   m_useMode: 1
   m_useDelay: 1
   m_staticReticle: 0
+  m_isReloadable: 0
   m_maxResource: 100
   m_reloadDelay: 2.5
   m_fixedReload: 1
@@ -468,4 +469,4 @@ MonoBehaviour:
     m_amount: 1
     m_duration: 0
   m_removeOnEmpty: 1
-  m_destroyDelay: 0.5
+  m_destroyDelay: 0

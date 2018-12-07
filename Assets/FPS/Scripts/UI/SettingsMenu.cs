@@ -14,12 +14,14 @@ namespace FPS
         [SerializeField] bool   m_enableLog;
         [SerializeField] bool   m_changed;
         [Space]
-        [SerializeField] Slider     m_volume;
+        [SerializeField] Dropdown   m_screenResolution;
+        [SerializeField] Dropdown   m_qualityLevel;
         [SerializeField] Toggle     m_fullScreen;
         [SerializeField] Toggle     m_fxaa;
         [SerializeField] Toggle     m_motionBlur;
-        [SerializeField] Dropdown   m_screenResolution;
-        [SerializeField] Dropdown   m_qualityLevel;
+        [SerializeField] Toggle     m_vignette;
+        [SerializeField] Toggle     m_bloom;
+        [SerializeField] Slider     m_volume;
         [SerializeField] Slider     m_lookSensitivityX;
         [SerializeField] Slider     m_lookSensitivityY;
         [SerializeField] Button     m_saveButton;
@@ -69,11 +71,13 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         public void SaveSettings()
         {
-            PlayerPrefs.SetFloat("Volume", m_volume.value);
+            PlayerPrefs.SetInt("QualityLevel", m_qualityLevel.value);
+            PlayerPrefs.SetInt("ScreenResolution", m_screenResolution.value);
             PlayerPrefs.SetInt("Fullscreen", m_fullScreen.isOn ? 1 : 0);
             PlayerPrefs.SetInt("EnableFXAA", m_fxaa.isOn ? 1 : 0);
-            PlayerPrefs.SetInt("ScreenResolution", m_screenResolution.value);
-            PlayerPrefs.SetInt("QualityLevel", m_qualityLevel.value);
+            PlayerPrefs.SetInt("EnableVignette", m_vignette.isOn ? 1 : 0);
+            PlayerPrefs.SetInt("EnableBloom", m_bloom.isOn ? 1 : 0);
+            PlayerPrefs.SetFloat("Volume", m_volume.value);
             PlayerPrefs.SetFloat("LookSensitivityX", m_lookSensitivityX.value);
             PlayerPrefs.SetFloat("LookSensitivityY", m_lookSensitivityY.value);
             PlayerPrefs.Save();
@@ -106,6 +110,18 @@ namespace FPS
             SetupToggle(m_motionBlur, "EnableMotionBlur", true, (Toggle t) =>
             {
                 PlayerCamera.main.postProcessing.profile.motionBlur.enabled = t.isOn;
+            });
+
+            // Vignette
+            SetupToggle(m_vignette, "EnableVignette", true, (Toggle t) =>
+            {
+                PlayerCamera.main.postProcessing.profile.vignette.enabled = t.isOn;
+            });
+
+            // Bloom
+            SetupToggle(m_bloom, "EnableBloom", true, (Toggle t) =>
+            {
+                PlayerCamera.main.postProcessing.profile.bloom.enabled = t.isOn;
             });
 
             // Screen Resolution

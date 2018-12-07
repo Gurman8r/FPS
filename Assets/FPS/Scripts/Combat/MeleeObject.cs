@@ -40,6 +40,11 @@ namespace FPS
             }
         }
 
+        private void OnTriggerStay(Collider other)
+        {
+            OnTriggerEnter(other);
+        }
+
         /* Functions
         * * * * * * * * * * * * * * * */
         public void SetActive(bool value)

@@ -63,14 +63,7 @@ namespace FPS
                     }
 
                     firePos.LookAt(lookingAt);
-
-                    if (autoReload && !hasResource)
-                    {
-                        Reload();
-                    }
                 }
-
-                animator.SetBool("Reloading", onCooldown);
             }
         }
 

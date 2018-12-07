@@ -585,7 +585,8 @@ MonoBehaviour:
   m_useMode: 1
   m_useDelay: 1
   m_staticReticle: 0
-  m_maxResource: 30
+  m_isReloadable: 1
+  m_maxResource: 10
   m_reloadDelay: 3
   m_fixedReload: 1
   m_autoReload: 1
@@ -624,7 +625,7 @@ MonoBehaviour:
     speed: 100
     lifeSpan: 1
     damage:
-      m_amount: 10
+      m_amount: 15
     healing:
       m_amount: 0
       m_duration: 0

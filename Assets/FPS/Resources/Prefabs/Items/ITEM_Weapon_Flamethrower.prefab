@@ -512,7 +512,8 @@ MonoBehaviour:
   m_useMode: 1
   m_useDelay: 0.05
   m_staticReticle: 1
-  m_maxResource: 100
+  m_isReloadable: 1
+  m_maxResource: 50
   m_reloadDelay: 5
   m_fixedReload: 0
   m_autoReload: 1

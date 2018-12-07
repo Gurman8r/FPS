@@ -58,7 +58,7 @@ namespace FPS
 
         protected override void Update()
         {
-            //base.Update();
+            base.Update();
 
             if (Application.isPlaying)
             {
