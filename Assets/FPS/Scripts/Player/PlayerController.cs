@@ -11,15 +11,21 @@ namespace FPS
         /* Variables
         * * * * * * * * * * * * * * * */
         [Header("Player Settings")]
-        [SerializeField] int            m_playerIndex = 0;
         [SerializeField] PlayerCamera   m_camera;
         [SerializeField] PlayerHUD      m_hud;
+        [Space]
+        [SerializeField] int            m_playerIndex = 0;
         [SerializeField] float          m_inventoryTime = 2.5f;
         [SerializeField] float          m_reticleSpeed = 10f;
         [SerializeField] float          m_fadeSpeed = 10f;
+        [SerializeField] float          m_zoomSpeed = 5f;
+        [Range(0.00001f, 1f)]
+        [SerializeField] float          m_aimSpeed = 0.5f;
 
         [Header("Player Runtime")]
         [SerializeField] bool       m_isPaused;
+        [SerializeField] bool       m_isAiming;
+        [SerializeField] float      m_zoomLevel;
         [SerializeField] bool       m_hasKeyboard;
         [SerializeField] bool       m_hasGamepad;
         [SerializeField] bool       m_canInteract;
@@ -82,8 +88,6 @@ namespace FPS
                     Debug.LogError("Script Not Found: PlayerHUD", gameObject);
                     return;
                 }
-
-                //hud.reticle.ResetSize();
             }
         }
 
@@ -100,7 +104,7 @@ namespace FPS
                     isPaused = !isPaused;
                 }
 
-                if (camera.cursorLock = !isPaused)
+                if (!isPaused)
                 {
                     if (m_input.GetButtonDown("Restart"))
                     {
@@ -122,10 +126,43 @@ namespace FPS
                     lookInput = new Vector2(
                         m_input.GetAxis("Look Horizontal"),
                         m_input.GetAxis("Look Vertical"));
-                    camera.SetLookDelta(lookInput);
 
-                    UpdateInteraction();
-                    UpdateSelection();
+                    if (!unit.inventory.empty)
+                    {
+                        // Select Input
+                        selectInput = -1;
+                        for (KeyCode key = KeyCode.Alpha0; key <= KeyCode.Alpha9; key++)
+                        {
+                            if (Input.GetKeyDown(key))
+                            {
+                                selectInput = (key == KeyCode.Alpha0)
+                                    ? (9)
+                                    : (8 - Mathf.Abs((int)key - (int)KeyCode.Alpha9));
+                                hud.inventory.ShowForSeconds(m_inventoryTime);
+                                break;
+                            }
+                        }
+
+                        // Scroll Input
+                        if ((scrollInput = m_input.GetAxis("Select Scroll")) != 0f)
+                        {
+                            hud.inventory.ShowForSeconds(m_inventoryTime);
+                        }
+                    }
+
+                    // Check Interaction
+                    if (m_canInteract = Physics.Raycast(camera.ray, out m_hit, interactRange))
+                    {
+                        if(!CheckInteraction(m_hit))
+                        {
+                            hud.reticle.SetText("");
+                        }
+                    }
+                    else
+                    {
+                        hud.reticle.SetText("");
+                    }
+
                     UpdateItem(unit.inventory.primary);
                 }
                 else
@@ -135,6 +172,15 @@ namespace FPS
                     jumpInput = false;
                     lookInput = Vector2.zero;
                 }
+
+                // Update Camera
+                camera.cursorLock = !isPaused;
+                camera.lookSpeed = m_isAiming ? m_aimSpeed : 1f;
+                camera.SetLookDelta(lookInput);
+                camera.zoomLevel = Mathf.Lerp(
+                    camera.zoomLevel,
+                    m_zoomLevel,
+                    Time.deltaTime * m_zoomSpeed);
 
                 UpdateHUD();
             }
@@ -182,121 +228,59 @@ namespace FPS
             }
         }
 
-        private void UpdateInteraction()
+        private bool CheckInteraction(RaycastHit value)
         {
-            if (m_canInteract = Physics.Raycast(camera.ray, out m_hit, interactRange))
+            switch (value.transform.tag)
             {
-                switch (m_hit.transform.tag)
+            case Item.Tag:
+            {
+                Item item;
+                if ((item = value.transform.GetComponent<Item>()) && item.interactable && !item.owner)
                 {
-                case Item.Tag:
-                {
-                    Item item;
-                    if ((item = m_hit.transform.GetComponent<Item>()) && !item.owner)
+                    if (unit.inventory.HasRoom())
                     {
-                        if(unit.inventory.HasRoom())
+                        hud.reticle.SetText("(E) Take " + item.info.name);
+
+                        if (m_input.GetButtonDown("Interact"))
                         {
-                            hud.reticle.SetText("(E) Take " + item.info.name);
-                            if (m_input.GetButtonDown("Interact"))
+                            if (unit.inventory.primary.item && unit.inventory.Store(item))
                             {
-                                if(unit.inventory.HasRoom())
-                                {
-                                    if (unit.inventory.primary.item && 
-                                        unit.inventory.Store(item))
-                                    {
-                                        hud.inventory.ShowForSeconds(m_inventoryTime);
-                                        hud.textFeed.Print("+" + item.info.name);
-                                    }
-                                    else if (unit.inventory.Equip(unit.inventory.primary, item))
-                                    {
-                                        hud.inventory.ShowForSeconds(m_inventoryTime);
-                                        hud.textFeed.Print("+" + item.info.name);
-                                    }
-                                }
+                                hud.inventory.ShowForSeconds(m_inventoryTime);
+                                hud.textFeed.Print("+" + item.info.name);
+                            }
+                            else if (unit.inventory.Equip(unit.inventory.primary, item))
+                            {
+                                hud.inventory.ShowForSeconds(m_inventoryTime);
+                                hud.textFeed.Print("+" + item.info.name);
                             }
                         }
                     }
-                }
-                break;
-                case Wall.DoorTag:
-                {
-                    Wall wall;
-                    if ((wall = m_hit.transform.parent.GetComponent<Wall>()))
+                    else
                     {
-                        if (wall.isDoor && !wall.isOpen)
-                        {
-                            hud.reticle.SetText("(E) Open");
-
-                            if (m_input.GetButtonDown("Interact"))
-                            {
-                                wall.Open();
-                            }
-                        }
+                        hud.reticle.SetText("Inventory Full");
                     }
-                }
-                break;
-                default:
-                {
-                    hud.reticle.SetText("");
-                }
-                break;
+                    return true;
                 }
             }
-            else
+            break;
+            case Wall.DoorTag:
             {
-                hud.reticle.SetText("");
-            }
-        }
-
-        private void UpdateSelection()
-        {
-            // Select Item (0-9)
-            for (KeyCode key = KeyCode.Alpha0; key <= KeyCode.Alpha9; key++)
-            {
-                if (Input.GetKeyDown(key))
+                Wall wall;
+                if ((wall = value.transform.parent.GetComponent<Wall>()) && wall.isDoor)
                 {
-                    int index = (key == KeyCode.Alpha0)
-                        ? (9)
-                        : (8 - Mathf.Abs((int)key - (int)KeyCode.Alpha9));
+                    hud.reticle.SetText(!wall.isOpen ? "(E) Open" : "Opening...");
 
-                    if (index >= 0 && index < unit.inventory.list.Count)
+                    if (m_input.GetButtonDown("Interact"))
                     {
-                        unit.inventory.index = index;
-
-                        if (!unit.inventory.Equip(unit.inventory.primary, unit.inventory.index))
-                        {
-                            unit.inventory.Store(unit.inventory.primary);
-                        }
+                        wall.Open();
                     }
 
-                    hud.inventory.ShowForSeconds(m_inventoryTime);
-
-                    break;
+                    return true;
                 }
             }
-
-            // Scroll m_input
-            if ((scrollInput = m_input.GetAxis("Select Scroll")) != 0f)
-            {
-                if (scrollInput < 0f)
-                {
-                    unit.inventory.index = (unit.inventory.index < unit.inventory.count - 1)
-                        ? (unit.inventory.index + 1)
-                        : (0);
-                }
-                else if (scrollInput > 0f)
-                {
-                    unit.inventory.index = (unit.inventory.index > 0)
-                        ? (unit.inventory.index - 1)
-                        : (unit.inventory.count - 1);
-                }
-
-                if (!unit.inventory.Equip(unit.inventory.primary, unit.inventory.index))
-                {
-                    unit.inventory.Store(unit.inventory.primary);
-                }
-
-                hud.inventory.ShowForSeconds(m_inventoryTime);
+            break;
             }
+            return false;
         }
 
         private void UpdateItem(UnitInventory.Hand hand)
@@ -304,6 +288,10 @@ namespace FPS
             Item item;
             if (item = hand.item)
             {
+                GunBase gun;
+                m_zoomLevel = (gun = item as GunBase) ? gun.zoomLevel : PlayerCamera.MinZoom;
+                m_isAiming = (m_zoomLevel != PlayerCamera.MinZoom);
+
                 item.transform.localPosition = item.holdPos.localPosition;
 
                 fire0.press = m_input.GetButtonDown("Fire0");
@@ -345,6 +333,9 @@ namespace FPS
             }
             else
             {
+                m_isAiming = false;
+                m_zoomLevel = 1f;
+
                 if (m_input.GetButtonDown("Store"))
                 {
                     if (unit.inventory.Equip(unit.inventory.primary, unit.inventory.index))
@@ -403,7 +394,7 @@ namespace FPS
                 hud.SetAmmo(-1f);
             }
 
-            hud.SetPaused(isPaused);
+            hud.ShowMenu(isPaused);
             hud.SetHealth(unit.health.fillAmount);
             hud.inventory.Refresh(unit.inventory);
 

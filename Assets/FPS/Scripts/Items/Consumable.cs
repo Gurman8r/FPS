@@ -9,7 +9,11 @@ namespace FPS
     {
         /* Variables
         * * * * * * * * * * * * * * * */
-        [SerializeField] Healing m_healing;
+        [Header("Consumable Settings")]
+        [SerializeField] Healing    m_healing;
+        [SerializeField] bool       m_removeOnEmpty = true;
+        [SerializeField] float      m_destroyDelay   = 1f;
+
 
         /* Properties
         * * * * * * * * * * * * * * * */
@@ -24,28 +28,65 @@ namespace FPS
         protected override void Update()
         {
             base.Update();
+
+            if(Application.isPlaying)
+            {
+                if(owner)
+                {
+                    if (!hasResource && m_removeOnEmpty)
+                    {
+                        interactable = false;
+                        owner.inventory.Drop(hand);
+                        Destroy(gameObject, m_destroyDelay);
+                    }
+                }
+            }
         }
+
 
         /* Functions
         * * * * * * * * * * * * * * * */
         public override void UpdatePrimary(InputState input)
         {
-            if(input.press)
+            switch(useMode)
             {
-                owner.triggers.Broadcast(EventType.OnDoHealing, new UnitEvent
+            case UseMode.Single:
+            {
+                if(input.press && !owner.health.full)
                 {
-                    data = new ObjectData
-                    {
-                        owner   = owner,
-                        target  = owner,
-                        healing = m_healing
-                    }
-                });
+                    DoHealing();
+                    ConsumeResource();
+                }
+            }
+            break;
+            case UseMode.Continuous:
+            {
+                if (input.hold && !owner.health.full)
+                {
+                    DoHealing();
+                    ConsumeResource();
+                }
+            }
+            break;
             }
         }
 
         public override void UpdateSecondary(InputState input)
         {
+        }
+
+        private void DoHealing()
+        {
+            
+            owner.triggers.Broadcast(EventType.OnDoHealing, new UnitEvent
+            {
+                data = new ObjectData
+                {
+                    owner = owner,
+                    target = owner,
+                    healing = m_healing
+                }
+            });
         }
     }
 

@@ -23,7 +23,7 @@ namespace FPS
                 {
                     item.SetText(text);
 
-                    item.transform.SetAsLastSibling();
+                    item.rectTransform.SetAsLastSibling();
 
                     item.gameObject.SetActive(true);
 

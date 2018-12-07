@@ -34,19 +34,21 @@ namespace FPS
         [SerializeField] Transform  m_holdPos;
         [SerializeField] ItemInfo   m_info;        
         [Space]
+        [SerializeField] bool       m_interactable  = true;
         [SerializeField] UseMode    m_useMode       = UseMode.Single;
         [SerializeField] float      m_useDelay      = 1f;
+        [SerializeField] bool       m_staticReticle;
         [SerializeField] int        m_maxResource   = 0;        
         [SerializeField] float      m_reloadDelay   = 2.5f;
         [SerializeField] bool       m_fixedReload   = true;
         [SerializeField] bool       m_autoReload    = true;
-        [SerializeField] bool       m_staticReticle;
         [Space]
         [SerializeField] UnityEvent m_onDrop;
         [SerializeField] UnityEvent m_onEquip;
         [SerializeField] UnityEvent m_onStore;
 
         [Header("Item Runtime")]
+        [SerializeField] UnitInventory.Hand m_hand;
         [SerializeField] Unit       m_owner;
         [SerializeField] float      m_useTimer;
         [SerializeField] bool       m_canUse;
@@ -124,6 +126,12 @@ namespace FPS
         }
 
 
+        public bool interactable
+        {
+            get { return m_interactable; }
+            protected set { m_interactable = value; }
+        }
+
         public UseMode useMode
         {
             get { return m_useMode; }
@@ -134,6 +142,11 @@ namespace FPS
         {
             get { return m_useDelay; }
             set { m_useDelay = value; }
+        }
+
+        public bool staticReticle
+        {
+            get { return m_staticReticle; }
         }
 
         public int maxResource
@@ -150,12 +163,13 @@ namespace FPS
         {
             get { return m_fixedReload; }
         }
+        
 
-        public bool staticReticle
+        public UnitInventory.Hand hand
         {
-            get { return m_staticReticle; }
+            get { return m_hand; }
+            private set { m_hand = value; }
         }
-
 
         public Unit owner
         {
@@ -344,20 +358,22 @@ namespace FPS
             }
         }
 
-        public bool SetOwner(Unit value)
+        public bool SetOwner(Unit owner, UnitInventory.Hand hand)
         {
-            if (!owner && value)
+            if (!this.owner && owner) // pickup
             {
-                owner = value;
+                this.hand = hand;
+                this.owner = owner;
                 return true;
             }
-            else if (owner && (owner == value))
+            else if (this.owner && (this.owner == owner)) // owner is same
             {
-                return true;
+                return true; 
             }
-            else if (owner && !value)
+            else if (this.owner && !owner) // drop
             {
-                owner = null;
+                this.hand = null;
+                this.owner = null;
                 return true;
             }
             else

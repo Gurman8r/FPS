@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace FPS
@@ -10,15 +11,18 @@ namespace FPS
     {
         /* Variables
         * * * * * * * * * * * * * * * */
-        [SerializeField] bool       m_enableLog;
-        [SerializeField] bool       m_changed;
+        [SerializeField] bool   m_enableLog;
+        [SerializeField] bool   m_changed;
         [Space]
         [SerializeField] Slider     m_volume;
         [SerializeField] Toggle     m_fullScreen;
+        [SerializeField] Toggle     m_fxaa;
         [SerializeField] Dropdown   m_screenResolution;
+        [SerializeField] Dropdown   m_qualityLevel;
         [SerializeField] Slider     m_lookSensitivityX;
         [SerializeField] Slider     m_lookSensitivityY;
         [SerializeField] Button     m_saveButton;
+        [SerializeField] Button     m_defaultButton;
 
         /* Properties
         * * * * * * * * * * * * * * * */
@@ -32,135 +36,137 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         private void Start()
         {
-            if(!Application.isPlaying)
+            if (Application.isPlaying)
             {
-                return;
-            }
-
-            GameSettings gs;
-            if (!(gs = GameSettings.instance))
-            {
-                Debug.LogError("GameSettings instance not found");
-                return;
-            }
-
-            LoadAll();
-
-            // Volume
-            m_volume.value = AudioListener.volume;
-            m_volume.onValueChanged.RemoveAllListeners();
-            m_volume.onValueChanged.AddListener((float value) =>
-            {
-                AudioListener.volume = m_volume.value;
-                changed = true;
-            });
-
-            // Fullscreen
-            m_fullScreen.isOn = Screen.fullScreen;
-            m_fullScreen.onValueChanged.RemoveAllListeners();
-            m_fullScreen.onValueChanged.AddListener((bool value) =>
-            {
-                Screen.SetResolution(
-                    Screen.currentResolution.width, 
-                    Screen.currentResolution.height, 
-                    m_fullScreen.isOn);
-                changed = true;
-            });
-
-            // Screen Resolution
-            m_screenResolution.options.Clear();
-            for (int i = 0; i < Screen.resolutions.Length; i++)
-            {
-                string str = Screen.resolutions[i].ToString();
-
-                if (str == Screen.currentResolution.ToString())
+                m_saveButton.onClick.RemoveAllListeners();
+                m_saveButton.onClick.AddListener(() =>
                 {
-                    m_screenResolution.value = i;
-                }
-
-                m_screenResolution.options.Add(new Dropdown.OptionData
-                {
-                    text = str
+                    SaveSettings();
                 });
+
+                m_defaultButton.onClick.RemoveAllListeners();
+                m_defaultButton.onClick.AddListener(() =>
+                {
+                    PlayerPrefs.DeleteAll();
+                    LoadSettings();
+                    changed = true;
+                });
+
+                LoadSettings();
             }
-            m_screenResolution.captionText.text = Screen.currentResolution.ToString();
-            m_screenResolution.onValueChanged.RemoveAllListeners();
-            m_screenResolution.onValueChanged.AddListener((int value) =>
-            {
-                Resolution r = Screen.resolutions[m_screenResolution.value];
-                Screen.SetResolution(
-                    r.width, 
-                    r.height, 
-                    Screen.fullScreen);
-                changed = true;
-            });
-
-            // Look Sensitivity Y
-            m_lookSensitivityX.value = gs.lookSensitivityX;
-            m_lookSensitivityX.onValueChanged.RemoveAllListeners();
-            m_lookSensitivityX.onValueChanged.AddListener((float value) =>
-            {
-                gs.lookSensitivityX = m_lookSensitivityX.value;
-                changed = true;
-            });
-
-            // Look Sensitivity Y
-            m_lookSensitivityY.value = gs.lookSensitivityY;
-            m_lookSensitivityY.onValueChanged.RemoveAllListeners();
-            m_lookSensitivityY.onValueChanged.AddListener((float value) =>
-            {
-                gs.lookSensitivityY = m_lookSensitivityY.value;
-                changed = true;
-            });
         }
 
         private void Update()
         {
-            if(m_saveButton)
-            {
-                m_saveButton.interactable = changed;
-            }
+            m_saveButton.interactable = changed;
         }
 
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public void LoadAll()
+        public void LoadSettings()
         {
-            GameSettings gs;
-            if (gs = GameSettings.instance)
+            // Volume
+            SetupSlider(m_volume, "Volume", 0.5f, (Slider s) =>
             {
-                changed = false;
-                AudioListener.volume = PlayerPrefs.GetFloat("Volume", 0.5f);
-                gs.lookSensitivityX = PlayerPrefs.GetFloat("LookSensitivityX", 0.1f);
-                gs.lookSensitivityY = PlayerPrefs.GetFloat("LookSensitivityY", 0.1f);
+                AudioListener.volume = s.value;
+            });
 
-                if (m_enableLog) Debug.Log("Loaded Settings");
-            }
-            else
+            // Fullscreen
+            SetupToggle(m_fullScreen, "Fullscreen", true, (Toggle t) =>
             {
-                Debug.LogError("GameSettings instance not found");
-            }
+                Screen.SetResolution(Screen.width, Screen.height, t.isOn);
+            });
+
+            // FXAA
+            SetupToggle(m_fxaa, "EnableFXAA", true, (Toggle t) =>
+            {
+                PlayerCamera.main.fxaa.enabled = t.isOn;
+            });
+
+            // Screen Resolution
+            SetupDropdown(m_screenResolution, "ScreenResolution", Screen.resolutions.Length - 1, Screen.resolutions, (Dropdown d) =>
+            {
+                Resolution r = Screen.resolutions[d.value];
+                Screen.SetResolution(r.width, r.height, Screen.fullScreen);
+            });
+
+            // Quality Level
+            SetupDropdown(m_qualityLevel, "QualityLevel", QualitySettings.names.Length - 1, QualitySettings.names, (Dropdown d) =>
+            {
+                QualitySettings.SetQualityLevel(d.value);
+            });
+
+            // Look Sensitivity X
+            SetupSlider(m_lookSensitivityX, "LookSensitivityX", 0.1f, (Slider slider) =>
+            {
+                PlayerCamera.main.lookSensitivity = new Vector2(slider.value, PlayerCamera.main.lookSensitivity.y);
+            });
+
+            // Look Sensitivity Y
+            SetupSlider(m_lookSensitivityY, "LookSensitivityY", 0.1f, (Slider slider) =>
+            {
+                PlayerCamera.main.lookSensitivity = new Vector2(PlayerCamera.main.lookSensitivity.x, slider.value);
+            });
+            
+            if (m_enableLog) { Debug.Log("Loaded Settings"); }
+            changed = false;
         }
 
-        public void SaveAll()
+        public void SaveSettings()
         {
-            GameSettings gs;
-            if(gs = GameSettings.instance)
-            {
-                changed = false;
-                PlayerPrefs.SetFloat("Volume", AudioListener.volume);
-                PlayerPrefs.SetFloat("LookSensitivityX", gs.lookSensitivityX);
-                PlayerPrefs.SetFloat("LookSensitivityY", gs.lookSensitivityY);
-                PlayerPrefs.Save();
+            PlayerPrefs.SetFloat("Volume", m_volume.value);
+            PlayerPrefs.SetInt("Fullscreen", m_fullScreen.isOn ? 1 : 0);
+            PlayerPrefs.SetInt("EnableFXAA", m_fxaa.isOn ? 1 : 0);
+            PlayerPrefs.SetInt("ScreenResolution", m_screenResolution.value);
+            PlayerPrefs.SetInt("QualityLevel", m_qualityLevel.value);
+            PlayerPrefs.SetFloat("LookSensitivityX", m_lookSensitivityX.value);
+            PlayerPrefs.SetFloat("LookSensitivityY", m_lookSensitivityY.value);
+            PlayerPrefs.Save();
 
-                if (m_enableLog) Debug.Log("Saved Settings");
-            }
-            else
-            {
-                Debug.LogError("GameSettings instance not found");
-            }
+            if (m_enableLog) { Debug.Log("Saved Settings"); }
+            changed = false;
+        }
 
+        private void SetupSlider(Slider slider, string key, float dv, UnityAction<Slider> call)
+        {
+            slider.onValueChanged.RemoveAllListeners();
+            slider.onValueChanged.AddListener((float t) => 
+            {
+                call(slider);
+                changed = true;
+            });
+            slider.value = PlayerPrefs.GetFloat(key, dv);
+        }
+
+        private void SetupToggle(Toggle toggle, string key, bool dv, UnityAction<Toggle> call)
+        {
+            toggle.onValueChanged.RemoveAllListeners();
+            toggle.onValueChanged.AddListener((bool t) =>
+            {
+                call(toggle);
+                changed = true;
+            });
+            toggle.isOn = PlayerPrefs.GetInt(key, (dv ? 1 : 0)) == 1;
+        }
+
+        private void SetupDropdown<T>(Dropdown dropdown, string key, int dv, T[] options, UnityAction<Dropdown> call)
+        {
+            dropdown.options.Clear();
+            for (int i = 0; i < options.Length; i++)
+            {
+                dropdown.options.Add(new Dropdown.OptionData
+                {
+                    text = options[i].ToString()
+                });
+            }
+            dropdown.onValueChanged.RemoveAllListeners();
+            dropdown.onValueChanged.AddListener((int value) =>
+            {
+                call(dropdown);
+                changed = true;
+            });
+            dropdown.value = PlayerPrefs.GetInt(key, dv);
         }
     }
 

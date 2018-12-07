@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace FPS
 {
     [ExecuteInEditMode]
-    public class InventoryUI : BaseImage
+    public class InventoryUI : BaseUI
     {
         /* Variables
         * * * * * * * * * * * * * * * */
@@ -94,7 +94,7 @@ namespace FPS
                     ItemSlot slot;
                     if (slot = m_slots[index])
                     {
-                        m_selector.transform.position = m_slots[index].transform.position;
+                        m_selector.transform.position = m_slots[index].rectTransform.position;
                     }
                 }
             }

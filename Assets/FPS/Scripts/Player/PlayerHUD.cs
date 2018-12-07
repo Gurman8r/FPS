@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace FPS
@@ -20,14 +21,16 @@ namespace FPS
         [SerializeField] InventoryUI    m_inventory;
         [SerializeField] HealthBar      m_healthBar;
         [SerializeField] HealthBar      m_ammoBar;
-        [SerializeField] RectTransform  m_pauseMenu;
-        [Space]
+        [SerializeField] RectTransform  m_menu;
         [SerializeField] Image          m_damage;
         [SerializeField] float          m_damageAlpha = 0.25f;
         [SerializeField] float          m_damageFade = 1f;
+        [Space]
+        [SerializeField] UnityEvent     m_onShowMenu;
+        [SerializeField] UnityEvent     m_onHideMenu;
 
         [Header("Runtime")]
-        [SerializeField] bool           m_showPause;
+        [SerializeField] bool           m_showMenu;
         [SerializeField] float          m_damageTimer = 0f;
 
 
@@ -71,9 +74,9 @@ namespace FPS
             get { return m_ammoBar; }
         }
 
-        public RectTransform pauseMenu
+        public RectTransform menu
         {
-            get { return m_pauseMenu; }
+            get { return m_menu; }
         }
 
 
@@ -108,7 +111,7 @@ namespace FPS
 
             if (!Application.isPlaying)
             {
-                SetPaused(m_showPause);
+                ShowMenu(m_showMenu);
             }
         }
 
@@ -140,19 +143,21 @@ namespace FPS
             }
         }
 
-        public void SetPaused(bool value)
+        public void ShowMenu(bool value)
         {
-            m_showPause = (Application.isPlaying ? value : m_showPause);
+            m_showMenu = (Application.isPlaying ? value : m_showMenu);
 
-            if (pauseMenu)
+            if (menu)
             {
-                if(m_showPause)
+                if(m_showMenu)
                 {
-                    pauseMenu.gameObject.SetActive(true);
+                    menu.gameObject.SetActive(true);
+                    m_onShowMenu.Invoke();
                 }
-                else if(pauseMenu.gameObject.activeInHierarchy)
+                else if(menu.gameObject.activeInHierarchy)
                 {
-                    pauseMenu.gameObject.SetActive(false);
+                    m_onHideMenu.Invoke();
+                    menu.gameObject.SetActive(false);
                 }
             }
         }

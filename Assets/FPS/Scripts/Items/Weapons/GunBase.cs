@@ -12,12 +12,14 @@ namespace FPS
         [Header("Gun Settings")]
         [SerializeField] int    m_bulletCount   = 1;
         [SerializeField] float  m_bulletDelay   = 0.1f;
-        [Space]
-        [SerializeField] bool   m_allowAds      = true;
-        [SerializeField] float  m_hipSpread     = 0.5f;
-        [SerializeField] float  m_adsSpread     = 0.1f;
+        [SerializeField] bool   m_allowAiming   = true;
+        [SerializeField] float  m_spreadHip     = 0.5f;
+        [SerializeField] float  m_spreadAim     = 0.1f;
+        [Range(PlayerCamera.MinZoom, PlayerCamera.MaxZoom)]
+        [SerializeField] float  m_zoomAiming    = 1f;
 
         [Header("Gun Runtime")]
+        [SerializeField] bool   m_isAiming      = false;
         [SerializeField] float  m_bulletSpread  = 0.1f;
 
 
@@ -35,15 +37,34 @@ namespace FPS
             set { m_bulletDelay = value; }
         }
 
-        public bool allowAds
+        public bool allowAiming
         {
-            get { return m_allowAds; }
+            get { return m_allowAiming; }
         }
 
         public float bulletSpread
         {
             get { return m_bulletSpread; }
-            set { m_bulletSpread = value; }
+            private set { m_bulletSpread = value; }
+        }
+
+        public bool isAiming
+        {
+            get { return m_isAiming; }
+            protected set { m_isAiming = value; }
+        }
+
+        public float zoomLevel
+        {
+            get
+            {
+                return 
+                    isAiming
+                        ? allowAiming
+                            ? m_zoomAiming
+                            : 1f
+                        : 1f;
+            }
         }
 
 
@@ -73,13 +94,13 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         protected void SetAimDownSights(int value)
         {
-            if(allowAds)
+            if(isAiming = (allowAiming && (value == 1 ? true : false)))
             {
-                bulletSpread = (value != 0) ? m_adsSpread : m_hipSpread;
+                bulletSpread = (value != 0) ? m_spreadAim : m_spreadHip;
             }
             else
             {
-                bulletSpread = m_hipSpread;
+                bulletSpread = m_spreadHip;
             }
         }
 

@@ -12,8 +12,6 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         [Header("Weapon Settings")]
         [SerializeField] Transform  m_firePos;
-        
-        [Space]
         [SerializeField] ObjectData m_objectData;
 
         [Header("Weapon Runtime")]

@@ -42,7 +42,7 @@ namespace FPS
 
         public override void UpdateSecondary(InputState input)
         {
-            if(allowAds)
+            if(allowAiming)
                 animator.SetBool("AimDownSights", !onCooldown && input.hold);
         }
 

@@ -1,15 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace FPS
 {
-    public sealed class Hitmarker : BaseImage
+    public sealed class Hitmarker : BaseUI
     {
-
         /* Variables
         * * * * * * * * * * * * * * * */
-        [SerializeField] float m_fadeSpeed = 1f;
+        [SerializeField] float      m_fadeSpeed = 1f;
+        [SerializeField] UnityEvent m_onShow;
 
         /* Core
         * * * * * * * * * * * * * * * */
@@ -33,6 +34,8 @@ namespace FPS
         public void Show()
         {
             imageAlpha = 1f;
+
+            m_onShow.Invoke();
         }
 
         public void Hide()

@@ -30,6 +30,7 @@ namespace FPS
         [SerializeField] Vector2    m_moveInput;
         [SerializeField] bool       m_sprintInput;
         [SerializeField] Vector2    m_lookInput;
+        [SerializeField] int        m_selectInput = -1;
         [SerializeField] float      m_scrollInput;
         [SerializeField] bool       m_jumpInput;
 
@@ -113,10 +114,17 @@ namespace FPS
             get { return m_sprintInput; }
             protected set { m_sprintInput = value; }
         }
+
         public Vector2 lookInput
         {
             get { return m_lookInput; }
             protected set { m_lookInput = value; }
+        }
+
+        public int selectInput
+        {
+            get { return m_selectInput; }
+            protected set { m_selectInput = value; }
         }
 
         public float scrollInput
@@ -164,6 +172,43 @@ namespace FPS
                 {
                     jumpInput = false;
                     unit.motor.Jump(jumpHeight);
+                }
+
+                if(!unit.inventory.empty)
+                {
+                    // Select Input
+                    if ((selectInput >= 0) && (selectInput < unit.inventory.list.Count))
+                    {
+                        unit.inventory.index = selectInput;
+
+                        if (!unit.inventory.Equip(unit.inventory.primary, unit.inventory.index))
+                        {
+                            unit.inventory.Store(unit.inventory.primary);
+                            selectInput = -1;
+                        }
+                    }
+
+                    // Scroll Input
+                    if (scrollInput != 0f)
+                    {
+                        if (scrollInput < 0f)
+                        {
+                            unit.inventory.index = (unit.inventory.index < unit.inventory.count - 1)
+                                ? (unit.inventory.index + 1)
+                                : (0);
+                        }
+                        else if (scrollInput > 0f)
+                        {
+                            unit.inventory.index = (unit.inventory.index > 0)
+                                ? (unit.inventory.index - 1)
+                                : (unit.inventory.count - 1);
+                        }
+
+                        if (!unit.inventory.Equip(unit.inventory.primary, unit.inventory.index))
+                        {
+                            unit.inventory.Store(unit.inventory.primary);
+                        }
+                    }
                 }
             }
         }

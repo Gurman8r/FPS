@@ -5,27 +5,46 @@ using UnityEngine;
 namespace FPS
 {
     [RequireComponent(typeof(Camera))]
+    [RequireComponent(typeof(FXAA))]
     [DisallowMultipleComponent]
     [ExecuteInEditMode]
     public sealed class PlayerCamera : MonoBehaviour
     {
+        public const float MinZoom  = 1f;
+        public const float MaxZoom  = 10f;
+        public const float MinFOV   = 0.00001f;
+        public const float MaxFOV   = 179f;
+
         /* Variables
         * * * * * * * * * * * * * * * */
+        private Camera  m_camera;
+        private FXAA    m_fxaa;
         private Ray     m_ray = new Ray();
 
         [Header("Settings")]
-        [SerializeField] Camera     m_camera;
         [SerializeField] Transform  m_parent;
         [SerializeField] Vector3    m_offset            = Vector2.zero;
         [SerializeField] Vector2    m_lookDelta         = Vector2.zero;
         [SerializeField] Vector2    m_lookSensitivity   = Vector2.one;
+        [SerializeField] float      m_lookSpeed         = 1f;
         [SerializeField] float      m_minHeight         = -80;
         [SerializeField] float      m_maxHeight         = 80;
         [SerializeField] bool       m_cursorLock        = false;
+        [Range(MinFOV, MaxFOV)]
+        [SerializeField] float      m_fieldOfView       = 60f;
+        [Range(MinZoom, MaxZoom)]
+        [SerializeField] float      m_zoomLevel         = 1f;
 
+        [Header("Runtime")]
+        [SerializeField] float m_currentFieldOfView;
 
         /* Properties
         * * * * * * * * * * * * * * * */
+        public static PlayerCamera main
+        {
+            get; private set;
+        }
+
         public new Camera camera
         {
             get
@@ -35,6 +54,18 @@ namespace FPS
                     m_camera = GetComponent<Camera>();
                 }
                 return m_camera;
+            }
+        }
+
+        public FXAA fxaa
+        {
+            get
+            {
+                if(!m_fxaa)
+                {
+                    m_fxaa = GetComponent<FXAA>();
+                }
+                return m_fxaa;
             }
         }
 
@@ -78,6 +109,12 @@ namespace FPS
             set { m_lookSensitivity = value; }
         }
 
+        public float lookSpeed
+        {
+            get { return m_lookSpeed; }
+            set { m_lookSpeed = value; }
+        }
+
         public float minHeight
         {
             get { return m_minHeight; }
@@ -94,9 +131,30 @@ namespace FPS
             set { m_cursorLock = value; }
         }
 
+        public float zoomLevel
+        {
+            get { return m_zoomLevel; }
+            set { m_zoomLevel = Mathf.Clamp(value, MinZoom, MaxZoom); }
+        }
+
 
         /* Core
         * * * * * * * * * * * * * * * */
+        private void Awake()
+        {
+            if(Application.isPlaying)
+            {
+                if(!main)
+                {
+                    main = this;
+                }
+                else
+                {
+                    gameObject.SetActive(false);
+                }
+            }
+        }
+
         private void Start()
         {
             if(Application.isPlaying)
@@ -104,6 +162,7 @@ namespace FPS
                 if (!parent)
                 {
                     Debug.LogError("PlayerCamera Parent not set");
+                    return;
                 }
             }
         }
@@ -112,23 +171,15 @@ namespace FPS
         {
             camera.transform.localPosition = offset;
 
+            camera.fieldOfView = (m_currentFieldOfView = (m_fieldOfView / zoomLevel));
+
             if (Application.isPlaying)
             {
-                GameSettings gs;
-                if (gs = GameSettings.instance)
-                {
-                    lookSensitivity = new Vector2(gs.lookSensitivityX, gs.lookSensitivityY);
-                }
-
                 Cursor.lockState = cursorLock ? CursorLockMode.Locked : CursorLockMode.None;
 
                 Cursor.visible = !cursorLock;
 
-                lookDelta = cursorLock ? lookDelta : Vector2.zero;
-
-                camera.transform.localRotation = Quaternion.Euler(lookDelta.y, 0, 0f);
-
-                parent.Rotate(0, lookDelta.x, 0);
+                ApplyRotation(cursorLock ? (lookDelta * lookSpeed) : Vector2.zero);
             }
         }
 
@@ -143,6 +194,13 @@ namespace FPS
                     lookDelta.y - (value.y * lookSensitivity.y), 
                     minHeight, 
                     maxHeight));
+        }
+
+        private void ApplyRotation(Vector2 value)
+        {
+            camera.transform.localRotation = Quaternion.Euler(value.y, 0, 0f);
+
+            parent.Rotate(0, value.x, 0);
         }
     }
 

@@ -156,7 +156,8 @@ namespace FPS
             }
         }
 
-        /* Functions
+
+        /* Interfaces
         * * * * * * * * * * * * * * * */
         public void OnSpawn(UnitEvent ev)
         {
@@ -176,8 +177,6 @@ namespace FPS
 
         public void OnDoDamage(UnitEvent ev)
         {
-            metrics.damageDealt += ev.data.damage.amount;
-
             if (ev.data.target)
             {
                 ev.data.target.triggers.Broadcast(EventType.OnRecieveDamage, ev);
@@ -186,8 +185,6 @@ namespace FPS
 
         public void OnDoHealing(UnitEvent ev)
         {
-            metrics.healingDone += ev.data.healing.amount;
-
             if(ev.data.target)
             {
                 ev.data.target.triggers.Broadcast(EventType.OnRecieveHealing, ev);
@@ -196,8 +193,6 @@ namespace FPS
 
         public void OnRecieveDamage(UnitEvent ev)
         {
-            metrics.damageRecieved += ev.data.damage.amount;
-
             health.Modify(-ev.data.damage.amount);
             
             if(!health.dead && health.CheckDead())
@@ -209,8 +204,6 @@ namespace FPS
         public void OnRecieveHealing(UnitEvent ev)
         {
             health.Modify(ev.data.healing.amount);
-
-            metrics.healingRecieved += ev.data.healing.amount;
         }
     }
 

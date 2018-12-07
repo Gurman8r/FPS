@@ -10,8 +10,8 @@ namespace FPS
         [Serializable]
         public class Hand
         {
-            public Transform    transform;
-            public Item         item;
+            public Transform transform;
+            public Item item;
 
             public static implicit operator bool(Hand value)
             {
@@ -21,11 +21,11 @@ namespace FPS
 
         /* Variables
         * * * * * * * * * * * * * * * */
-        [SerializeField] Hand       m_primary;
-        [SerializeField] int        m_capacity = 10;
-        [SerializeField] int        m_index = 0;
+        [SerializeField] Hand m_primary;
+        [SerializeField] int m_capacity = 10;
+        [SerializeField] int m_index = 0;
         [SerializeField] List<Item> m_list;
-        [SerializeField] Transform  m_bagTransform;
+        [SerializeField] Transform m_bagTransform;
 
 
         /* Properties
@@ -59,6 +59,11 @@ namespace FPS
         public int count
         {
             get { return m_list.Count; }
+        }
+
+        public bool empty
+        {
+            get { return count == 0; }
         }
 
 
@@ -126,7 +131,7 @@ namespace FPS
         public bool Drop(Hand hand)
         {
             Item item;
-            if((item = hand.item) && item.SetOwner(null))
+            if((item = hand.item) && item.SetOwner(null, hand))
             {
                 if (BagContains(item)) list.Remove(item);
 
@@ -144,7 +149,7 @@ namespace FPS
 
         public bool Equip(Hand hand, Item item)
         {
-            if (HasRoom() && item && item.SetOwner(unit))
+            if (HasRoom() && item && item.SetOwner(unit, hand))
             {
                 if (CanAdd(item)) AddToBag(item);
 

@@ -22,7 +22,7 @@ namespace FPS
 
         /* Variables
         * * * * * * * * * * * * * * * */
-        private SerializedProperty  m_DelegatesProperty;
+        private SerializedProperty  m_ListProperty;
         private GUIContent          m_IconToolbarMinus;
         private GUIContent          m_EventIDName;
         private GUIContent[]        m_EventTypes;
@@ -32,7 +32,7 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         protected virtual void OnEnable()
         {
-            m_DelegatesProperty = serializedObject.FindProperty("delegates");
+            m_ListProperty = serializedObject.FindProperty("delegates");
             m_AddButonContent = new GUIContent("Add New Event Type");
             m_EventIDName = new GUIContent("");
             // Have to create a copy since otherwise the tooltip will be overwritten.
@@ -56,9 +56,9 @@ namespace FPS
 
             Vector2 removeButtonSize = GUIStyle.none.CalcSize(m_IconToolbarMinus);
 
-            for (int i = 0; i < m_DelegatesProperty.arraySize; ++i)
+            for (int i = 0; i < m_ListProperty.arraySize; ++i)
             {
-                SerializedProperty delegateProperty = m_DelegatesProperty.GetArrayElementAtIndex(i);
+                SerializedProperty delegateProperty = m_ListProperty.GetArrayElementAtIndex(i);
                 SerializedProperty eventProperty = delegateProperty.FindPropertyRelative("eventID");
                 SerializedProperty callbacksProperty = delegateProperty.FindPropertyRelative("callback");
                 m_EventIDName.text = eventProperty.enumDisplayNames[eventProperty.enumValueIndex];
@@ -94,7 +94,7 @@ namespace FPS
 
         private void RemoveEntry(int toBeRemovedEntry)
         {
-            m_DelegatesProperty.DeleteArrayElementAtIndex(toBeRemovedEntry);
+            m_ListProperty.DeleteArrayElementAtIndex(toBeRemovedEntry);
         }
 
         void ShowAddTriggermenu()
@@ -106,9 +106,9 @@ namespace FPS
                 bool active = true;
 
                 // Check if we already have a Entry for the current eventType, if so, disable it
-                for (int p = 0; p < m_DelegatesProperty.arraySize; ++p)
+                for (int p = 0; p < m_ListProperty.arraySize; ++p)
                 {
-                    SerializedProperty delegateEntry = m_DelegatesProperty.GetArrayElementAtIndex(p);
+                    SerializedProperty delegateEntry = m_ListProperty.GetArrayElementAtIndex(p);
                     SerializedProperty eventProperty = delegateEntry.FindPropertyRelative("eventID");
                     if (eventProperty.enumValueIndex == i)
                     {
@@ -128,8 +128,8 @@ namespace FPS
         {
             int selected = (int)index;
 
-            m_DelegatesProperty.arraySize += 1;
-            SerializedProperty delegateEntry = m_DelegatesProperty.GetArrayElementAtIndex(m_DelegatesProperty.arraySize - 1);
+            m_ListProperty.arraySize += 1;
+            SerializedProperty delegateEntry = m_ListProperty.GetArrayElementAtIndex(m_ListProperty.arraySize - 1);
             SerializedProperty eventProperty = delegateEntry.FindPropertyRelative("eventID");
             eventProperty.enumValueIndex = selected;
             serializedObject.ApplyModifiedProperties();

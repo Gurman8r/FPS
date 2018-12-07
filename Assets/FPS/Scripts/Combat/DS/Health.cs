@@ -8,11 +8,13 @@ namespace FPS
     [Serializable]
     public class Health
     {
-        [SerializeField] float m_current = 100;
-        [SerializeField] float m_minimim = 0f;
-        [SerializeField] float m_maximum = 100;
-        [SerializeField] bool m_dead = false;
+        [SerializeField] float  m_current = 100f;
+        [SerializeField] float  m_minimim = 0f;
+        [SerializeField] float  m_maximum = 100f;
+        [SerializeField] bool   m_dead = false;
 
+        /* Properties
+        * * * * * * * * * * * * * * * */
         public float current
         {
             get { return m_current; }
@@ -53,6 +55,14 @@ namespace FPS
             }
         }
 
+        public bool full
+        {
+            get { return current >= maximum; }
+        }
+
+
+        /* Functions
+        * * * * * * * * * * * * * * * */
         public void Set(float value)
         {
             current = Mathf.Clamp(value, minimum, maximum);

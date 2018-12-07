@@ -591,6 +591,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 430d03f4adc946e4f8ed10f7dae5e69a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timesSpawned: 0
+  timesKilled: 0
   damageDealt: 0
   damageRecieved: 0
   healingDone: 0
@@ -816,6 +818,7 @@ MonoBehaviour:
   m_moveInput: {x: 0, y: 0}
   m_sprintInput: 0
   m_lookInput: {x: 0, y: 0}
+  m_selectInput: -1
   m_scrollInput: 0
   m_jumpInput: 0
   m_canvas: {fileID: 223417768455271484}

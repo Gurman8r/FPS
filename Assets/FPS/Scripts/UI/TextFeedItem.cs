@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace FPS
 {
     [ExecuteInEditMode]
-    public class TextFeedItem : BaseImage
+    public class TextFeedItem : BaseUI
     {
 
         /* Variables
@@ -33,9 +33,9 @@ namespace FPS
                 text.rectTransform.sizeDelta = size;
             }
 
-            if(image.rectTransform.sizeDelta != size)
+            if(rectTransform.sizeDelta != size)
             {
-                image.rectTransform.sizeDelta = size;
+                rectTransform.sizeDelta = size;
             }
         }
 

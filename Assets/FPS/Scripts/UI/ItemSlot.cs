@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace FPS
 {
     [ExecuteInEditMode]
-    public class ItemSlot : BaseImage
+    public class ItemSlot : BaseUI
     {
 
         /* Variables
