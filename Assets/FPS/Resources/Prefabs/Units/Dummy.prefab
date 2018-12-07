@@ -904,6 +904,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_health:
     m_current: 100
+    m_minimim: 1
     m_maximum: 100
     m_dead: 0
   m_status:

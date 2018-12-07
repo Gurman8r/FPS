@@ -95,7 +95,7 @@ namespace FPS
                 DetectController();
 
                 // Cursor Lock
-                if (m_input.GetButtonDown("Cancel"))
+                if (m_input.GetButtonDown("Pause"))
                 {
                     isPaused = !isPaused;
                 }

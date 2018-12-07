@@ -8,14 +8,21 @@ namespace FPS
     [Serializable]
     public class Health
     {
-        [SerializeField] float m_current = 10;
-        [SerializeField] float m_maximum = 10;
+        [SerializeField] float m_current = 100;
+        [SerializeField] float m_minimim = 0f;
+        [SerializeField] float m_maximum = 100;
         [SerializeField] bool m_dead = false;
 
         public float current
         {
             get { return m_current; }
             private set { m_current = value; }
+        }
+
+        public float minimum
+        {
+            get { return m_minimim; }
+            private set { m_minimim = value; }
         }
 
         public float maximum
@@ -48,7 +55,7 @@ namespace FPS
 
         public void Set(float value)
         {
-            current = Mathf.Clamp(value, 0f, maximum);
+            current = Mathf.Clamp(value, minimum, maximum);
         }
 
         public void Modify(float value)

@@ -67,8 +67,6 @@ namespace FPS
                 if (meleeObject)
                 {
                     data.owner = owner;
-                    //data.pos = firePos.position;
-                    //data.dir = transform.forward;
                     meleeObject.data = data;
                     meleeObject.SetActive(m_canDamage);
                 }

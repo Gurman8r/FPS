@@ -24,13 +24,13 @@ namespace FPS
         public float lookSensitivityX
         {
             get { return m_lookSensitivityX; }
-            set { m_lookSensitivityX = Mathf.Clamp(value, 0f, 1f); }
+            set { m_lookSensitivityX = value; }
         }
 
         public float lookSensitivityY
         {
             get { return m_lookSensitivityY; }
-            set { m_lookSensitivityY = Mathf.Clamp(value, 0f, 1f); }
+            set { m_lookSensitivityY = value; }
         }
 
 

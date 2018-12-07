@@ -69,6 +69,9 @@ namespace FPS
             Gizmos.color = Color.cyan;
             Gizmos.DrawLine(origin, lookingAt);
             Gizmos.DrawWireSphere(lookingAt, 0.1f);
+
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawWireSphere(origin + direction, 0.05f);
         }
 
         /* Functions

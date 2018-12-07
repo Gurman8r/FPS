@@ -135,6 +135,7 @@ namespace FPS
                 item.Reparent(null, true);
                 item.EnablePhysics(true);
                 item.EnableAnimator(false);
+                item.transform.position = unit.vision.origin + unit.vision.direction;
                 return true;
             }
             return false;
