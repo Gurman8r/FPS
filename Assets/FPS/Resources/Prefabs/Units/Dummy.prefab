@@ -826,7 +826,7 @@ MonoBehaviour:
   m_health: {fileID: 114310740521628502}
   m_regenSpeed: 25
   m_fadeSpeed: 1
-  m_format: "Damage:\t\t\t\t{0}\nElapsed:\t\t\t\t{2}s\nDPS:\t\t\t\t\t{1}\nHit Count:\t\t\t\t{3}\nIn
+  m_format: "Damage:\t\t\t\t{0}\nElapsed:\t\t\t{2}s\nDPS:\t\t\t\t{1}\nHit Count:\t\t\t{3}\nIn
     Combat:\t\t\t{4}s"
   m_hitCount: 0
   m_damageTotal: 0
@@ -880,7 +880,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: c0a605c91a92463499573ad3f1acd9d7, type: 3}
     m_FontSize: 8
     m_FontStyle: 0
     m_BestFit: 0
@@ -892,7 +892,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Damage:\t\t\t\t{0}\nElapsed:\t\t\t\t{2}s\nDPS:\t\t\t\t\t{1}\nHit Count:\t\t\t\t{3}\nIn
+  m_Text: "Damage:\t\t\t\t{0}\nElapsed:\t\t\t{2}s\nDPS:\t\t\t\t{1}\nHit Count:\t\t\t{3}\nIn
     Combat:\t\t\t{4}s"
 --- !u!114 &114930872703946656
 MonoBehaviour:

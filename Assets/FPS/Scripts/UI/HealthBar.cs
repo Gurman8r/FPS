@@ -10,6 +10,8 @@ namespace FPS
     {
         /* Variables
         * * * * * * * * * * * * * * * */
+        private Image m_maskImage;
+
         [SerializeField] Image      m_back;
         [SerializeField] Mask       m_mask;
         [SerializeField] Image      m_fill;
@@ -46,6 +48,9 @@ namespace FPS
         {
             if(m_back && m_mask && m_fill)
             {
+                if (!m_maskImage)
+                    m_maskImage = m_mask.GetComponent<Image>();
+
                 m_mask.showMaskGraphic = false;
 
                 m_back.color = m_backColor.Evaluate(m_fillAmount) * m_imageAlpha;

@@ -47,9 +47,9 @@ namespace FPS
             base.Update();
 
             m_format =  "Damage:\t\t\t\t{0}\n" +
-                        "Elapsed:\t\t\t\t{2}s\n" +
-                        "DPS:\t\t\t\t\t{1}\n" +
-                        "Hit Count:\t\t\t\t{3}\n" +
+                        "Elapsed:\t\t\t{2}s\n" +
+                        "DPS:\t\t\t\t{1}\n" +
+                        "Hit Count:\t\t\t{3}\n" +
                         "In Combat:\t\t\t{4}s";
 
             if (Application.isPlaying)

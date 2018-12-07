@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -11,21 +12,32 @@ namespace FPS
     {
         /* Variables
         * * * * * * * * * * * * * * * */
-        [SerializeField] bool   m_enableLog;
         [SerializeField] bool   m_changed;
-        [Space]
-        [SerializeField] Dropdown   m_screenResolution;
-        [SerializeField] Dropdown   m_qualityLevel;
-        [SerializeField] Toggle     m_fullScreen;
-        [SerializeField] Toggle     m_fxaa;
-        [SerializeField] Toggle     m_motionBlur;
-        [SerializeField] Toggle     m_vignette;
-        [SerializeField] Toggle     m_bloom;
+
+        [Header("Audio")]
         [SerializeField] Slider     m_volume;
+
+        [Header("Gameplay")]
         [SerializeField] Slider     m_lookSensitivityX;
         [SerializeField] Slider     m_lookSensitivityY;
+
+        [Header("Video")]
+        [SerializeField] Dropdown   m_resolution;
+        [SerializeField] Dropdown   m_displayMode;
+        [SerializeField] Dropdown   m_qualityLevel;
+
+        [Header("Post Processing")]
+        [SerializeField] Toggle     m_antialiasing;
+        [SerializeField] Toggle     m_ambientOcclusion;
+        [SerializeField] Toggle     m_bloom;
+        [SerializeField] Toggle     m_motionBlur;
+        [SerializeField] Toggle     m_vignette;
+
+        [Header("Buttons")]
         [SerializeField] Button     m_saveButton;
         [SerializeField] Button     m_defaultButton;
+
+        private List<Vector2Int> m_modes;
 
 
         /* Properties
@@ -43,27 +55,16 @@ namespace FPS
         {
             if (Application.isPlaying)
             {
-                m_saveButton.onClick.RemoveAllListeners();
-                m_saveButton.onClick.AddListener(() =>
-                {
-                    SaveSettings();
-                });
-
-                m_defaultButton.onClick.RemoveAllListeners();
-                m_defaultButton.onClick.AddListener(() =>
-                {
-                    PlayerPrefs.DeleteAll();
-                    LoadSettings();
-                    changed = true;
-                });
-
                 LoadSettings();
             }
         }
 
         private void Update()
         {
-            m_saveButton.interactable = changed;
+            if(m_saveButton)
+            {
+                m_saveButton.interactable = changed;
+            }
         }
 
 
@@ -71,18 +72,26 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         public void SaveSettings()
         {
-            PlayerPrefs.SetInt("QualityLevel", m_qualityLevel.value);
-            PlayerPrefs.SetInt("ScreenResolution", m_screenResolution.value);
-            PlayerPrefs.SetInt("Fullscreen", m_fullScreen.isOn ? 1 : 0);
-            PlayerPrefs.SetInt("EnableFXAA", m_fxaa.isOn ? 1 : 0);
-            PlayerPrefs.SetInt("EnableVignette", m_vignette.isOn ? 1 : 0);
-            PlayerPrefs.SetInt("EnableBloom", m_bloom.isOn ? 1 : 0);
+            // Audio
             PlayerPrefs.SetFloat("Volume", m_volume.value);
+
+            // Gameplay
             PlayerPrefs.SetFloat("LookSensitivityX", m_lookSensitivityX.value);
             PlayerPrefs.SetFloat("LookSensitivityY", m_lookSensitivityY.value);
-            PlayerPrefs.Save();
 
-            if (m_enableLog) { Debug.Log("Saved Settings"); }
+            // Video
+            PlayerPrefs.SetInt("ScreenResolution", m_resolution.value);
+            PlayerPrefs.SetInt("QualityLevel", m_qualityLevel.value);
+            PlayerPrefs.SetInt("DisplayMode", m_displayMode.value);
+
+            // Post Processing
+            PlayerPrefs.SetInt("EnableAntialiasing", m_antialiasing.isOn ? 1 : 0);
+            PlayerPrefs.SetInt("EnableAmbientOcclusion", m_ambientOcclusion.isOn ? 1 : 0);
+            PlayerPrefs.SetInt("EnableBloom", m_bloom.isOn ? 1 : 0);
+            PlayerPrefs.SetInt("EnableMotionBlur", m_motionBlur.isOn ? 1 : 0);
+            PlayerPrefs.SetInt("EnableVignette", m_vignette.isOn ? 1 : 0);
+
+            PlayerPrefs.Save();
             changed = false;
         }
 
@@ -92,49 +101,6 @@ namespace FPS
             SetupSlider(m_volume, "Volume", 0.5f, (Slider s) =>
             {
                 AudioListener.volume = s.value;
-            });
-
-            // Fullscreen
-            SetupToggle(m_fullScreen, "Fullscreen", true, (Toggle t) =>
-            {
-                Screen.SetResolution(Screen.width, Screen.height, t.isOn);
-            });
-
-            // FXAA
-            SetupToggle(m_fxaa, "EnableFXAA", true, (Toggle t) =>
-            {
-                PlayerCamera.main.fxaa.enabled = t.isOn;
-            });
-
-            // Motion Blur
-            SetupToggle(m_motionBlur, "EnableMotionBlur", true, (Toggle t) =>
-            {
-                PlayerCamera.main.postProcessing.profile.motionBlur.enabled = t.isOn;
-            });
-
-            // Vignette
-            SetupToggle(m_vignette, "EnableVignette", true, (Toggle t) =>
-            {
-                PlayerCamera.main.postProcessing.profile.vignette.enabled = t.isOn;
-            });
-
-            // Bloom
-            SetupToggle(m_bloom, "EnableBloom", true, (Toggle t) =>
-            {
-                PlayerCamera.main.postProcessing.profile.bloom.enabled = t.isOn;
-            });
-
-            // Screen Resolution
-            SetupDropdown(m_screenResolution, "ScreenResolution", Screen.resolutions.Length - 1, Screen.resolutions, (Dropdown d) =>
-            {
-                Resolution r = Screen.resolutions[d.value];
-                Screen.SetResolution(r.width, r.height, Screen.fullScreen);
-            });
-
-            // Quality Level
-            SetupDropdown(m_qualityLevel, "QualityLevel", QualitySettings.names.Length - 1, QualitySettings.names, (Dropdown d) =>
-            {
-                QualitySettings.SetQualityLevel(d.value);
             });
 
             // Look Sensitivity X
@@ -148,52 +114,129 @@ namespace FPS
             {
                 PlayerCamera.main.lookSensitivity = new Vector2(PlayerCamera.main.lookSensitivity.x, slider.value);
             });
+
+            // Screen Resolution
+            m_modes = new List<Vector2Int>();
+            foreach(Resolution r in Screen.resolutions)
+            {
+                Vector2Int s = new Vector2Int(r.width, r.height);
+                if(!m_modes.Contains(s))
+                {
+                    m_modes.Add(s);
+                }
+            }
+            SetupDropdown(m_resolution, "ScreenResolution", m_modes.Count - 1, m_modes.ToArray(), (Dropdown d) =>
+            {
+                Screen.SetResolution(m_modes[d.value].x, m_modes[d.value].y, Screen.fullScreen);
+            });
+
+            // Display Mode
+            SetupDropdown(m_displayMode, "DisplayMode", 0, Enum.GetNames(typeof(FullScree0Mode)), (Dropdown d) => 
+            {
+                Screen.SetResolution(
+                    m_modes[m_resolution.value].x,
+                    m_modes[m_resolution.value].y,
+                    (FullScreenMode)d.value);
+            }, true);
+
+            // Quality Level
+            SetupDropdown(m_qualityLevel, "QualityLevel", QualitySettings.names.Length - 1, QualitySettings.names, (Dropdown d) =>
+            {
+                QualitySettings.SetQualityLevel(d.value);
+            });
+
+            // Antialiasing
+            SetupToggle(m_antialiasing, "EnableAntialiasing", true, (Toggle t) =>
+            {
+                PlayerCamera.main.postProcessing.profile.antialiasing.enabled = t.isOn;
+            });
+
+            // Ambient Occlusion
+            SetupToggle(m_ambientOcclusion, "EnableAmbientOcclusion", true, (Toggle t) =>
+            {
+                PlayerCamera.main.postProcessing.profile.ambientOcclusion.enabled = t.isOn;
+            });
+
+            // Bloom
+            SetupToggle(m_bloom, "EnableBloom", true, (Toggle t) =>
+            {
+                PlayerCamera.main.postProcessing.profile.bloom.enabled = t.isOn;
+            });
+
+            // Motion Blur
+            SetupToggle(m_motionBlur, "EnableMotionBlur", true, (Toggle t) =>
+            {
+                PlayerCamera.main.postProcessing.profile.motionBlur.enabled = t.isOn;
+            });
+
+            // Vignette
+            SetupToggle(m_vignette, "EnableVignette", true, (Toggle t) =>
+            {
+                PlayerCamera.main.postProcessing.profile.vignette.enabled = t.isOn;
+            });
             
-            if (m_enableLog) { Debug.Log("Loaded Settings"); }
+            
             changed = false;
+        }
+
+        public void LoadDefaults()
+        {
+            PlayerPrefs.DeleteAll();
+            LoadSettings();
+            changed = true;
         }
 
         
 
-        private void SetupSlider(Slider slider, string key, float dv, UnityAction<Slider> call)
+        private void SetupSlider(Slider value, string key, float dv, UnityAction<Slider> call)
         {
-            slider.onValueChanged.RemoveAllListeners();
-            slider.onValueChanged.AddListener((float t) => 
+            if (!value)
+                return;
+
+            value.onValueChanged.RemoveAllListeners();
+            value.onValueChanged.AddListener((float t) => 
             {
-                call(slider);
+                call(value);
                 changed = true;
             });
-            slider.value = PlayerPrefs.GetFloat(key, dv);
+            value.value = PlayerPrefs.GetFloat(key, dv);
         }
 
-        private void SetupToggle(Toggle toggle, string key, bool dv, UnityAction<Toggle> call)
+        private void SetupToggle(Toggle value, string key, bool dv, UnityAction<Toggle> call)
         {
-            toggle.onValueChanged.RemoveAllListeners();
-            toggle.onValueChanged.AddListener((bool t) =>
+            if (!value)
+                return;
+
+            value.onValueChanged.RemoveAllListeners();
+            value.onValueChanged.AddListener((bool t) =>
             {
-                call(toggle);
+                call(value);
                 changed = true;
             });
-            toggle.isOn = PlayerPrefs.GetInt(key, (dv ? 1 : 0)) == 1;
+            value.isOn = PlayerPrefs.GetInt(key, (dv ? 1 : 0)) == 1;
         }
 
-        private void SetupDropdown<T>(Dropdown dropdown, string key, int dv, T[] options, UnityAction<Dropdown> call)
+        private void SetupDropdown<T>(Dropdown value, string key, int dv, T[] options, UnityAction<Dropdown> call, bool fmt = false)
         {
-            dropdown.options.Clear();
+            if (!value)
+                return;
+            value.options.Clear();
             for (int i = 0; i < options.Length; i++)
             {
-                dropdown.options.Add(new Dropdown.OptionData
+                value.options.Add(new Dropdown.OptionData
                 {
-                    text = options[i].ToString()
+                    text = fmt 
+                        ? Regex.Replace(Regex.Replace(options[i].ToString(), @"(\P{Ll})(\P{Ll}\p{Ll})", "$1 $2"), @"(\p{Ll})(\P{Ll})", "$1 $2")
+                        : options[i].ToString()
                 });
             }
-            dropdown.onValueChanged.RemoveAllListeners();
-            dropdown.onValueChanged.AddListener((int value) =>
+            value.onValueChanged.RemoveAllListeners();
+            value.onValueChanged.AddListener((int t) =>
             {
-                call(dropdown);
+                call(value);
                 changed = true;
             });
-            dropdown.value = PlayerPrefs.GetInt(key, dv);
+            value.value = PlayerPrefs.GetInt(key, dv);
         }
     }
 

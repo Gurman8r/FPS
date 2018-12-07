@@ -7,7 +7,6 @@ namespace FPS
 {
     [RequireComponent(typeof(PostProcessingBehaviour))]
     [RequireComponent(typeof(Camera))]
-    [RequireComponent(typeof(FXAA))]
     [DisallowMultipleComponent]
     [ExecuteInEditMode]
     public sealed class PlayerCamera : MonoBehaviour
@@ -21,7 +20,6 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         private PostProcessingBehaviour m_postProcessing;
         private Camera  m_camera;
-        private FXAA    m_fxaa;
         private Ray     m_ray = new Ray();
 
         [Header("Settings")]
@@ -69,18 +67,6 @@ namespace FPS
                     m_camera = GetComponent<Camera>();
                 }
                 return m_camera;
-            }
-        }
-
-        public FXAA fxaa
-        {
-            get
-            {
-                if(!m_fxaa)
-                {
-                    m_fxaa = GetComponent<FXAA>();
-                }
-                return m_fxaa;
             }
         }
 
@@ -215,9 +201,9 @@ namespace FPS
 
         private void ApplyRotation(Vector2 value)
         {
-            camera.transform.localRotation = Quaternion.Euler(value.y, 0, 0f);
+            camera.transform.localRotation = Quaternion.Euler(value.y, 0f, 0f);
 
-            parent.Rotate(0, value.x, 0);
+            parent.Rotate(0f, value.x, 0f);
         }
     }
 

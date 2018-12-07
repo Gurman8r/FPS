@@ -23,6 +23,8 @@ namespace FPS
         [SerializeField] HealthBar      m_ammoBar;
         [SerializeField] RectTransform  m_menu;
         [SerializeField] Image          m_damage;
+        [SerializeField] Text           m_controls;
+        [SerializeField] TextAsset      m_controlsFile;
         [SerializeField] float          m_damageAlpha = 0.25f;
         [SerializeField] float          m_damageFade = 1f;
         [Space]
@@ -109,6 +111,11 @@ namespace FPS
                 m_damage.color = c;
             }
 
+            if (m_controls && m_controlsFile)
+            {
+                m_controls.text = m_controlsFile.text;
+            }
+
             if (!Application.isPlaying)
             {
                 ShowMenu(m_showMenu);
@@ -146,7 +153,6 @@ namespace FPS
         public void ShowMenu(bool value)
         {
             m_showMenu = (Application.isPlaying ? value : m_showMenu);
-
             if (menu)
             {
                 if(m_showMenu)
@@ -162,21 +168,6 @@ namespace FPS
             }
         }
 
-        public void SetReticlePos(Vector2 value, float speed = 0f)
-        {
-            if (speed <= 0f)
-            {
-                m_reticle.transform.position = value;
-            }
-            else
-            {
-                m_reticle.transform.position = Vector3.Lerp(
-                    m_reticle.transform.position,
-                    value,
-                    speed);
-            }
-        }
-
         public void ShowTakeDamage()
         {
             if(m_damage)
@@ -184,8 +175,7 @@ namespace FPS
                 m_damageTimer = m_damageAlpha;
             }
         }
-
-
+        
         public void Quit()
         {
 #if UNITY_EDITOR

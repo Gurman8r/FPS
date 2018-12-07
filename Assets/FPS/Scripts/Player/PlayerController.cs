@@ -21,6 +21,7 @@ namespace FPS
         [SerializeField] float          m_zoomSpeed = 5f;
         [Range(0.00001f, 1f)]
         [SerializeField] float          m_aimSpeed = 0.5f;
+        [SerializeField] float          m_holdDistance = 2f;
 
         [Header("Player Runtime")]
         [SerializeField] bool       m_isPaused;
@@ -29,6 +30,7 @@ namespace FPS
         [SerializeField] bool       m_hasKeyboard;
         [SerializeField] bool       m_hasGamepad;
         [SerializeField] bool       m_canInteract;
+        [SerializeField] Item       m_holding;
 
         private Rewired.Player  m_input;
         private RaycastHit      m_hit;
@@ -64,6 +66,11 @@ namespace FPS
         {
             get { return m_isPaused; }
             set { m_isPaused = value; }
+        }
+
+        public Vector3 holdPos
+        {
+            get { return unit.vision.origin + unit.vision.direction * m_holdDistance; }
         }
 
 
@@ -106,26 +113,83 @@ namespace FPS
 
                 if (!isPaused)
                 {
+                    // Restart
                     if (m_input.GetButtonDown("Restart"))
-                    {
                         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-                    }
-
+                    
                     // Move
-                    moveInput = new Vector2(
-                        m_input.GetAxis("Move Horizontal"),
-                        m_input.GetAxis("Move Vertical"));
-
+                    moveInput = new Vector2(m_input.GetAxis("Move Horizontal"), m_input.GetAxis("Move Vertical"));
+                    
                     // Sprint
                     sprintInput = m_input.GetButton("Sprint") && !m_isAiming;
-
+                    
                     // Jump
                     jumpInput = m_input.GetButtonDown("Jump");
-
+                    
                     // Aim
-                    lookInput = new Vector2(
-                        m_input.GetAxis("Look Horizontal"),
-                        m_input.GetAxis("Look Vertical"));
+                    lookInput = new Vector2(m_input.GetAxis("Look Horizontal"), m_input.GetAxis("Look Vertical"));
+
+                    // Not Holding
+                    if((m_canInteract = !m_holding))
+                    {
+                        // Update Item
+                        UpdateItem(unit.inventory.primary);
+
+                        // Store
+                        if (m_input.GetButtonDown("Store"))
+                        {
+                            if (unit.inventory.Store(unit.inventory.primary))
+                            {
+                                hud.inventory.ShowForSeconds(m_inventoryTime);
+                            }
+                            else if (unit.inventory.Equip(unit.inventory.primary, unit.inventory.index))
+                            {
+                                hud.inventory.ShowForSeconds(m_inventoryTime);
+                            }
+                        }
+
+                        if (m_canInteract = Physics.Raycast(camera.ray, out m_hit, interactRange))
+                        {
+                            if (!CheckInteraction(m_hit))
+                            {
+                                hud.reticle.SetText("");
+                            }
+                        }
+                        else
+                        {
+                            hud.reticle.SetText("");
+                        }
+                    }
+                    else
+                    {
+                        if(m_input.GetButton("Control"))
+                        {
+                            Vector2 temp = lookInput;
+                            m_holding.transform.Rotate(temp.y, temp.x, 0f);
+                            lookInput = Vector2.zero;
+                        }
+
+                        m_holding.rigidbody.position = holdPos;
+
+                        if (unit.inventory.Store(unit.inventory.primary))
+                        {
+                            hud.inventory.ShowForSeconds(m_inventoryTime);
+                        }
+
+                        hud.reticle.SetText(string.Format("[{0}] Drop {1}",
+                            GetActionName("Drop"),
+                            m_holding.info.name));
+
+                        if (m_input.GetButtonUp("Drop"))
+                        {
+                            SetHolding(null);
+
+                            if(unit.inventory.Equip(unit.inventory.primary, unit.inventory.index))
+                            {
+                                hud.inventory.ShowForSeconds(m_inventoryTime);
+                            }
+                        }
+                    }
 
                     if (!unit.inventory.empty)
                     {
@@ -149,21 +213,6 @@ namespace FPS
                             hud.inventory.ShowForSeconds(m_inventoryTime);
                         }
                     }
-
-                    // Check Interaction
-                    if (m_canInteract = Physics.Raycast(camera.ray, out m_hit, interactRange))
-                    {
-                        if(!CheckInteraction(m_hit))
-                        {
-                            hud.reticle.SetText("");
-                        }
-                    }
-                    else
-                    {
-                        hud.reticle.SetText("");
-                    }
-
-                    UpdateItem(unit.inventory.primary);
                 }
                 else
                 {
@@ -173,14 +222,7 @@ namespace FPS
                     lookInput = Vector2.zero;
                 }
 
-                // Update Camera
-                camera.cursorLock = !isPaused;
-                camera.lookSpeed = m_isAiming ? m_aimSpeed : 1f;
-                camera.SetLookDelta(lookInput);
-                camera.zoomLevel = Mathf.Lerp(
-                    camera.zoomLevel,
-                    m_zoomLevel,
-                    Time.deltaTime * m_zoomSpeed);
+                UpdateCamera();
 
                 UpdateHUD();
             }
@@ -228,36 +270,33 @@ namespace FPS
             }
         }
 
-        private bool CheckInteraction(RaycastHit value)
+        private bool CheckInteraction(RaycastHit hit)
         {
-            switch (value.transform.tag)
+            switch (hit.transform.tag)
             {
             case Item.Tag:
             {
                 Item item;
-                if ((item = value.transform.GetComponent<Item>()) && item.interactable && !item.owner)
+                if ((item = hit.transform.GetComponent<Item>()) && item.interactable && !item.owner)
                 {
-                    if (unit.inventory.HasRoom())
-                    {
-                        hud.reticle.SetText("(E) Take " + item.info.name);
+                    hud.reticle.SetText(string.Format("[{0}] Take {1}", GetActionName("Interact"), item.info.name));
 
-                        if (m_input.GetButtonDown("Interact"))
-                        {
-                            if (unit.inventory.primary.item && unit.inventory.Store(item))
-                            {
-                                hud.inventory.ShowForSeconds(m_inventoryTime);
-                                hud.textFeed.Print("+" + item.info.name);
-                            }
-                            else if (unit.inventory.Equip(unit.inventory.primary, item))
-                            {
-                                hud.inventory.ShowForSeconds(m_inventoryTime);
-                                hud.textFeed.Print("+" + item.info.name);
-                            }
-                        }
-                    }
-                    else
+                    if (m_input.GetButtonLongPressDown("Interact") && !m_holding)
                     {
-                        hud.reticle.SetText("Inventory Full");
+                        SetHolding(item);
+                    }
+                    else if (m_input.GetButtonUp("Interact"))
+                    {
+                        if (unit.inventory.primary.item && unit.inventory.Store(item))
+                        {
+                            hud.inventory.ShowForSeconds(m_inventoryTime);
+                            hud.textFeed.Print("+" + item.info.name);
+                        }
+                        else if (unit.inventory.Equip(unit.inventory.primary, item))
+                        {
+                            hud.inventory.ShowForSeconds(m_inventoryTime);
+                            hud.textFeed.Print("+" + item.info.name);
+                        }
                     }
                     return true;
                 }
@@ -266,9 +305,9 @@ namespace FPS
             case Wall.DoorTag:
             {
                 Wall wall;
-                if ((wall = value.transform.parent.GetComponent<Wall>()) && wall.isDoor)
+                if ((wall = hit.transform.parent.GetComponent<Wall>()) && wall.isDoor)
                 {
-                    hud.reticle.SetText(!wall.isOpen ? "(E) Open" : "Opening...");
+                    hud.reticle.SetText(string.Format("[{0}] {1}", GetActionName("Interact"), !wall.isOpen ? "Open" : "Opening..."));
 
                     if (m_input.GetButtonDown("Interact"))
                     {
@@ -292,8 +331,6 @@ namespace FPS
                 m_zoomLevel = (gun = item as GunBase) ? gun.zoomLevel : PlayerCamera.MinZoom;
                 m_isAiming = (m_zoomLevel != PlayerCamera.MinZoom);
 
-                //item.transform.localPosition = item.holdPos.localPosition;
-
                 fire0.press = m_input.GetButtonDown("Fire0");
                 fire0.hold = m_input.GetButton("Fire0");
                 fire0.release = m_input.GetButtonUp("Fire0");
@@ -304,30 +341,28 @@ namespace FPS
                 fire1.release = m_input.GetButtonUp("Fire1");
                 item.UpdateSecondary(fire1);
 
-                if (m_input.GetButtonDown("Drop"))
+                if (m_input.GetButtonDown("Reload"))
+                {
+                    item.Reload();
+                }
+
+                if (m_input.GetButtonLongPressDown("Drop"))
+                {
+                    if (unit.inventory.Drop(hand))
+                    {
+                        hud.inventory.ShowForSeconds(m_inventoryTime);
+                        hud.textFeed.Print("-" + item.info.name);
+                        SetHolding(item);
+                    }
+                }
+                else if (m_input.GetButtonUp("Drop"))
                 {
                     if (unit.inventory.Drop(hand))
                     {
                         hud.inventory.ShowForSeconds(m_inventoryTime);
                         hud.textFeed.Print("-" + item.info.name);
 
-                        if (unit.inventory.index >= unit.inventory.count)
-                        {
-                            unit.inventory.index = unit.inventory.count - 1;
-                        }
-
-                        if (unit.inventory.Equip(hand, unit.inventory.index))
-                        {
-                            return;
-                        }
-                    }
-                }
-
-                if (m_input.GetButtonDown("Store"))
-                {
-                    if (unit.inventory.Store(hand))
-                    {
-                        hud.inventory.ShowForSeconds(m_inventoryTime);
+                        if (unit.inventory.Equip(hand, unit.inventory.index)) { }
                     }
                 }
             }
@@ -335,15 +370,18 @@ namespace FPS
             {
                 m_isAiming = false;
                 m_zoomLevel = 1f;
-
-                if (m_input.GetButtonDown("Store"))
-                {
-                    if (unit.inventory.Equip(unit.inventory.primary, unit.inventory.index))
-                    {
-                        hud.inventory.ShowForSeconds(m_inventoryTime);
-                    }
-                }
             }
+        }
+
+        private void UpdateCamera()
+        {
+            camera.cursorLock = !isPaused;
+            camera.lookSpeed = m_isAiming ? m_aimSpeed : 1f;
+            camera.SetLookDelta(lookInput);
+            camera.zoomLevel = Mathf.Lerp(
+                camera.zoomLevel,
+                m_zoomLevel,
+                Time.deltaTime * m_zoomSpeed);
         }
 
         private void UpdateHUD()
@@ -356,11 +394,6 @@ namespace FPS
                         : item.useDelta);
 
                 hud.SetAmmo(item.resourceDelta);
-
-                if (m_input.GetButtonDown("Reload"))
-                {
-                    item.Reload();
-                }
 
                 if (item.onCooldown)
                 {
@@ -406,6 +439,30 @@ namespace FPS
             {
                 hud.healthBar.imageAlpha -= Time.deltaTime;
             }
+        }
+
+        private void SetHolding(Item value)
+        {
+            if(value)
+            {
+                m_holding = value;
+                //m_holding.EnablePhysics(false);
+                m_holding.collider.enabled = true;
+                m_holding.rigidbody.isKinematic = false;
+                m_holding.rigidbody.useGravity = false;
+                m_holding.rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+            }
+            else if(m_holding)
+            {
+                m_holding.EnablePhysics(true);
+                m_holding.rigidbody.constraints = RigidbodyConstraints.None;
+                m_holding = null;
+            }
+        }
+
+        private string GetActionName(string value)
+        {
+            return m_input.controllers.maps.GetFirstButtonMapWithAction(value, true).elementIdentifierName;
         }
     }
 }

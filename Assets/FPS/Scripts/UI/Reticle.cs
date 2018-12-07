@@ -5,25 +5,19 @@ using UnityEngine.UI;
 
 namespace FPS
 {
+    [ExecuteInEditMode]
     public class Reticle : MonoBehaviour
     {
         /* Variables
         * * * * * * * * * * * * * * * */
         [Header("Settings")]
-        [SerializeField] HealthBar  m_fill;
-        [SerializeField] Hitmarker  m_hitmarker;
-        [SerializeField] Text       m_text;
+        [SerializeField] HealthBar      m_fill;
+        [SerializeField] Hitmarker      m_hitmarker;
+        [SerializeField] Text           m_text;
+        [SerializeField] float          m_textScalar = 2f;
 
         [Header("Runtime")]
         [SerializeField] Vector2    m_originalSize;
-
-
-        /* Core
-        * * * * * * * * * * * * * * * */
-        private void Start()
-        {
-            originalSize = m_fill.rectTransform.sizeDelta;
-        }
 
 
         /* Properties
@@ -38,6 +32,29 @@ namespace FPS
         {
             get { return m_fill.rectTransform.sizeDelta; }
             set { m_fill.rectTransform.sizeDelta = value; }
+        }
+
+
+        /* Core
+        * * * * * * * * * * * * * * * */
+        private void Start()
+        {
+            if(Application.isPlaying)
+            {
+                originalSize = m_fill.rectTransform.sizeDelta;
+            }
+        }
+
+        private void Update()
+        {
+            if(m_fill && m_text)
+            {
+                m_text.rectTransform.position =
+                     m_fill.rectTransform.position -
+                     new Vector3(0f,
+                         originalSize.y +
+                         (m_fill.rectTransform.sizeDelta.y / m_textScalar));
+            }
         }
 
 

@@ -1,0 +1,17 @@
+<b>[ Controls ]</b>
+
+	Action		| Keyboard/Mouse		| Controller
+------------------------------------------------------------
+	Pause		| Escape				| Start
+	Restart		| F5 					| Back
+	Move		| WASD 					| Left Stick
+	Look		| Mouse  X/Y			| Right Stick
+	Fire0		| Left Mouse 			| Right Trigger
+	Fire1		| Right Mouse 			| Left Trigger
+	Select		| Scroll / Keys (0-9) 	| Left/Right Bumper
+	Sprint		| Left Shift 			| Left Stick Press
+	Jump 		| Space 				| A
+	Interact	| E 					| B
+	Drop 		| Q						| Y
+	Reload		| R 					| X
+	

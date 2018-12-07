@@ -21,11 +21,11 @@ namespace FPS
 
         /* Variables
         * * * * * * * * * * * * * * * */
-        [SerializeField] Hand m_primary;
-        [SerializeField] int m_capacity = 10;
-        [SerializeField] int m_index = 0;
+        [SerializeField] Hand       m_primary;
+        [SerializeField] int        m_capacity = 10;
+        [SerializeField] int        m_index = 0;
         [SerializeField] List<Item> m_list;
-        [SerializeField] Transform m_bagTransform;
+        [SerializeField] Transform  m_bagTransform;
 
 
         /* Properties
@@ -64,21 +64,6 @@ namespace FPS
         public bool empty
         {
             get { return count == 0; }
-        }
-
-
-        /* Core
-        * * * * * * * * * * * * * * * */
-        private void Start()
-        {
-            if(Application.isPlaying)
-            {
-
-            }
-        }
-
-        private void Update()
-        {
         }
 
 
@@ -162,6 +147,11 @@ namespace FPS
                 return true;
             }
             return false;
+        }
+
+        public bool Equip(Hand hand)
+        {
+            return Equip(hand, hand.item);
         }
 
         public bool Equip(Hand hand, int index)
