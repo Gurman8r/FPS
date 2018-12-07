@@ -62,7 +62,7 @@ namespace FPS
 
             if (Application.isPlaying)
             {
-                if(canShoot) { /*Update Inspector*/ }
+                if(canUse) { /*Update Inspector*/ }
 
                 if (meleeObject)
                 {
@@ -108,7 +108,7 @@ namespace FPS
             {
             case ActionType.Idle:
             {
-                fireTimer = fireDelay;
+                useTimer = useDelay;
             }
             break;
             case ActionType.StartAttack:

@@ -508,6 +508,13 @@ MonoBehaviour:
     desc: Description
     color: {r: 1, g: 1, b: 1, a: 1}
     sprite: {fileID: 21300000, guid: 5a3af3ff66978e0439ed0888a516f005, type: 3}
+  m_useMode: 1
+  m_useDelay: 0.1
+  m_maxResource: 24
+  m_reloadDelay: 2
+  m_fixedReload: 1
+  m_autoReload: 1
+  m_staticReticle: 1
   m_onDrop:
     m_PersistentCalls:
       m_Calls: []
@@ -524,14 +531,12 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_owner: {fileID: 0}
+  m_useTimer: 0
+  m_canUse: 0
+  m_onCooldown: 0
+  m_curResource: 0
+  m_reloadTimer: 0
   m_firePos: {fileID: 4394347567559568}
-  m_fireMode: 1
-  m_fireDelay: 0.1
-  m_maxAmmo: 32
-  m_reloadDelay: 2
-  m_fixedReload: 1
-  m_autoReload: 1
-  m_staticReticle: 1
   m_objectData:
     solidLayer:
       serializedVersion: 2
@@ -551,11 +556,6 @@ MonoBehaviour:
     dir: {x: 0, y: 0, z: 0}
     dest: {x: 0, y: 0, z: 0}
   m_lookingAt: {x: 0, y: 0, z: 0}
-  m_canShoot: 1
-  m_fireTimer: 0
-  m_curAmmo: 0
-  m_isReloading: 0
-  m_reloadTimer: 0
   m_bulletCount: 1
   m_bulletDelay: 0
   m_allowAds: 1

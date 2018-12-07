@@ -360,45 +360,36 @@ namespace FPS
             Item item;
             if (item = unit.inventory.primary.item)
             {
-                WeaponBase weapon;
-                if ((weapon = item as WeaponBase))
+                hud.reticle.SetFill(item.onCooldown
+                        ? item.reloadDelta
+                        : item.useDelta);
+
+                hud.SetAmmo(item.resourceDelta);
+
+                if (m_input.GetButtonDown("Reload"))
                 {
-                    hud.reticle.SetFill(weapon.isReloading
-                        ? weapon.reloadDelta
-                        : weapon.shotDelta);
+                    item.Reload();
+                }
 
-                    hud.SetAmmo(weapon.ammoDelta);
+                if (item.onCooldown)
+                {
+                    hud.reticle.SetText("Reloading");
+                }
 
-                    if (m_input.GetButtonDown("Reload"))
-                    {
-                        weapon.Reload();
-                    }
-
-                    if (weapon.isReloading)
-                    {
-                        hud.reticle.SetText("Reloading");
-                    }
-
-                    GunBase gun;
-                    if (gun = weapon as GunBase)
-                    {
-                        hud.reticle.sizeDelta = Vector2.Lerp(
-                            hud.reticle.sizeDelta,
-                            hud.reticle.originalSize + (hud.reticle.originalSize * gun.bulletSpread / 2f),
-                            Time.deltaTime * m_reticleSpeed);
-                    }
-                    else
-                    {
-                        hud.reticle.sizeDelta = Vector2.Lerp(
-                            hud.reticle.sizeDelta,
-                            hud.reticle.originalSize,
-                            Time.deltaTime * m_reticleSpeed);
-                    }
+                GunBase gun;
+                if (gun = item as GunBase)
+                {
+                    hud.reticle.sizeDelta = Vector2.Lerp(
+                        hud.reticle.sizeDelta,
+                        hud.reticle.originalSize + (hud.reticle.originalSize * gun.bulletSpread / 2f),
+                        Time.deltaTime * m_reticleSpeed);
                 }
                 else
                 {
-                    hud.reticle.SetFill(0f);
-                    hud.SetAmmo(0f);
+                    hud.reticle.sizeDelta = Vector2.Lerp(
+                        hud.reticle.sizeDelta,
+                        hud.reticle.originalSize,
+                        Time.deltaTime * m_reticleSpeed);
                 }
             }
             else

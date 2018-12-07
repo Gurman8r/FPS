@@ -12,6 +12,14 @@ namespace FPS
     [ExecuteInEditMode]
     public abstract class Item : MonoBehaviour
     {
+        public const float FireDelayThreshold = 0.09f;
+
+        public enum UseMode
+        {
+            Single = 0,
+            Continuous = 1,
+        }
+
         public const string Tag = "Item";
 
         /* Variables
@@ -24,7 +32,15 @@ namespace FPS
         [Header("Item Settings")]
         [SerializeField] Transform  m_model;
         [SerializeField] Transform  m_holdPos;
-        [SerializeField] ItemInfo   m_info;
+        [SerializeField] ItemInfo   m_info;        
+        [Space]
+        [SerializeField] UseMode    m_useMode       = UseMode.Single;
+        [SerializeField] float      m_useDelay      = 1f;
+        [SerializeField] int        m_maxResource   = 0;        
+        [SerializeField] float      m_reloadDelay   = 2.5f;
+        [SerializeField] bool       m_fixedReload   = true;
+        [SerializeField] bool       m_autoReload    = true;
+        [SerializeField] bool       m_staticReticle;
         [Space]
         [SerializeField] UnityEvent m_onDrop;
         [SerializeField] UnityEvent m_onEquip;
@@ -32,6 +48,11 @@ namespace FPS
 
         [Header("Item Runtime")]
         [SerializeField] Unit       m_owner;
+        [SerializeField] float      m_useTimer;
+        [SerializeField] bool       m_canUse;
+        [SerializeField] bool       m_onCooldown;
+        [SerializeField] int        m_curResource;
+        [SerializeField] float      m_reloadTimer;
 
         /* Properties
         * * * * * * * * * * * * * * * */
@@ -84,22 +105,6 @@ namespace FPS
         }
 
 
-        public UnityEvent onDrop
-        {
-            get { return m_onDrop; }
-        }
-
-        public UnityEvent onEquip
-        {
-            get { return m_onEquip; }
-        }
-
-        public UnityEvent onStore
-        {
-            get { return m_onStore; }
-        }
-
-
         public Transform model
         {
             get { return m_model; }
@@ -118,10 +123,146 @@ namespace FPS
             set { m_info = value; }
         }
 
+
+        public UseMode useMode
+        {
+            get { return m_useMode; }
+            set { m_useMode = value; }
+        }
+
+        public float useDelay
+        {
+            get { return m_useDelay; }
+            set { m_useDelay = value; }
+        }
+
+        public int maxResource
+        {
+            get { return m_maxResource; }
+        }
+
+        public bool autoReload
+        {
+            get { return m_autoReload; }
+        }
+
+        public bool fixedReload
+        {
+            get { return m_fixedReload; }
+        }
+
+        public bool staticReticle
+        {
+            get { return m_staticReticle; }
+        }
+
+
         public Unit owner
         {
             get { return m_owner; }
             set { m_owner = value; }
+        }
+
+        public float reloadDelay
+        {
+            get { return m_reloadDelay; }
+        }
+        
+        public bool onCooldown
+        {
+            get { return m_onCooldown; }
+            protected set { m_onCooldown = value; }
+        }
+
+        public float cooldownTimer
+        {
+            get { return m_reloadTimer; }
+            protected set { m_reloadTimer = value; }
+        }
+
+        public float useTimer
+        {
+            get { return m_useTimer; }
+            protected set { m_useTimer = value; }
+        }
+
+        public int curResource
+        {
+            get { return m_curResource; }
+            private set { m_curResource = value; }
+        }
+
+        public bool canUse
+        {
+            get
+            {
+                return m_canUse =
+                    (!onCooldown) &&
+                    (useTimer >= useDelay) &&
+                    (hasResource);
+            }
+        }
+
+        public float useDelta
+        {
+            get
+            {
+                return (onCooldown)
+                    ? 0f
+                    : (staticReticle)
+                        ? (1f)
+                        : (useDelay > 0f)
+                            ? (!canUse)
+                                ? (useTimer / useDelay)
+                                : (1f)
+                            : (1f);
+            }
+        }
+
+        public bool hasResource
+        {
+            get
+            {
+                return (maxResource > 0)
+                    ? (curResource > 0)
+                    : (true);
+            }
+        }
+
+        public float resourceDelta
+        {
+            get
+            {
+                return (maxResource > 0)
+                    ? ((float)(curResource) / (float)(maxResource))
+                    : (1f);
+            }
+        }
+
+        public float reloadDelta
+        {
+            get
+            {
+                return (reloadDelay > 0f)
+                    ? (cooldownTimer / reloadDelay)
+                    : (1f);
+            }
+        }
+
+
+        public UnityEvent onDrop
+        {
+            get { return m_onDrop; }
+        }
+
+        public UnityEvent onEquip
+        {
+            get { return m_onEquip; }
+        }
+
+        public UnityEvent onStore
+        {
+            get { return m_onStore; }
         }
 
 
@@ -148,6 +289,14 @@ namespace FPS
                 {
                     gameObject.tag = Tag;
                 }
+
+                useTimer = useDelay;
+
+                SetResource(maxResource);
+
+                onDrop.AddListener(() => { CancelReload(); });
+                onEquip.AddListener(() => { CancelReload(); });
+                onStore.AddListener(() => { CancelReload(); });
             }
         }
 
@@ -236,6 +385,54 @@ namespace FPS
         public virtual void OnStore()
         {
             m_onStore.Invoke();
+        }
+
+
+        protected void SetResource(int value)
+        {
+            curResource = Mathf.Clamp(value, 0, maxResource);
+        }
+
+        protected void ConsumeResource()
+        {
+            SetResource(curResource - 1);
+        }
+
+        public void Reload()
+        {
+            if (!onCooldown && (curResource != maxResource))
+            {
+                StartCoroutine(ReloadCoroutine());
+            }
+        }
+
+        public void CancelReload()
+        {
+            StopAllCoroutines();
+            onCooldown = false;
+        }
+
+        private IEnumerator ReloadCoroutine()
+        {
+            onCooldown = true;
+
+            for (cooldownTimer = fixedReload
+                    ? 0f
+                    : (reloadDelay * ((float)curResource / (float)maxResource));
+                cooldownTimer < reloadDelay;
+                cooldownTimer += Time.deltaTime)
+            {
+                if (!fixedReload)
+                {
+                    SetResource((int)(maxResource * reloadDelta));
+                }
+
+                yield return null;
+            }
+
+            SetResource(maxResource);
+
+            onCooldown = false;
         }
     }
 }

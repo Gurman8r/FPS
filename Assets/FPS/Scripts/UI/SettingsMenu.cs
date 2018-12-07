@@ -10,6 +10,7 @@ namespace FPS
     {
         /* Variables
         * * * * * * * * * * * * * * * */
+        [SerializeField] bool       m_enableLog;
         [SerializeField] bool       m_changed;
         [Space]
         [SerializeField] Slider     m_volume;
@@ -133,7 +134,8 @@ namespace FPS
                 AudioListener.volume = PlayerPrefs.GetFloat("Volume", 0.5f);
                 gs.lookSensitivityX = PlayerPrefs.GetFloat("LookSensitivityX", 0.1f);
                 gs.lookSensitivityY = PlayerPrefs.GetFloat("LookSensitivityY", 0.1f);
-                Debug.Log("Loaded Settings");
+
+                if (m_enableLog) Debug.Log("Loaded Settings");
             }
             else
             {
@@ -151,7 +153,8 @@ namespace FPS
                 PlayerPrefs.SetFloat("LookSensitivityX", gs.lookSensitivityX);
                 PlayerPrefs.SetFloat("LookSensitivityY", gs.lookSensitivityY);
                 PlayerPrefs.Save();
-                Debug.Log("Saved Settings");
+
+                if (m_enableLog) Debug.Log("Saved Settings");
             }
             else
             {

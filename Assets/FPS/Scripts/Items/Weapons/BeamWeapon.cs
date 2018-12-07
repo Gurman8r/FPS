@@ -35,14 +35,14 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         public override void UpdatePrimary(InputState input)
         {   
-            switch (fireMode)
+            switch (useMode)
             {
-            case FireMode.SingleShot:
+            case UseMode.Single:
             {
                 if(input.press) { Shoot(); }
             }
             break;
-            case FireMode.Continuous:
+            case UseMode.Continuous:
             {
                 if(input.hold) { Shoot(); }
             }
@@ -53,7 +53,7 @@ namespace FPS
         public override void UpdateSecondary(InputState input)
         {
             if(allowAds)
-                animator.SetBool("AimDownSights", !isReloading && input.hold);
+                animator.SetBool("AimDownSights", !onCooldown && input.hold);
         }
 
 
@@ -69,7 +69,7 @@ namespace FPS
                 animator.SetTrigger("Recoil");
             }
 
-            yield return new WaitForSeconds(fireDelay);
+            yield return new WaitForSeconds(useDelay);
         }
         
         private BeamObject SpawnLaser(BeamObject prefab)
