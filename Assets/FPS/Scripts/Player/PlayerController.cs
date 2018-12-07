@@ -176,11 +176,9 @@ namespace FPS
                             hud.inventory.ShowForSeconds(m_inventoryTime);
                         }
 
-                        hud.reticle.SetText(string.Format("[{0}] Drop {1}",
-                            GetActionName("Drop"),
-                            m_holding.info.name));
+                        hud.reticle.SetText(string.Format("[{0}] Drop {1}", GetActionName("Drop"), m_holding.info.name));
 
-                        if (m_input.GetButtonUp("Drop"))
+                        if (m_input.GetButtonDown("Drop"))
                         {
                             SetHolding(null);
 
@@ -352,17 +350,20 @@ namespace FPS
                     {
                         hud.inventory.ShowForSeconds(m_inventoryTime);
                         hud.textFeed.Print("-" + item.info.name);
+                        unit.inventory.index--;
                         SetHolding(item);
                     }
                 }
-                else if (m_input.GetButtonUp("Drop"))
+                else if (m_input.GetButtonDoublePressDown("Drop"))
                 {
                     if (unit.inventory.Drop(hand))
                     {
                         hud.inventory.ShowForSeconds(m_inventoryTime);
                         hud.textFeed.Print("-" + item.info.name);
-
-                        if (unit.inventory.Equip(hand, unit.inventory.index)) { }
+                        if (unit.inventory.Equip(hand, unit.inventory.index))
+                        {
+                            return;
+                        }
                     }
                 }
             }
@@ -446,7 +447,6 @@ namespace FPS
             if(value)
             {
                 m_holding = value;
-                //m_holding.EnablePhysics(false);
                 m_holding.collider.enabled = true;
                 m_holding.rigidbody.isKinematic = false;
                 m_holding.rigidbody.useGravity = false;

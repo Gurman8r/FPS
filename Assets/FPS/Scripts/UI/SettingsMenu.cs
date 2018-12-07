@@ -131,7 +131,7 @@ namespace FPS
             });
 
             // Display Mode
-            SetupDropdown(m_displayMode, "DisplayMode", 0, Enum.GetNames(typeof(FullScree0Mode)), (Dropdown d) => 
+            SetupDropdown(m_displayMode, "DisplayMode", 0, Enum.GetNames(typeof(FullScreenMode)), (Dropdown d) => 
             {
                 Screen.SetResolution(
                     m_modes[m_resolution.value].x,
