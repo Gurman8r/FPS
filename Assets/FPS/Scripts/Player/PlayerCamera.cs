@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PostProcessing;
 
 namespace FPS
 {
+    [RequireComponent(typeof(PostProcessingBehaviour))]
     [RequireComponent(typeof(Camera))]
     [RequireComponent(typeof(FXAA))]
     [DisallowMultipleComponent]
@@ -17,6 +19,7 @@ namespace FPS
 
         /* Variables
         * * * * * * * * * * * * * * * */
+        private PostProcessingBehaviour m_postProcessing;
         private Camera  m_camera;
         private FXAA    m_fxaa;
         private Ray     m_ray = new Ray();
@@ -43,6 +46,18 @@ namespace FPS
         public static PlayerCamera main
         {
             get; private set;
+        }
+
+        public PostProcessingBehaviour postProcessing
+        {
+            get
+            {
+                if(!m_postProcessing)
+                {
+                    m_postProcessing = GetComponent<PostProcessingBehaviour>();
+                }
+                return m_postProcessing;
+            }
         }
 
         public new Camera camera
@@ -136,6 +151,8 @@ namespace FPS
             get { return m_zoomLevel; }
             set { m_zoomLevel = Mathf.Clamp(value, MinZoom, MaxZoom); }
         }
+
+        
 
 
         /* Core

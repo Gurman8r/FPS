@@ -17,12 +17,14 @@ namespace FPS
         [SerializeField] Slider     m_volume;
         [SerializeField] Toggle     m_fullScreen;
         [SerializeField] Toggle     m_fxaa;
+        [SerializeField] Toggle     m_motionBlur;
         [SerializeField] Dropdown   m_screenResolution;
         [SerializeField] Dropdown   m_qualityLevel;
         [SerializeField] Slider     m_lookSensitivityX;
         [SerializeField] Slider     m_lookSensitivityY;
         [SerializeField] Button     m_saveButton;
         [SerializeField] Button     m_defaultButton;
+
 
         /* Properties
         * * * * * * * * * * * * * * * */
@@ -31,6 +33,7 @@ namespace FPS
             get { return m_changed; }
             private set { m_changed = value; }
         }
+
 
         /* Core
         * * * * * * * * * * * * * * * */
@@ -64,6 +67,21 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
+        public void SaveSettings()
+        {
+            PlayerPrefs.SetFloat("Volume", m_volume.value);
+            PlayerPrefs.SetInt("Fullscreen", m_fullScreen.isOn ? 1 : 0);
+            PlayerPrefs.SetInt("EnableFXAA", m_fxaa.isOn ? 1 : 0);
+            PlayerPrefs.SetInt("ScreenResolution", m_screenResolution.value);
+            PlayerPrefs.SetInt("QualityLevel", m_qualityLevel.value);
+            PlayerPrefs.SetFloat("LookSensitivityX", m_lookSensitivityX.value);
+            PlayerPrefs.SetFloat("LookSensitivityY", m_lookSensitivityY.value);
+            PlayerPrefs.Save();
+
+            if (m_enableLog) { Debug.Log("Saved Settings"); }
+            changed = false;
+        }
+
         public void LoadSettings()
         {
             // Volume
@@ -82,6 +100,12 @@ namespace FPS
             SetupToggle(m_fxaa, "EnableFXAA", true, (Toggle t) =>
             {
                 PlayerCamera.main.fxaa.enabled = t.isOn;
+            });
+
+            // Motion Blur
+            SetupToggle(m_motionBlur, "EnableMotionBlur", true, (Toggle t) =>
+            {
+                PlayerCamera.main.postProcessing.profile.motionBlur.enabled = t.isOn;
             });
 
             // Screen Resolution
@@ -113,20 +137,7 @@ namespace FPS
             changed = false;
         }
 
-        public void SaveSettings()
-        {
-            PlayerPrefs.SetFloat("Volume", m_volume.value);
-            PlayerPrefs.SetInt("Fullscreen", m_fullScreen.isOn ? 1 : 0);
-            PlayerPrefs.SetInt("EnableFXAA", m_fxaa.isOn ? 1 : 0);
-            PlayerPrefs.SetInt("ScreenResolution", m_screenResolution.value);
-            PlayerPrefs.SetInt("QualityLevel", m_qualityLevel.value);
-            PlayerPrefs.SetFloat("LookSensitivityX", m_lookSensitivityX.value);
-            PlayerPrefs.SetFloat("LookSensitivityY", m_lookSensitivityY.value);
-            PlayerPrefs.Save();
-
-            if (m_enableLog) { Debug.Log("Saved Settings"); }
-            changed = false;
-        }
+        
 
         private void SetupSlider(Slider slider, string key, float dv, UnityAction<Slider> call)
         {
