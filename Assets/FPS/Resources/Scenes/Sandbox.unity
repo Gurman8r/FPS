@@ -152,33 +152,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 22
       objectReference: {fileID: 0}
-    - target: {fileID: 114539830371490770, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 1574401862}
     - target: {fileID: 1108763565594600, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
       propertyPath: m_Name
       value: Barrel (8)
-      objectReference: {fileID: 0}
-    - target: {fileID: 114152308942545598, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_health.m_current
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 114152308942545598, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_health.m_maximum
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 114803888688749708, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_lookingAt.x
-      value: -8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
@@ -222,43 +198,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 23
       objectReference: {fileID: 0}
-    - target: {fileID: 114539830371490770, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 1574401862}
     - target: {fileID: 1108763565594600, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
       propertyPath: m_Name
       value: Barrel (9)
-      objectReference: {fileID: 0}
-    - target: {fileID: 114803888688749708, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_lookingAt.x
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 114152308942545598, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_health.m_current
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 114152308942545598, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_health.m_maximum
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 114803888688749708, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_lookingAt.y
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 114803888688749708, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_lookingAt.z
-      value: -0.31218362
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
@@ -302,33 +244,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 28
       objectReference: {fileID: 0}
-    - target: {fileID: 114539830371490770, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 1574401862}
     - target: {fileID: 1108763565594600, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
       propertyPath: m_Name
       value: Barrel (14)
-      objectReference: {fileID: 0}
-    - target: {fileID: 114803888688749708, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_lookingAt.x
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 114152308942545598, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_health.m_current
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 114152308942545598, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_health.m_maximum
-      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
@@ -465,28 +383,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 15
       objectReference: {fileID: 0}
-    - target: {fileID: 114539830371490770, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 1574401862}
     - target: {fileID: 1108763565594600, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
       propertyPath: m_Name
       value: Barrel (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 114152308942545598, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_health.m_current
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 114152308942545598, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_health.m_maximum
-      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
@@ -665,33 +564,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 27
       objectReference: {fileID: 0}
-    - target: {fileID: 114539830371490770, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 1574401862}
     - target: {fileID: 1108763565594600, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
       propertyPath: m_Name
       value: Barrel (13)
-      objectReference: {fileID: 0}
-    - target: {fileID: 114152308942545598, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_health.m_current
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 114152308942545598, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_health.m_maximum
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 114803888688749708, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_lookingAt.x
-      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
@@ -735,29 +610,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 24
       objectReference: {fileID: 0}
-    - target: {fileID: 223778432147232084, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 1574401862}
     - target: {fileID: 1108763565594600, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
       propertyPath: m_Name
       value: Barrel (10)
-      objectReference: {fileID: 0}
-    - target: {fileID: 114803888688749708, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_lookingAt.x
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 114803888688749708, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_lookingAt.y
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 114803888688749708, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_lookingAt.z
-      value: 1.6878164
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
@@ -801,33 +656,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 16
       objectReference: {fileID: 0}
-    - target: {fileID: 114539830371490770, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 1574401862}
     - target: {fileID: 1108763565594600, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
       propertyPath: m_Name
       value: Barrel (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 114803888688749708, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_lookingAt.x
-      value: 5.66
-      objectReference: {fileID: 0}
-    - target: {fileID: 114152308942545598, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_health.m_current
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 114152308942545598, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_health.m_maximum
-      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
@@ -1988,19 +1819,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 21
       objectReference: {fileID: 0}
-    - target: {fileID: 223778432147232084, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 1574401862}
     - target: {fileID: 1108763565594600, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
       propertyPath: m_Name
       value: Barrel (7)
-      objectReference: {fileID: 0}
-    - target: {fileID: 114803888688749708, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_lookingAt.x
-      value: -4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
@@ -2044,33 +1865,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 19
       objectReference: {fileID: 0}
-    - target: {fileID: 114539830371490770, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 1574401862}
     - target: {fileID: 1108763565594600, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
       propertyPath: m_Name
       value: Barrel (5)
-      objectReference: {fileID: 0}
-    - target: {fileID: 114152308942545598, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_health.m_current
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 114152308942545598, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_health.m_maximum
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 114803888688749708, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_lookingAt.x
-      value: 5.66
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
@@ -2114,11 +1911,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 17
       objectReference: {fileID: 0}
-    - target: {fileID: 223778432147232084, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 1574401862}
     - target: {fileID: 1108763565594600, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
       propertyPath: m_Name
       value: Barrel (3)
@@ -2254,33 +2046,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 20
       objectReference: {fileID: 0}
-    - target: {fileID: 114539830371490770, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 1574401862}
     - target: {fileID: 1108763565594600, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
       propertyPath: m_Name
       value: Barrel (6)
-      objectReference: {fileID: 0}
-    - target: {fileID: 114803888688749708, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_lookingAt.x
-      value: -6
-      objectReference: {fileID: 0}
-    - target: {fileID: 114152308942545598, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_health.m_current
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 114152308942545598, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_health.m_maximum
-      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
@@ -2413,43 +2181,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 25
       objectReference: {fileID: 0}
-    - target: {fileID: 114539830371490770, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 1574401862}
     - target: {fileID: 1108763565594600, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
       propertyPath: m_Name
       value: Barrel (11)
-      objectReference: {fileID: 0}
-    - target: {fileID: 114152308942545598, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_health.m_current
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 114152308942545598, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_health.m_maximum
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 114803888688749708, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_lookingAt.x
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 114803888688749708, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_lookingAt.y
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 114803888688749708, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_lookingAt.z
-      value: 11.690001
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
@@ -3842,33 +3576,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 18
       objectReference: {fileID: 0}
-    - target: {fileID: 114539830371490770, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 1574401862}
     - target: {fileID: 1108763565594600, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
       propertyPath: m_Name
       value: Barrel (4)
-      objectReference: {fileID: 0}
-    - target: {fileID: 114803888688749708, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_lookingAt.x
-      value: 3.85
-      objectReference: {fileID: 0}
-    - target: {fileID: 114152308942545598, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_health.m_current
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 114152308942545598, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_health.m_maximum
-      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
@@ -4006,19 +3716,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 26
       objectReference: {fileID: 0}
-    - target: {fileID: 223778432147232084, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 1574401862}
     - target: {fileID: 1108763565594600, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
       propertyPath: m_Name
       value: Barrel (12)
-      objectReference: {fileID: 0}
-    - target: {fileID: 114803888688749708, guid: ebbb51f69119ba941a9f8b0a7b7f050e,
-        type: 2}
-      propertyPath: m_lookingAt.x
-      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebbb51f69119ba941a9f8b0a7b7f050e, type: 2}
