@@ -329,25 +329,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 1859581859643930, guid: 040b8a04b71f40f4cbfe8772c70414fe, type: 2}
-      propertyPath: m_Name
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 224438185436593302, guid: 040b8a04b71f40f4cbfe8772c70414fe,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224826952068398072, guid: 040b8a04b71f40f4cbfe8772c70414fe,
-        type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114666174742289162, guid: 040b8a04b71f40f4cbfe8772c70414fe,
-        type: 2}
-      propertyPath: m_aimSpeed
-      value: 0.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 040b8a04b71f40f4cbfe8772c70414fe, type: 2}
   m_IsPrefabAsset: 0

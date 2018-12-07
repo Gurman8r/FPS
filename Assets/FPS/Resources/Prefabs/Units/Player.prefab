@@ -5757,7 +5757,7 @@ MonoBehaviour:
   m_reticleSpeed: 10
   m_fadeSpeed: 10
   m_zoomSpeed: 5
-  m_aimSpeed: 0.33
+  m_aimSpeed: 0.5
   m_isPaused: 0
   m_isAiming: 0
   m_zoomLevel: 0

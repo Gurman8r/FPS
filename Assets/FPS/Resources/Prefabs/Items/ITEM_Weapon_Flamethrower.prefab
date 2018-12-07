@@ -548,8 +548,8 @@ MonoBehaviour:
     unitLayer:
       serializedVersion: 2
       m_Bits: 1024
-    speed: 50
-    lifeSpan: 0.1
+    speed: 25
+    lifeSpan: 1
     damage:
       m_amount: 1
     healing:
@@ -561,7 +561,7 @@ MonoBehaviour:
     dir: {x: 0, y: 0, z: 0}
     dest: {x: 0, y: 0, z: 0}
   m_lookingAt: {x: 0, y: 0, z: 0}
-  m_bulletCount: 1
+  m_bulletCount: 5
   m_bulletDelay: 0
   m_allowAiming: 0
   m_spreadHip: 1
