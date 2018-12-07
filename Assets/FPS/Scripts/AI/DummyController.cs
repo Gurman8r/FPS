@@ -91,7 +91,7 @@ namespace FPS
 
                     if (unit.health.fillAmount < 1f)
                     {
-                        unit.triggers.Broadcast(EventType.OnDoHealing, new UnitEvent
+                        unit.triggers.Broadcast(EventType.OnReceiveHealing, new UnitEvent
                         {
                             data = new ObjectData
                             {
@@ -132,7 +132,7 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public void OnRecieveDamage(UnitEvent unitEvent)
+        public void OnReceiveDamage(UnitEvent unitEvent)
         {
             if(m_damageTotal == 0f)
             {

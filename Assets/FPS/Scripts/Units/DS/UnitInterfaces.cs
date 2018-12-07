@@ -14,12 +14,12 @@ namespace FPS
 
     public interface IDamageTarget
     {
-        void OnRecieveDamage(UnitEvent ev);
+        void OnReceiveDamage(UnitEvent ev);
     }
 
     public interface IHealingTarget
     {
-        void OnRecieveHealing(UnitEvent ev);
+        void OnReceiveHealing(UnitEvent ev);
     }
 
     public interface IDamageSource

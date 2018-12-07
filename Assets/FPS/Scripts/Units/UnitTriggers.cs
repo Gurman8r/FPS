@@ -73,14 +73,14 @@ namespace FPS
             Execute(EventType.OnDeath, ev);
         }
 
-        public virtual void OnRecieveDamage(UnitEvent ev)
+        public virtual void OnReceiveDamage(UnitEvent ev)
         {
-            Execute(EventType.OnRecieveDamage, ev);
+            Execute(EventType.OnReceiveDamage, ev);
         }
 
-        public virtual void OnRecieveHealing(UnitEvent ev)
+        public virtual void OnReceiveHealing(UnitEvent ev)
         {
-            Execute(EventType.OnRecieveHealing, ev);
+            Execute(EventType.OnReceiveHealing, ev);
         }
 
         public virtual void OnDoDamage(UnitEvent ev)

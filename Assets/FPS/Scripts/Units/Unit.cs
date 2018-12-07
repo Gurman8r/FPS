@@ -156,6 +156,24 @@ namespace FPS
             }
         }
 
+        public void Spawn(GameObject gameObject)
+        {
+            if(gameObject)
+                Instantiate(gameObject, null, true).transform.position = transform.position;
+        }
+
+        public void SpawnCombatObject(CombatObject value)
+        {
+            CombatObject obj;
+            if (value && (obj = Instantiate(value, null)))
+            {
+                obj.transform.position = transform.position;
+                obj.transform.rotation = transform.rotation;
+                obj.data.owner = this;
+                obj.Spawn();
+            }
+        }
+
 
         /* Interfaces
         * * * * * * * * * * * * * * * */
@@ -177,21 +195,13 @@ namespace FPS
 
         public void OnDoDamage(UnitEvent ev)
         {
-            if (ev.data.target)
-            {
-                ev.data.target.triggers.Broadcast(EventType.OnRecieveDamage, ev);
-            }
         }
 
         public void OnDoHealing(UnitEvent ev)
         {
-            if(ev.data.target)
-            {
-                ev.data.target.triggers.Broadcast(EventType.OnRecieveHealing, ev);
-            }
         }
 
-        public void OnRecieveDamage(UnitEvent ev)
+        public void OnReceiveDamage(UnitEvent ev)
         {
             health.Modify(-ev.data.damage.amount);
             
@@ -201,7 +211,7 @@ namespace FPS
             }
         }
 
-        public void OnRecieveHealing(UnitEvent ev)
+        public void OnReceiveHealing(UnitEvent ev)
         {
             health.Modify(ev.data.healing.amount);
         }

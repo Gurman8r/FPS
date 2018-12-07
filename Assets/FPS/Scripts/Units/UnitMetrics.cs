@@ -43,12 +43,12 @@ namespace FPS
             healingDone += ev.data.healing.amount;
         }
 
-        public void OnRecieveDamage(UnitEvent ev)
+        public void OnReceiveDamage(UnitEvent ev)
         {
             damageRecieved += ev.data.damage.amount;
         }
 
-        public void OnRecieveHealing(UnitEvent ev)
+        public void OnReceiveHealing(UnitEvent ev)
         {
             healingRecieved += ev.data.healing.amount;
         }

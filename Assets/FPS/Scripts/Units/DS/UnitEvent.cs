@@ -8,7 +8,7 @@ namespace FPS
     public enum EventType
     {
         OnSpawn, OnDeath,
-        OnRecieveDamage, OnRecieveHealing,
+        OnReceiveDamage, OnReceiveHealing,
         OnDoDamage, OnDoHealing,
     }
 

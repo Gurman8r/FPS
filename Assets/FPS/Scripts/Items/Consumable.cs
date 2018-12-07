@@ -76,9 +76,8 @@ namespace FPS
         }
 
         private void DoHealing()
-        {
-            
-            owner.triggers.Broadcast(EventType.OnDoHealing, new UnitEvent
+        {            
+            UnitEvent ev = new UnitEvent
             {
                 data = new ObjectData
                 {
@@ -86,7 +85,9 @@ namespace FPS
                     target = owner,
                     healing = m_healing
                 }
-            });
+            };
+            owner.triggers.Broadcast(EventType.OnDoHealing, ev);
+            owner.triggers.Broadcast(EventType.OnReceiveHealing, ev);
         }
     }
 
