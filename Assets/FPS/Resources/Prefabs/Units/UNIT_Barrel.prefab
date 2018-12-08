@@ -52,7 +52,7 @@ GameObject:
   - component: {fileID: 114081637109253158}
   - component: {fileID: 114981945768954510}
   m_Layer: 10
-  m_Name: Barrel
+  m_Name: UNIT_Barrel
   m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

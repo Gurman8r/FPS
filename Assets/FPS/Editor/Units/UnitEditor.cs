@@ -19,7 +19,6 @@ namespace FPS
         public override void OnInspectorGUI()
         {
             GUI.enabled = false;
-            EditorGUILayout.ObjectField("Audio", target.audio, typeof(UnitAudio), false);
             EditorGUILayout.ObjectField("Inventory", target.inventory, typeof(UnitInventory), false);
             EditorGUILayout.ObjectField("Metrics", target.metrics, typeof(UnitMetrics), false);
             EditorGUILayout.ObjectField("Motor", target.motor, typeof(UnitMotor), false);

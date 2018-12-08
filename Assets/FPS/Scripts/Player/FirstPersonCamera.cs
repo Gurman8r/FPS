@@ -9,7 +9,7 @@ namespace FPS
     [RequireComponent(typeof(Camera))]
     [DisallowMultipleComponent]
     [ExecuteInEditMode]
-    public sealed class PlayerCamera : MonoBehaviour
+    public sealed class FirstPersonCamera : MonoBehaviour
     {
         public const float MinZoom  = 1f;
         public const float MaxZoom  = 10f;
@@ -41,7 +41,7 @@ namespace FPS
 
         /* Properties
         * * * * * * * * * * * * * * * */
-        public static PlayerCamera main
+        public static FirstPersonCamera main
         {
             get; private set;
         }

@@ -11,17 +11,23 @@ namespace FPS
         /* Variables
         * * * * * * * * * * * * * * * */
         [Header("Player Settings")]
-        [SerializeField] PlayerCamera   m_camera;
+        [SerializeField] FirstPersonCamera   m_camera;
         [SerializeField] PlayerHUD      m_hud;
         [Space]
-        [SerializeField] int            m_playerIndex = 0;
-        [SerializeField] float          m_inventoryTime = 2.5f;
-        [SerializeField] float          m_reticleSpeed = 10f;
-        [SerializeField] float          m_fadeSpeed = 10f;
-        [SerializeField] float          m_zoomSpeed = 5f;
+        [SerializeField] int        m_playerIndex = 0;
+        [SerializeField] float      m_inventoryTime = 2.5f;
+        [SerializeField] float      m_reticleSpeed = 10f;
+        [SerializeField] float      m_fadeSpeed = 10f;
+        [SerializeField] float      m_zoomSpeed = 5f;
         [Range(0.00001f, 1f)]
-        [SerializeField] float          m_aimSpeed = 0.5f;
-        [SerializeField] float          m_holdDistance = 2f;
+        [SerializeField] float      m_aimSpeed = 0.5f;
+        [Space]
+        [SerializeField] Item       m_holding;
+        [SerializeField] float      m_rotSpeed = 2.5f;
+        [SerializeField] float      m_curHoldDist = 1f;
+        [SerializeField] float      m_minHoldDist = 1f;
+        [SerializeField] float      m_maxHoldDist = 2f;
+        [SerializeField] float      m_holdZoomSpeed = 5f;
 
         [Header("Player Runtime")]
         [SerializeField] bool       m_isPaused;
@@ -30,7 +36,6 @@ namespace FPS
         [SerializeField] bool       m_hasKeyboard;
         [SerializeField] bool       m_hasGamepad;
         [SerializeField] bool       m_canInteract;
-        [SerializeField] Item       m_holding;
 
         private Rewired.Player  m_input;
         private RaycastHit      m_hit;
@@ -38,13 +43,13 @@ namespace FPS
 
         /* Properties
         * * * * * * * * * * * * * * * */
-        public new PlayerCamera camera
+        public new FirstPersonCamera camera
         {
             get
             {
                 if(!m_camera)
                 {
-                    m_camera = GetComponentInChildren<PlayerCamera>();
+                    m_camera = GetComponentInChildren<FirstPersonCamera>();
                 }
                 return m_camera;
             }
@@ -70,7 +75,7 @@ namespace FPS
 
         public Vector3 holdPos
         {
-            get { return unit.vision.origin + unit.vision.direction * m_holdDistance; }
+            get { return unit.vision.origin + unit.vision.direction * m_curHoldDist; }
         }
 
 
@@ -183,8 +188,14 @@ namespace FPS
                             }
                         }
                     }
-                    else
+                    else // Holding
                     {
+                        float scroll;
+                        if((scroll = m_input.GetAxis("Select Scroll")) != 0f)
+                        {
+                            m_curHoldDist = Mathf.Clamp(m_curHoldDist + (Time.deltaTime * scroll * m_holdZoomSpeed), m_minHoldDist, m_maxHoldDist);
+                        }
+
                         m_holding.rigidbody.position = holdPos;
 
                         if(m_input.GetButton("Control"))
@@ -326,8 +337,8 @@ namespace FPS
             if (item = hand.item)
             {
                 GunBase gun;
-                m_zoomLevel = (gun = item as GunBase) ? gun.zoomLevel : PlayerCamera.MinZoom;
-                m_isAiming = (m_zoomLevel != PlayerCamera.MinZoom);
+                m_zoomLevel = (gun = item as GunBase) ? gun.zoomLevel : FirstPersonCamera.MinZoom;
+                m_isAiming = (m_zoomLevel != FirstPersonCamera.MinZoom);
 
                 fire0.press = m_input.GetButtonDown("Fire0");
                 fire0.hold = m_input.GetButton("Fire0");

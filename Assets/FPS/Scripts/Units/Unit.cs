@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace FPS
 {
-    [RequireComponent(typeof(UnitAudio))]
     [RequireComponent(typeof(UnitInventory))]
     [RequireComponent(typeof(UnitMetrics))]
     [RequireComponent(typeof(UnitMotor))]
@@ -22,7 +21,6 @@ namespace FPS
 
         /* Variables
         * * * * * * * * * * * * * * * */
-        private UnitAudio       m_audio;
         private UnitInventory   m_inventory;
         private UnitMetrics     m_metrics;
         private UnitMotor       m_motor;
@@ -35,18 +33,6 @@ namespace FPS
 
         /* Properties
         * * * * * * * * * * * * * * * */
-        public new UnitAudio audio
-        {
-            get
-            {
-                if (!m_audio)
-                {
-                    m_audio = GetComponent<UnitAudio>();
-                }
-                return m_audio;
-            }
-        }
-
         public UnitInventory inventory
         {
             get

@@ -120,13 +120,13 @@ namespace FPS
             // Look Sensitivity X
             SetupSlider(m_lookSensitivityX, "LookSensitivityX", 0.1f, (Slider slider) =>
             {
-                PlayerCamera.main.lookSensitivity = new Vector2(slider.value, PlayerCamera.main.lookSensitivity.y);
+                FirstPersonCamera.main.lookSensitivity = new Vector2(slider.value, FirstPersonCamera.main.lookSensitivity.y);
             });
 
             // Look Sensitivity Y
             SetupSlider(m_lookSensitivityY, "LookSensitivityY", 0.1f, (Slider slider) =>
             {
-                PlayerCamera.main.lookSensitivity = new Vector2(PlayerCamera.main.lookSensitivity.x, slider.value);
+                FirstPersonCamera.main.lookSensitivity = new Vector2(FirstPersonCamera.main.lookSensitivity.x, slider.value);
             });
 
             // Screen Resolution
@@ -162,31 +162,31 @@ namespace FPS
             // Antialiasing
             SetupToggle(m_antialiasing, "EnableAntialiasing", true, (Toggle t) =>
             {
-                PlayerCamera.main.postProcessing.profile.antialiasing.enabled = t.isOn;
+                FirstPersonCamera.main.postProcessing.profile.antialiasing.enabled = t.isOn;
             });
 
             // Ambient Occlusion
             SetupToggle(m_ambientOcclusion, "EnableAmbientOcclusion", true, (Toggle t) =>
             {
-                PlayerCamera.main.postProcessing.profile.ambientOcclusion.enabled = t.isOn;
+                FirstPersonCamera.main.postProcessing.profile.ambientOcclusion.enabled = t.isOn;
             });
 
             // Bloom
             SetupToggle(m_bloom, "EnableBloom", true, (Toggle t) =>
             {
-                PlayerCamera.main.postProcessing.profile.bloom.enabled = t.isOn;
+                FirstPersonCamera.main.postProcessing.profile.bloom.enabled = t.isOn;
             });
 
             // Motion Blur
             SetupToggle(m_motionBlur, "EnableMotionBlur", true, (Toggle t) =>
             {
-                PlayerCamera.main.postProcessing.profile.motionBlur.enabled = t.isOn;
+                FirstPersonCamera.main.postProcessing.profile.motionBlur.enabled = t.isOn;
             });
 
             // Vignette
             SetupToggle(m_vignette, "EnableVignette", true, (Toggle t) =>
             {
-                PlayerCamera.main.postProcessing.profile.vignette.enabled = t.isOn;
+                FirstPersonCamera.main.postProcessing.profile.vignette.enabled = t.isOn;
             });
             
             

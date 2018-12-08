@@ -15,7 +15,7 @@ namespace FPS
         [SerializeField] bool   m_allowAiming   = true;
         [SerializeField] float  m_spreadHip     = 0.5f;
         [SerializeField] float  m_spreadAim     = 0.1f;
-        [Range(PlayerCamera.MinZoom, PlayerCamera.MaxZoom)]
+        [Range(FirstPersonCamera.MinZoom, FirstPersonCamera.MaxZoom)]
         [SerializeField] float  m_zoomAiming    = 1f;
 
         [Header("Gun Runtime")]

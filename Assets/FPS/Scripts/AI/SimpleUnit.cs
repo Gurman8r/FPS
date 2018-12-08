@@ -43,8 +43,8 @@ namespace FPS
                     m_health.imageAlpha -= Time.deltaTime;
                 }
 
-                PlayerCamera cam;
-                if(cam = PlayerCamera.main)
+                FirstPersonCamera cam;
+                if(cam = FirstPersonCamera.main)
                 {
                     if(m_canvas)
                     {
