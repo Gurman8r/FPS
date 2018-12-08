@@ -159,24 +159,47 @@ namespace FPS
                         {
                             hud.reticle.SetText("");
                         }
+
+                        if (!unit.inventory.empty)
+                        {
+                            // Select Input
+                            selectInput = -1;
+                            for (KeyCode key = KeyCode.Alpha0; key <= KeyCode.Alpha9; key++)
+                            {
+                                if (Input.GetKeyDown(key))
+                                {
+                                    selectInput = (key == KeyCode.Alpha0)
+                                        ? (9)
+                                        : (8 - Mathf.Abs((int)key - (int)KeyCode.Alpha9));
+                                    hud.inventory.ShowForSeconds(m_inventoryTime);
+                                    break;
+                                }
+                            }
+
+                            // Scroll Input
+                            if ((scrollInput = m_input.GetAxis("Select Scroll")) != 0f)
+                            {
+                                hud.inventory.ShowForSeconds(m_inventoryTime);
+                            }
+                        }
                     }
                     else
                     {
+                        m_holding.rigidbody.position = holdPos;
+
                         if(m_input.GetButton("Control"))
                         {
-                            Vector2 temp = lookInput;
-                            m_holding.transform.Rotate(temp.y, temp.x, 0f);
+                            m_holding.transform.Rotate(camera.transform.right * -lookInput.y);
+                            m_holding.transform.Rotate(camera.transform.up * lookInput.x, Space.World);
                             lookInput = Vector2.zero;
                         }
-
-                        m_holding.rigidbody.position = holdPos;
 
                         if (unit.inventory.Store(unit.inventory.primary))
                         {
                             hud.inventory.ShowForSeconds(m_inventoryTime);
                         }
 
-                        hud.reticle.SetText(string.Format("[{0}] Drop {1}", GetActionName("Drop"), m_holding.info.name));
+                        hud.reticle.SetText(string.Format("[{0}] Place {1}", GetActionName("Drop"), m_holding.info.name));
 
                         if (m_input.GetButtonDown("Drop"))
                         {
@@ -186,29 +209,6 @@ namespace FPS
                             {
                                 hud.inventory.ShowForSeconds(m_inventoryTime);
                             }
-                        }
-                    }
-
-                    if (!unit.inventory.empty)
-                    {
-                        // Select Input
-                        selectInput = -1;
-                        for (KeyCode key = KeyCode.Alpha0; key <= KeyCode.Alpha9; key++)
-                        {
-                            if (Input.GetKeyDown(key))
-                            {
-                                selectInput = (key == KeyCode.Alpha0)
-                                    ? (9)
-                                    : (8 - Mathf.Abs((int)key - (int)KeyCode.Alpha9));
-                                hud.inventory.ShowForSeconds(m_inventoryTime);
-                                break;
-                            }
-                        }
-
-                        // Scroll Input
-                        if ((scrollInput = m_input.GetAxis("Select Scroll")) != 0f)
-                        {
-                            hud.inventory.ShowForSeconds(m_inventoryTime);
                         }
                     }
                 }
@@ -277,7 +277,7 @@ namespace FPS
                 Item item;
                 if ((item = hit.transform.GetComponent<Item>()) && item.interactable && !item.owner)
                 {
-                    hud.reticle.SetText(string.Format("[{0}] Take {1}", GetActionName("Interact"), item.info.name));
+                    hud.reticle.SetText(string.Format("[{0}] {1}", GetActionName("Interact"), item.info.name));
 
                     if (m_input.GetButtonLongPressDown("Interact") && !m_holding)
                     {
@@ -344,7 +344,7 @@ namespace FPS
                     item.Reload();
                 }
 
-                if (m_input.GetButtonLongPressDown("Drop"))
+                if (m_input.GetButtonDoublePressDown("Drop"))
                 {
                     if (unit.inventory.Drop(hand))
                     {
@@ -354,16 +354,12 @@ namespace FPS
                         SetHolding(item);
                     }
                 }
-                else if (m_input.GetButtonDoublePressDown("Drop"))
+                else if(m_input.GetButtonLongPressDown("Drop"))
                 {
-                    if (unit.inventory.Drop(hand))
+                    if(unit.inventory.Drop(hand))
                     {
-                        hud.inventory.ShowForSeconds(m_inventoryTime);
                         hud.textFeed.Print("-" + item.info.name);
-                        if (unit.inventory.Equip(hand, unit.inventory.index))
-                        {
-                            return;
-                        }
+                        unit.inventory.index--;
                     }
                 }
             }
@@ -395,11 +391,6 @@ namespace FPS
                         : item.useDelta);
 
                 hud.SetAmmo(item.resourceDelta);
-
-                if (item.onCooldown)
-                {
-                    hud.reticle.SetText("Reloading");
-                }
 
                 GunBase gun;
                 if (gun = item as GunBase)

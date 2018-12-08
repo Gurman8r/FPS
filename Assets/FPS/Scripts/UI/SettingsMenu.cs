@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 namespace FPS
 {
+    [ExecuteInEditMode]
     public class SettingsMenu : MonoBehaviour
     {
         /* Variables
@@ -33,9 +34,12 @@ namespace FPS
         [SerializeField] Toggle     m_motionBlur;
         [SerializeField] Toggle     m_vignette;
 
-        [Header("Buttons")]
+        [Header("UI Reference")]
         [SerializeField] Button     m_saveButton;
         [SerializeField] Button     m_defaultButton;
+        [SerializeField] Scrollbar  m_scrollBar;
+        [Range(0f, 1f)]
+        [SerializeField] float      m_scrollValue;
 
         private List<Vector2Int> m_modes;
 
@@ -61,9 +65,19 @@ namespace FPS
 
         private void Update()
         {
-            if(m_saveButton)
+            if(Application.isPlaying)
             {
-                m_saveButton.interactable = changed;
+                if (m_saveButton)
+                {
+                    m_saveButton.interactable = changed;
+                }
+            }
+            else
+            {
+                if(m_scrollBar)
+                {
+                    m_scrollBar.value = m_scrollValue;
+                }
             }
         }
 
