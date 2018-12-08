@@ -16,6 +16,7 @@ namespace FPS
         [SerializeField] int        m_slotCount = 10;
         [SerializeField] Image      m_selector;
         [SerializeField] float      m_fadeSpeed = 1f;
+        [SerializeField] float      m_showTime = 2f;
 
         [Header("Runtime")]
         [SerializeField] ItemSlot[] m_slots = null;
@@ -125,9 +126,9 @@ namespace FPS
             }
         }
 
-        public void ShowForSeconds(float value)
+        public void Show()
         {
-            StartCoroutine(ShowForSecondsCoroutine(value));
+            StartCoroutine(ShowForSecondsCoroutine(m_showTime));
         }
 
         private IEnumerator ShowForSecondsCoroutine(float value)

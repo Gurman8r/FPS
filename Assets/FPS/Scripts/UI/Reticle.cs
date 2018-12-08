@@ -13,8 +13,6 @@ namespace FPS
         [Header("Settings")]
         [SerializeField] HealthBar      m_fill;
         [SerializeField] Hitmarker      m_hitmarker;
-        [SerializeField] Text           m_text;
-        [SerializeField] float          m_textScalar = 2f;
 
         [Header("Runtime")]
         [SerializeField] Vector2    m_originalSize;
@@ -42,18 +40,6 @@ namespace FPS
             if(Application.isPlaying)
             {
                 originalSize = m_fill.rectTransform.sizeDelta;
-            }
-        }
-
-        private void Update()
-        {
-            if(m_fill && m_text)
-            {
-                m_text.rectTransform.position =
-                     m_fill.rectTransform.position -
-                     new Vector3(0f,
-                         originalSize.y +
-                         (m_fill.rectTransform.sizeDelta.y / m_textScalar));
             }
         }
 
@@ -89,14 +75,6 @@ namespace FPS
                 {
                     m_hitmarker.Hide();
                 }
-            }
-        }
-
-        public void SetText(string value)
-        {
-            if(m_text)
-            {
-                m_text.text = value;
             }
         }
     }

@@ -140,29 +140,16 @@ namespace FPS
                         // Update Item
                         UpdateHand(unit.inventory.primary);
 
-                        // Store
-                        if (m_input.GetButtonDown("Store"))
-                        {
-                            if (unit.inventory.Store(unit.inventory.primary))
-                            {
-                                hud.inventory.ShowForSeconds(m_inventoryTime);
-                            }
-                            else if (unit.inventory.Equip(unit.inventory.primary, unit.inventory.index))
-                            {
-                                hud.inventory.ShowForSeconds(m_inventoryTime);
-                            }
-                        }
-
                         if (m_canInteract = Physics.Raycast(camera.ray, out m_hit, interactRange))
                         {
                             if (!CheckInteraction(m_hit))
                             {
-                                hud.reticle.SetText("");
+                                hud.ShowActions("");
                             }
                         }
                         else
                         {
-                            hud.reticle.SetText("");
+                            hud.ShowActions("");
                         }
 
                         if (!unit.inventory.empty)
@@ -176,7 +163,7 @@ namespace FPS
                                     selectInput = (key == KeyCode.Alpha0)
                                         ? (9)
                                         : (8 - Mathf.Abs((int)key - (int)KeyCode.Alpha9));
-                                    hud.inventory.ShowForSeconds(m_inventoryTime);
+                                    hud.inventory.Show();
                                     break;
                                 }
                             }
@@ -184,7 +171,7 @@ namespace FPS
                             // Scroll Input
                             if ((scrollInput = m_input.GetAxis("Select Scroll")) != 0f)
                             {
-                                hud.inventory.ShowForSeconds(m_inventoryTime);
+                                hud.inventory.Show();
                             }
                         }
                     }
@@ -200,39 +187,60 @@ namespace FPS
 
                         if(m_input.GetButton("Edit"))
                         {
-                            m_holding.transform.Rotate(camera.transform.right * -lookInput.y);
-                            m_holding.transform.Rotate(camera.transform.up * lookInput.x, Space.World);
+                            hud.ShowActions(string.Format(
+                                "[{0}] {1}\n" +
+                                "[{2}] {3}\n" +
+                                "[{4}] {5}\n",
+                                GetActionName("RotateX"), "RotateX",
+                                GetActionName("RotateY"), "RotateY",
+                                GetActionName("RotateZ"), "RotateZ"));
+
+                            bool rx = m_input.GetButton("RotateX");
+                            bool ry = m_input.GetButton("RotateY");
+                            bool rz = m_input.GetButton("RotateZ");
+                            if(rx || ry || rz)
+                            {
+                                float speed = m_rotSpeed * Time.deltaTime;
+                                if (rx)
+                                {
+                                    m_holding.transform.RotateAround(m_holding.transform.position, camera.transform.right, lookInput.y * speed);
+                                }
+                                if (ry)
+                                {
+                                    m_holding.transform.RotateAround(m_holding.transform.position, camera.transform.up, -lookInput.x * speed);
+                                }
+                                if (rz)
+                                {
+                                    m_holding.transform.RotateAround(m_holding.transform.position, camera.transform.forward, -lookInput.x * speed);
+                                }
+                            }
+                            
                             lookInput = Vector2.zero;
+                            moveInput = Vector2.zero;
+                            jumpInput = false;
+                            sprintInput = false;
+                        }
+                        else
+                        {
+                            hud.ShowActions(string.Format(
+                                "[{0}] {1}\n" +
+                                "[{2}] {3}\n" +
+                                "[{4}] {5}\n",
+                                GetActionName("Equip"), "Equip",
+                                GetActionName("Place"), "Place",
+                                GetActionName("Edit"), "Edit"));
                         }
 
                         if (unit.inventory.Store(unit.inventory.primary))
                         {
-                            hud.inventory.ShowForSeconds(m_inventoryTime);
+                            hud.inventory.Show();
                         }
-
-                        hud.reticle.SetText(string.Format(
-                            "[{0}] {1}\n" +
-                            "[{2}] {3}\n" +
-                            "[{4}] {5}\n" +
-                            "[{6}] {7}\n",
-                            GetActionName("Equip"), "Equip",
-                            GetActionName("Store"), "Store",
-                            GetActionName("Place"), "Place",
-                            GetActionName("Edit"),  "Edit"));
 
                         if (m_input.GetButtonDown("Equip"))
                         {
                             if(unit.inventory.Equip(unit.inventory.primary, m_holding))
                             {
-                                hud.inventory.ShowForSeconds(m_inventoryTime);
-                                m_holding = null;
-                            }
-                        }
-                        else if(m_input.GetButtonDown("Store"))
-                        {
-                            if (unit.inventory.Store(m_holding))
-                            {
-                                hud.inventory.ShowForSeconds(m_inventoryTime);
+                                hud.inventory.Show();
                                 m_holding = null;
                             }
                         }
@@ -241,7 +249,7 @@ namespace FPS
                             SetHolding(null);
                             if(unit.inventory.Equip(unit.inventory.primary, unit.inventory.index))
                             {
-                                hud.inventory.ShowForSeconds(m_inventoryTime);
+                                hud.inventory.Show();
                             }
                         }
                     }
@@ -310,9 +318,9 @@ namespace FPS
                 Item item;
                 if ((item = hit.transform.GetComponent<Item>()) && item.interactable && !item.owner)
                 {
-                    hud.reticle.SetText(string.Format(
-                        "[{0}] [Down] {1}\n\t[Hold] Grab", 
-                        GetActionName("Equip"), "Equip"));
+                    hud.ShowActions(string.Format(
+                        "[{0}] {1} {2}", 
+                        GetActionName("Equip"), "Equip", item.info.name));
 
                     if (m_input.GetButtonLongPressDown("Equip") && !m_holding)
                     {
@@ -322,20 +330,12 @@ namespace FPS
                     {
                         if (unit.inventory.primary.item && unit.inventory.Store(item))
                         {
-                            hud.inventory.ShowForSeconds(m_inventoryTime);
+                            hud.inventory.Show();
                             hud.textFeed.Print("+" + item.info.name);
                         }
                         else if (unit.inventory.Equip(unit.inventory.primary, item))
                         {
-                            hud.inventory.ShowForSeconds(m_inventoryTime);
-                            hud.textFeed.Print("+" + item.info.name);
-                        }
-                    }
-                    else if(m_input.GetButtonDown("Store"))
-                    {
-                        if(unit.inventory.Store(item))
-                        {
-                            hud.inventory.ShowForSeconds(m_inventoryTime);
+                            hud.inventory.Show();
                             hud.textFeed.Print("+" + item.info.name);
                         }
                     }
@@ -348,7 +348,7 @@ namespace FPS
                 Wall wall;
                 if ((wall = hit.transform.parent.GetComponent<Wall>()) && wall.isDoor)
                 {
-                    hud.reticle.SetText(string.Format(
+                    hud.ShowActions(string.Format(
                         "[{0}] {1}", 
                         GetActionName("Interact"), 
                         (!wall.isOpen ? "Open" : "Opening...")));
@@ -394,7 +394,7 @@ namespace FPS
                 {
                     if (unit.inventory.Drop(hand))
                     {
-                        hud.inventory.ShowForSeconds(m_inventoryTime);
+                        hud.inventory.Show();
                         hud.textFeed.Print("-" + item.info.name);
                         unit.inventory.index--;
                         SetHolding(item);

@@ -25,6 +25,7 @@ namespace FPS
         [SerializeField] Image          m_damage;
         [SerializeField] Text           m_controls;
         [SerializeField] TextAsset      m_controlsFile;
+        [SerializeField] Text           m_actionText;
         [SerializeField] float          m_damageAlpha = 0.25f;
         [SerializeField] float          m_damageFade = 1f;
         [Space]
@@ -88,7 +89,7 @@ namespace FPS
         {
             if(Application.isPlaying)
             {
-                reticle.SetText("");
+                ShowActions("");
                 reticle.SetFill(0f);
                 reticle.ShowHitmaker(false);
             }
@@ -147,6 +148,14 @@ namespace FPS
             if(m_healthBar)
             {
                 m_healthBar.fillAmount = Mathf.Clamp(value, 0f, 1f);
+            }
+        }
+
+        public void ShowActions(string value)
+        {
+            if(m_actionText)
+            {
+                m_actionText.text = value;
             }
         }
 
