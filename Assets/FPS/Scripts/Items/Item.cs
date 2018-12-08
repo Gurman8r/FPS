@@ -56,6 +56,7 @@ namespace FPS
         [SerializeField] bool       m_onCooldown;
         [SerializeField] int        m_curResource;
         [SerializeField] float      m_reloadTimer;
+        [SerializeField] Transform  m_originalTransform;
 
         /* Properties
         * * * * * * * * * * * * * * * */
@@ -294,7 +295,7 @@ namespace FPS
             {
                 if (!owner)
                 {
-                    Reparent(null, true);
+                    Reparent(m_originalTransform = transform.parent, true);
                     EnablePhysics(true);
                     EnableAnimator(false);
                 }
@@ -369,7 +370,11 @@ namespace FPS
 
         public void Reparent(Transform parentTransform, bool worldPositionStays)
         {
-            transform.SetParent(parentTransform, worldPositionStays);
+            transform.SetParent(
+                parentTransform 
+                    ? parentTransform 
+                    : m_originalTransform,
+                worldPositionStays);
 
             if (parentTransform && !worldPositionStays)
             {

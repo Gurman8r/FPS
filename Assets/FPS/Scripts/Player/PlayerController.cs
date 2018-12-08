@@ -138,7 +138,7 @@ namespace FPS
                     if((m_canInteract = !m_holding))
                     {
                         // Update Item
-                        UpdateItem(unit.inventory.primary);
+                        UpdateHand(unit.inventory.primary);
 
                         // Store
                         if (m_input.GetButtonDown("Store"))
@@ -198,7 +198,7 @@ namespace FPS
 
                         m_holding.rigidbody.position = holdPos;
 
-                        if(m_input.GetButton("Control"))
+                        if(m_input.GetButton("Edit"))
                         {
                             m_holding.transform.Rotate(camera.transform.right * -lookInput.y);
                             m_holding.transform.Rotate(camera.transform.up * lookInput.x, Space.World);
@@ -210,12 +210,35 @@ namespace FPS
                             hud.inventory.ShowForSeconds(m_inventoryTime);
                         }
 
-                        hud.reticle.SetText(string.Format("[{0}] Place {1}", GetActionName("Drop"), m_holding.info.name));
+                        hud.reticle.SetText(string.Format(
+                            "[{0}] {1}\n" +
+                            "[{2}] {3}\n" +
+                            "[{4}] {5}\n" +
+                            "[{6}] {7}\n",
+                            GetActionName("Equip"), "Equip",
+                            GetActionName("Store"), "Store",
+                            GetActionName("Place"), "Place",
+                            GetActionName("Edit"),  "Edit"));
 
-                        if (m_input.GetButtonDown("Drop"))
+                        if (m_input.GetButtonDown("Equip"))
+                        {
+                            if(unit.inventory.Equip(unit.inventory.primary, m_holding))
+                            {
+                                hud.inventory.ShowForSeconds(m_inventoryTime);
+                                m_holding = null;
+                            }
+                        }
+                        else if(m_input.GetButtonDown("Store"))
+                        {
+                            if (unit.inventory.Store(m_holding))
+                            {
+                                hud.inventory.ShowForSeconds(m_inventoryTime);
+                                m_holding = null;
+                            }
+                        }
+                        else if (m_input.GetButtonDown("Place"))
                         {
                             SetHolding(null);
-
                             if(unit.inventory.Equip(unit.inventory.primary, unit.inventory.index))
                             {
                                 hud.inventory.ShowForSeconds(m_inventoryTime);
@@ -232,7 +255,6 @@ namespace FPS
                 }
 
                 UpdateCamera();
-
                 UpdateHUD();
             }
 
@@ -288,13 +310,15 @@ namespace FPS
                 Item item;
                 if ((item = hit.transform.GetComponent<Item>()) && item.interactable && !item.owner)
                 {
-                    hud.reticle.SetText(string.Format("[{0}] {1}", GetActionName("Interact"), item.info.name));
+                    hud.reticle.SetText(string.Format(
+                        "[{0}] [Down] {1}\n\t[Hold] Grab", 
+                        GetActionName("Equip"), "Equip"));
 
-                    if (m_input.GetButtonLongPressDown("Interact") && !m_holding)
+                    if (m_input.GetButtonLongPressDown("Equip") && !m_holding)
                     {
                         SetHolding(item);
                     }
-                    else if (m_input.GetButtonUp("Interact"))
+                    else if (m_input.GetButtonUp("Equip"))
                     {
                         if (unit.inventory.primary.item && unit.inventory.Store(item))
                         {
@@ -302,6 +326,14 @@ namespace FPS
                             hud.textFeed.Print("+" + item.info.name);
                         }
                         else if (unit.inventory.Equip(unit.inventory.primary, item))
+                        {
+                            hud.inventory.ShowForSeconds(m_inventoryTime);
+                            hud.textFeed.Print("+" + item.info.name);
+                        }
+                    }
+                    else if(m_input.GetButtonDown("Store"))
+                    {
+                        if(unit.inventory.Store(item))
                         {
                             hud.inventory.ShowForSeconds(m_inventoryTime);
                             hud.textFeed.Print("+" + item.info.name);
@@ -316,7 +348,10 @@ namespace FPS
                 Wall wall;
                 if ((wall = hit.transform.parent.GetComponent<Wall>()) && wall.isDoor)
                 {
-                    hud.reticle.SetText(string.Format("[{0}] {1}", GetActionName("Interact"), !wall.isOpen ? "Open" : "Opening..."));
+                    hud.reticle.SetText(string.Format(
+                        "[{0}] {1}", 
+                        GetActionName("Interact"), 
+                        (!wall.isOpen ? "Open" : "Opening...")));
 
                     if (m_input.GetButtonDown("Interact"))
                     {
@@ -331,7 +366,7 @@ namespace FPS
             return false;
         }
 
-        private void UpdateItem(UnitInventory.Hand hand)
+        private void UpdateHand(UnitInventory.Hand hand)
         {
             Item item;
             if (item = hand.item)

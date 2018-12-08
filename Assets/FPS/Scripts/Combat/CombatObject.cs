@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace FPS
 {
-    [RequireComponent(typeof(AudioSource))]
     [RequireComponent(typeof(Collider))]
     [RequireComponent(typeof(Rigidbody))]
     [ExecuteInEditMode]
@@ -14,7 +13,6 @@ namespace FPS
 
         /* Variables
         * * * * * * * * * * * * * * * */
-        private AudioSource m_audio;
         private Collider    m_collider;
         private Rigidbody   m_rigidbody;
 
@@ -30,18 +28,6 @@ namespace FPS
 
         /* Properties
         * * * * * * * * * * * * * * * */
-        public new AudioSource audio
-        {
-            get
-            {
-                if(!m_audio)
-                {
-                    m_audio = GetComponent<AudioSource>();
-                }
-                return m_audio;
-            }
-        }
-
         public new Collider collider
         {
             get

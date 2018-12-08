@@ -226,7 +226,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1129412167}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4065856237734048, guid: 5cab4e581bc0c6b4490e1969d77d34ee, type: 2}
       propertyPath: m_LocalPosition.x
@@ -258,7 +258,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4065856237734048, guid: 5cab4e581bc0c6b4490e1969d77d34ee, type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 224848740806043248, guid: 5cab4e581bc0c6b4490e1969d77d34ee,
         type: 2}
@@ -353,7 +353,7 @@ Prefab:
     - target: {fileID: 224870802499887104, guid: 5cab4e581bc0c6b4490e1969d77d34ee,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -73.84615
+      value: -27.018467
       objectReference: {fileID: 0}
     - target: {fileID: 224036706238250240, guid: 5cab4e581bc0c6b4490e1969d77d34ee,
         type: 2}
@@ -1670,14 +1670,64 @@ Prefab:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 224016222867787644, guid: 5cab4e581bc0c6b4490e1969d77d34ee,
+        type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114047510569948672, guid: 5cab4e581bc0c6b4490e1969d77d34ee,
+        type: 2}
+      propertyPath: m_FontData.m_Alignment
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 224206362033441628, guid: 5cab4e581bc0c6b4490e1969d77d34ee,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 224341539576106412, guid: 5cab4e581bc0c6b4490e1969d77d34ee,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 224485880980255914, guid: 5cab4e581bc0c6b4490e1969d77d34ee,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224687011424668840, guid: 5cab4e581bc0c6b4490e1969d77d34ee,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114043576411512476, guid: 5cab4e581bc0c6b4490e1969d77d34ee,
+        type: 2}
+      propertyPath: m_actionText
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114047510569948672, guid: 5cab4e581bc0c6b4490e1969d77d34ee,
+        type: 2}
+      propertyPath: m_Text
+      value: "[E] [Down] Equip\n\t[Hold] Grab"
+      objectReference: {fileID: 0}
+    - target: {fileID: 224405073772877628, guid: 5cab4e581bc0c6b4490e1969d77d34ee,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.000061035156
+      objectReference: {fileID: 0}
+    - target: {fileID: 114871678627991468, guid: 5cab4e581bc0c6b4490e1969d77d34ee,
+        type: 2}
+      propertyPath: m_Size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114280263818750356, guid: 5cab4e581bc0c6b4490e1969d77d34ee,
+        type: 2}
+      propertyPath: m_textScalar
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5cab4e581bc0c6b4490e1969d77d34ee, type: 2}
   m_IsPrefabAsset: 0
---- !u!4 &411217174 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4065856237734048, guid: 5cab4e581bc0c6b4490e1969d77d34ee,
-    type: 2}
-  m_PrefabInternal: {fileID: 376702228}
 --- !u!1001 &430696595
 Prefab:
   m_ObjectHideFlags: 0
@@ -1967,13 +2017,31 @@ MonoBehaviour:
       - _enabled: 1
         _categoryId: 0
         _layoutId: 0
+      - _enabled: 1
+        _categoryId: 2
+        _layoutId: 0
+      - _enabled: 1
+        _categoryId: 3
+        _layoutId: 0
       _defaultMouseMaps:
       - _enabled: 1
         _categoryId: 0
         _layoutId: 0
+      - _enabled: 1
+        _categoryId: 2
+        _layoutId: 0
+      - _enabled: 1
+        _categoryId: 3
+        _layoutId: 0
       _defaultKeyboardMaps:
       - _enabled: 1
         _categoryId: 0
+        _layoutId: 0
+      - _enabled: 1
+        _categoryId: 2
+        _layoutId: 0
+      - _enabled: 1
+        _categoryId: 3
         _layoutId: 0
       _defaultCustomControllerMaps: []
       _startingCustomControllers: []
@@ -2106,15 +2174,6 @@ MonoBehaviour:
       _behaviorId: 0
       _userAssignable: 1
       _categoryId: 0
-    - _id: 18
-      _name: Crouch
-      _type: 1
-      _descriptiveName: Crouch
-      _positiveDescriptiveName: 
-      _negativeDescriptiveName: 
-      _behaviorId: 0
-      _userAssignable: 1
-      _categoryId: 0
     - _id: 19
       _name: Restart
       _type: 1
@@ -2124,7 +2183,7 @@ MonoBehaviour:
       _behaviorId: 0
       _userAssignable: 1
       _categoryId: 0
-    - _id: 20
+    - _id: 30
       _name: UISubmit
       _type: 1
       _descriptiveName: UISubmit
@@ -2132,8 +2191,8 @@ MonoBehaviour:
       _negativeDescriptiveName: 
       _behaviorId: 0
       _userAssignable: 1
-      _categoryId: 0
-    - _id: 21
+      _categoryId: 2
+    - _id: 31
       _name: UICancel
       _type: 1
       _descriptiveName: UICancel
@@ -2141,44 +2200,76 @@ MonoBehaviour:
       _negativeDescriptiveName: 
       _behaviorId: 0
       _userAssignable: 1
-      _categoryId: 0
-    - _id: 22
-      _name: UIVertical
-      _type: 0
-      _descriptiveName: UIVertical
-      _positiveDescriptiveName: UI Up
-      _negativeDescriptiveName: UI Down
-      _behaviorId: 0
-      _userAssignable: 1
-      _categoryId: 0
-    - _id: 23
+      _categoryId: 2
+    - _id: 32
       _name: UIHorizontal
-      _type: 0
+      _type: 1
       _descriptiveName: UIHorizontal
-      _positiveDescriptiveName: UI Right
-      _negativeDescriptiveName: UI Left
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
       _behaviorId: 0
       _userAssignable: 1
-      _categoryId: 0
-    - _id: 29
-      _name: Control
+      _categoryId: 2
+    - _id: 33
+      _name: UIVertical
       _type: 1
-      _descriptiveName: Control
+      _descriptiveName: UIVertical
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 2
+    - _id: 36
+      _name: Edit
+      _type: 1
+      _descriptiveName: Edit
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 3
+    - _id: 37
+      _name: Equip
+      _type: 1
+      _descriptiveName: Equip
       _positiveDescriptiveName: 
       _negativeDescriptiveName: 
       _behaviorId: 0
       _userAssignable: 1
       _categoryId: 0
+    - _id: 39
+      _name: Place
+      _type: 1
+      _descriptiveName: Place
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 3
     actionCategories:
     - _name: Default
       _descriptiveName: Default
       _tag: 
       _id: 0
       _userAssignable: 1
+    - _name: UI
+      _descriptiveName: UI
+      _tag: 
+      _id: 2
+      _userAssignable: 1
+    - _name: Editor
+      _descriptiveName: Editor
+      _tag: 
+      _id: 3
+      _userAssignable: 1
     actionCategoryMap:
       list:
       - categoryId: 0
-        actionIds: 1400000015000000170000001600000002000000010000000300000004000000060000000d00000000000000050000000700000008000000090000000a0000000b0000000e00000012000000130000001d000000
+        actionIds: 02000000010000000300000004000000060000000d0000000000000005000000250000000700000008000000090000000a0000000b0000000e00000013000000
+      - categoryId: 2
+        actionIds: 1e0000001f0000002000000021000000
+      - categoryId: 3
+        actionIds: 2400000027000000
     inputBehaviors:
     - _id: 0
       _name: Default
@@ -2206,6 +2297,20 @@ MonoBehaviour:
       _descriptiveName: Default
       _tag: 
       _id: 0
+      _userAssignable: 1
+      _checkConflictsWithAllCategories: 1
+      _checkConflictsCategoryIds: 
+    - _name: UI
+      _descriptiveName: UI
+      _tag: 
+      _id: 2
+      _userAssignable: 1
+      _checkConflictsWithAllCategories: 1
+      _checkConflictsCategoryIds: 
+    - _name: Editor
+      _descriptiveName: Editor
+      _tag: 
+      _id: 3
       _userAssignable: 1
       _checkConflictsWithAllCategories: 1
       _checkConflictsCategoryIds: 
@@ -2517,18 +2622,29 @@ MonoBehaviour:
       customControllerUid: 0
       actionElementMaps:
       - _actionCategoryId: 0
-        _actionId: 1
+        _actionId: 19
         _elementType: 1
         _elementIdentifierId: -1
         _axisRange: 0
         _invert: 0
         _axisContribution: 0
-        _keyboardKeyCode: 119
+        _keyboardKeyCode: 286
         _modifierKey1: 0
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: 22
+        _actionId: 13
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 27
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 1
         _elementType: 1
         _elementIdentifierId: -1
         _axisRange: 0
@@ -2550,17 +2666,6 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: 22
-        _elementType: 1
-        _elementIdentifierId: -1
-        _axisRange: 0
-        _invert: 0
-        _axisContribution: 1
-        _keyboardKeyCode: 115
-        _modifierKey1: 0
-        _modifierKey2: 0
-        _modifierKey3: 0
-      - _actionCategoryId: 0
         _actionId: 2
         _elementType: 1
         _elementIdentifierId: -1
@@ -2572,29 +2677,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: 23
-        _elementType: 1
-        _elementIdentifierId: -1
-        _axisRange: 0
-        _invert: 0
-        _axisContribution: 1
-        _keyboardKeyCode: 97
-        _modifierKey1: 0
-        _modifierKey2: 0
-        _modifierKey3: 0
-      - _actionCategoryId: 0
         _actionId: 2
-        _elementType: 1
-        _elementIdentifierId: -1
-        _axisRange: 0
-        _invert: 0
-        _axisContribution: 0
-        _keyboardKeyCode: 100
-        _modifierKey1: 0
-        _modifierKey2: 0
-        _modifierKey3: 0
-      - _actionCategoryId: 0
-        _actionId: 23
         _elementType: 1
         _elementIdentifierId: -1
         _axisRange: 0
@@ -2616,51 +2699,18 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: 20
-        _elementType: 1
-        _elementIdentifierId: -1
-        _axisRange: 0
-        _invert: 0
-        _axisContribution: 0
-        _keyboardKeyCode: 32
-        _modifierKey1: 0
-        _modifierKey2: 0
-        _modifierKey3: 0
-      - _actionCategoryId: 0
-        _actionId: 20
-        _elementType: 1
-        _elementIdentifierId: -1
-        _axisRange: 0
-        _invert: 0
-        _axisContribution: 0
-        _keyboardKeyCode: 13
-        _modifierKey1: 0
-        _modifierKey2: 0
-        _modifierKey3: 0
-      - _actionCategoryId: 0
-        _actionId: 13
-        _elementType: 1
-        _elementIdentifierId: -1
-        _axisRange: 0
-        _invert: 0
-        _axisContribution: 0
-        _keyboardKeyCode: 27
-        _modifierKey1: 0
-        _modifierKey2: 0
-        _modifierKey3: 0
-      - _actionCategoryId: 0
-        _actionId: 21
-        _elementType: 1
-        _elementIdentifierId: -1
-        _axisRange: 0
-        _invert: 0
-        _axisContribution: 0
-        _keyboardKeyCode: 27
-        _modifierKey1: 0
-        _modifierKey2: 0
-        _modifierKey3: 0
-      - _actionCategoryId: 0
         _actionId: 5
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 101
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 37
         _elementType: 1
         _elementIdentifierId: -1
         _axisRange: 0
@@ -2725,19 +2775,70 @@ MonoBehaviour:
         _modifierKey1: 0
         _modifierKey2: 0
         _modifierKey3: 0
-      - _actionCategoryId: 0
-        _actionId: 19
+    - id: 1
+      categoryId: 2
+      layoutId: 0
+      name: 
+      hardwareGuidString: 
+      customControllerUid: 0
+      actionElementMaps:
+      - _actionCategoryId: 2
+        _actionId: 30
         _elementType: 1
         _elementIdentifierId: -1
         _axisRange: 0
         _invert: 0
         _axisContribution: 0
-        _keyboardKeyCode: 286
+        _keyboardKeyCode: 32
         _modifierKey1: 0
         _modifierKey2: 0
         _modifierKey3: 0
-      - _actionCategoryId: 0
-        _actionId: 22
+      - _actionCategoryId: 2
+        _actionId: 30
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 13
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 2
+        _actionId: 30
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 271
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 2
+        _actionId: 31
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 27
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 2
+        _actionId: 31
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 8
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 2
+        _actionId: 33
         _elementType: 1
         _elementIdentifierId: -1
         _axisRange: 0
@@ -2747,8 +2848,8 @@ MonoBehaviour:
         _modifierKey1: 0
         _modifierKey2: 0
         _modifierKey3: 0
-      - _actionCategoryId: 0
-        _actionId: 22
+      - _actionCategoryId: 2
+        _actionId: 33
         _elementType: 1
         _elementIdentifierId: -1
         _axisRange: 0
@@ -2758,8 +2859,8 @@ MonoBehaviour:
         _modifierKey1: 0
         _modifierKey2: 0
         _modifierKey3: 0
-      - _actionCategoryId: 0
-        _actionId: 23
+      - _actionCategoryId: 2
+        _actionId: 32
         _elementType: 1
         _elementIdentifierId: -1
         _axisRange: 0
@@ -2769,8 +2870,8 @@ MonoBehaviour:
         _modifierKey1: 0
         _modifierKey2: 0
         _modifierKey3: 0
-      - _actionCategoryId: 0
-        _actionId: 23
+      - _actionCategoryId: 2
+        _actionId: 32
         _elementType: 1
         _elementIdentifierId: -1
         _axisRange: 0
@@ -2780,14 +2881,76 @@ MonoBehaviour:
         _modifierKey1: 0
         _modifierKey2: 0
         _modifierKey3: 0
-      - _actionCategoryId: 0
-        _actionId: 29
+      - _actionCategoryId: 2
+        _actionId: 33
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 119
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 2
+        _actionId: 33
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 1
+        _keyboardKeyCode: 115
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 2
+        _actionId: 32
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 1
+        _keyboardKeyCode: 97
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 2
+        _actionId: 32
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 100
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+    - id: 2
+      categoryId: 3
+      layoutId: 0
+      name: 
+      hardwareGuidString: 
+      customControllerUid: 0
+      actionElementMaps:
+      - _actionCategoryId: 3
+        _actionId: 36
         _elementType: 1
         _elementIdentifierId: -1
         _axisRange: 0
         _invert: 0
         _axisContribution: 0
         _keyboardKeyCode: 306
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 3
+        _actionId: 39
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 113
         _modifierKey1: 0
         _modifierKey2: 0
         _modifierKey3: 0
@@ -2854,20 +3017,34 @@ MonoBehaviour:
         _modifierKey1: 0
         _modifierKey2: 0
         _modifierKey3: 0
+    - id: 1
+      categoryId: 2
+      layoutId: 0
+      name: 
+      hardwareGuidString: 
+      customControllerUid: 0
+      actionElementMaps: []
+    - id: 2
+      categoryId: 3
+      layoutId: 0
+      name: 
+      hardwareGuidString: 
+      customControllerUid: 0
+      actionElementMaps: []
     customControllerMaps: []
     customControllers: []
     playerIdCounter: 2
-    actionIdCounter: 30
-    actionCategoryIdCounter: 1
+    actionIdCounter: 40
+    actionCategoryIdCounter: 4
     inputBehaviorIdCounter: 1
-    mapCategoryIdCounter: 1
+    mapCategoryIdCounter: 4
     joystickLayoutIdCounter: 1
     keyboardLayoutIdCounter: 1
     mouseLayoutIdCounter: 1
     customControllerLayoutIdCounter: 1
     joystickMapIdCounter: 1
-    keyboardMapIdCounter: 1
-    mouseMapIdCounter: 1
+    keyboardMapIdCounter: 3
+    mouseMapIdCounter: 3
     customControllerMapIdCounter: 0
     customControllerIdCounter: 0
   _controllerDataFiles: {fileID: 11400000, guid: d21d2b20df8369642b76aafbb2576ba7,
@@ -2934,35 +3111,6 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c32d362cbcb4922438fbe3082bfde7fd, type: 2}
   m_IsPrefabAsset: 0
---- !u!1 &1129412166
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1129412167}
-  m_Layer: 0
-  m_Name: Player0
-  m_TagString: Player
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1129412167
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1129412166}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 411217174}
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1328447256
 Prefab:
   m_ObjectHideFlags: 0
