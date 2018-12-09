@@ -11,14 +11,16 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         public static void OnSpawn(UnitEvent ev)
         {
-            ev.source.health.SetDead(false);
-
-            ev.source.health.Set(ev.source.health.maximum);
+            if(ev.source)
+            {
+                ev.source.health.SetDead(false);
+                ev.source.health.Set(ev.source.health.maximum);
+            }
         }
 
         public static void OnDeath(UnitEvent ev)
         {
-            if (!ev.source.health.isDead)
+            if (ev.source && !ev.source.health.isDead)
             {
                 ev.source.health.SetDead(true);
             }
@@ -35,14 +37,14 @@ namespace FPS
 
         public static void OnReceiveDamage(DamageEvent ev)
         {
-            if(ev.source)
-            {
-                ev.source.triggers.OnDoDamage(ev);
-            }
-
             if (ev.target)
             {
                 ev.target.health.Modify(ev.damage);
+
+                if (ev.source)
+                {
+                    ev.source.triggers.OnDoDamage(ev);
+                }
 
                 if (!ev.target.health.isDead && ev.target.health.CheckDead())
                 {

@@ -132,6 +132,12 @@ namespace FPS
             set { m_cursorLock = value; }
         }
 
+        public float fieldOfView
+        {
+            get { return m_fieldOfView; }
+            set { m_fieldOfView = Mathf.Clamp(value, MinFOV, MaxFOV); }
+        }
+
         public float zoomLevel
         {
             get { return m_zoomLevel; }
@@ -174,7 +180,7 @@ namespace FPS
         {
             camera.transform.localPosition = offset;
 
-            camera.fieldOfView = (m_currentFieldOfView = (m_fieldOfView / zoomLevel));
+            camera.fieldOfView = (m_currentFieldOfView = (fieldOfView / zoomLevel));
 
             if (Application.isPlaying)
             {

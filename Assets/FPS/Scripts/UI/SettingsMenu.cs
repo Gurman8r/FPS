@@ -21,6 +21,7 @@ namespace FPS
         [Header("Gameplay")]
         [SerializeField] Slider     m_lookSensitivityX;
         [SerializeField] Slider     m_lookSensitivityY;
+        [SerializeField] Slider     m_fieldOfView;
 
         [Header("Video")]
         [SerializeField] Dropdown   m_resolution;
@@ -92,6 +93,7 @@ namespace FPS
             // Gameplay
             PlayerPrefs.SetFloat("LookSensitivityX", m_lookSensitivityX.value);
             PlayerPrefs.SetFloat("LookSensitivityY", m_lookSensitivityY.value);
+            PlayerPrefs.SetFloat("FieldOfView", m_fieldOfView.value);
 
             // Video
             PlayerPrefs.SetInt("ScreenResolution", m_resolution.value);
@@ -118,15 +120,21 @@ namespace FPS
             });
 
             // Look Sensitivity X
-            SetupSlider(m_lookSensitivityX, "LookSensitivityX", 0.1f, (Slider slider) =>
+            SetupSlider(m_lookSensitivityX, "LookSensitivityX", 0.1f, (Slider s) =>
             {
-                FirstPersonCamera.main.lookSensitivity = new Vector2(slider.value, FirstPersonCamera.main.lookSensitivity.y);
+                FirstPersonCamera.main.lookSensitivity = new Vector2(s.value, FirstPersonCamera.main.lookSensitivity.y);
             });
 
             // Look Sensitivity Y
-            SetupSlider(m_lookSensitivityY, "LookSensitivityY", 0.1f, (Slider slider) =>
+            SetupSlider(m_lookSensitivityY, "LookSensitivityY", 0.1f, (Slider s) =>
             {
-                FirstPersonCamera.main.lookSensitivity = new Vector2(FirstPersonCamera.main.lookSensitivity.x, slider.value);
+                FirstPersonCamera.main.lookSensitivity = new Vector2(FirstPersonCamera.main.lookSensitivity.x, s.value);
+            });
+
+            // Field of View
+            SetupSlider(m_fieldOfView, "FieldOfView", 60f, (Slider s) => 
+            {
+                FirstPersonCamera.main.fieldOfView = s.value;
             });
 
             // Screen Resolution
@@ -234,6 +242,7 @@ namespace FPS
         {
             if (!value)
                 return;
+
             value.options.Clear();
             for (int i = 0; i < options.Length; i++)
             {

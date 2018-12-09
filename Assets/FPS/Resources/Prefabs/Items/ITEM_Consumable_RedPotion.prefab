@@ -436,7 +436,7 @@ MonoBehaviour:
   m_useMode: 0
   m_useDelay: 1
   m_staticReticle: 0
-  m_maxResource: 100
+  m_maxResource: 10
   m_isRenewable: 0
   m_cooldownDelay: 2.5
   m_fixedCooldown: 1

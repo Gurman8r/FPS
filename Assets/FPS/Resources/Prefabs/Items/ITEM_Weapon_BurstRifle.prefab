@@ -618,8 +618,8 @@ MonoBehaviour:
   m_bulletCount: 3
   m_bulletDelay: 0.05
   m_allowAiming: 1
-  m_spreadHip: 1
-  m_spreadAim: 2
+  m_spreadHip: 2
+  m_spreadAim: 1
   m_zoomAiming: 2
   m_isAiming: 0
   m_bulletSpread: 0.1
