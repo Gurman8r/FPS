@@ -16,7 +16,7 @@ namespace FPS
 
         [Header("Runtime")]
         [SerializeField] Sprite m_sprite;
-        [SerializeField] Item   m_item;
+        [SerializeField] BaseItem   m_item;
 
         /* Core
         * * * * * * * * * * * * * * * */
@@ -49,7 +49,7 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public void Refresh(Item item)
+        public void Refresh(BaseItem item)
         {
             if(item)
             {

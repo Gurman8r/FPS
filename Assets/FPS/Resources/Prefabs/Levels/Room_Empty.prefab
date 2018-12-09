@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 4429253278243922}
   - component: {fileID: 114022000659911394}
   m_Layer: 0
-  m_Name: Room_Empty
+  m_Name: ROOM_Empty
   m_TagString: Level
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1941,7 +1941,6 @@ MonoBehaviour:
   - {fileID: 114568962751016772}
   m_linkList: []
   m_roomList: []
-  m_materials: []
 --- !u!114 &114096761592895140
 MonoBehaviour:
   m_ObjectHideFlags: 1

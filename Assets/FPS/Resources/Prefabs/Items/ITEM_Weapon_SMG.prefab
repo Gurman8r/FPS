@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4394347567559568}
   m_Layer: 11
-  m_Name: Fire Position
+  m_Name: '[ FIRE ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,10 +68,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4776207778902490}
+  - component: {fileID: 95505066709437190}
+  - component: {fileID: 82388711181001576}
   - component: {fileID: 65334775552879140}
   - component: {fileID: 54145609739512354}
-  - component: {fileID: 82388711181001576}
-  - component: {fileID: 95505066709437190}
   - component: {fileID: 114607512379431752}
   m_Layer: 11
   m_Name: ITEM_Weapon_SMG
@@ -106,7 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4837240154548854}
   m_Layer: 11
-  m_Name: Model
+  m_Name: '[ MODEL ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,7 +121,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4659845064564352}
   m_Layer: 11
-  m_Name: Hold Position
+  m_Name: '[ HOLD ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,7 +151,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4776207778902490}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4659845064564352
 Transform:
@@ -164,7 +164,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4776207778902490}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4774437629690234
 Transform:
@@ -185,13 +185,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1444441032906708}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
   m_LocalPosition: {x: 1, y: 1.75, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4837240154548854}
-  - {fileID: 4394347567559568}
   - {fileID: 4659845064564352}
+  - {fileID: 4394347567559568}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -502,10 +502,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_model: {fileID: 4837240154548854}
-  m_holdPos: {fileID: 4659845064564352}
-  m_info:
+  m_holdRoot: {fileID: 4659845064564352}
+  m_itemInfo:
     name: SMG
-    desc: Description
+    desc: New Item Description
     color: {r: 1, g: 1, b: 1, a: 1}
     sprite: {fileID: 21300000, guid: 5a3af3ff66978e0439ed0888a516f005, type: 3}
   m_interactable: 1
@@ -513,9 +513,10 @@ MonoBehaviour:
   m_useDelay: 0.075
   m_staticReticle: 1
   m_maxResource: 24
-  m_reloadDelay: 2
-  m_fixedReload: 1
-  m_autoReload: 1
+  m_isRenewable: 1
+  m_cooldownDelay: 2.5
+  m_fixedCooldown: 1
+  m_autoCooldown: 1
   m_onDrop:
     m_PersistentCalls:
       m_Calls: []
@@ -531,42 +532,22 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_hand:
-    transform: {fileID: 0}
-    item: {fileID: 0}
   m_owner: {fileID: 0}
-  m_useTimer: 0
-  m_canUse: 0
+  m_originalRoot: {fileID: 0}
+  m_cooldownTimer: 0
   m_onCooldown: 0
+  m_canUse: 0
+  m_useTimer: 0
   m_curResource: 0
-  m_reloadTimer: 0
-  m_firePos: {fileID: 4394347567559568}
-  m_objectData:
-    solidLayer:
-      serializedVersion: 2
-      m_Bits: 512
-    unitLayer:
-      serializedVersion: 2
-      m_Bits: 1024
-    speed: 100
-    lifeSpan: 0.5
-    damage:
-      m_amount: 5
-    healing:
-      m_amount: 0
-      m_duration: 0
-    owner: {fileID: 0}
-    target: {fileID: 0}
-    pos: {x: 0, y: 0, z: 0}
-    dir: {x: 0, y: 0, z: 0}
-    dest: {x: 0, y: 0, z: 0}
-  m_lookingAt: {x: 0, y: 0, z: 0}
+  m_fireRoot: {fileID: 4394347567559568}
+  m_damage:
+    m_value: 5
   m_bulletCount: 1
   m_bulletDelay: 0
   m_allowAiming: 1
   m_spreadHip: 5
   m_spreadAim: 1
-  m_zoomAiming: 1.1
+  m_zoomAiming: 1.25
   m_isAiming: 0
   m_bulletSpread: 0.1
   m_bulletPrefab: {fileID: 114821140140099020, guid: 87a00187ec14b8241bdea351d0400d1f,

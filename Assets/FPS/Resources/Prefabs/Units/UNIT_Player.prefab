@@ -205,7 +205,7 @@ GameObject:
   - component: {fileID: 114291633766595694}
   - component: {fileID: 114043576411512476}
   m_Layer: 5
-  m_Name: HUD
+  m_Name: '[ HUD ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -952,7 +952,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4428800623515364}
   m_Layer: 10
-  m_Name: Bag
+  m_Name: '[ BAG ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1006,7 +1006,7 @@ GameObject:
   - component: {fileID: 114045784723374998}
   - component: {fileID: 114893818894101784}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Action Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1651,7 +1651,7 @@ GameObject:
   - component: {fileID: 114983755095767146}
   - component: {fileID: 114885346777538600}
   m_Layer: 10
-  m_Name: Camera
+  m_Name: '[ EYE ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2617,7 +2617,7 @@ GameObject:
   - component: {fileID: 33916683554738358}
   - component: {fileID: 23570310346994694}
   m_Layer: 10
-  m_Name: Model
+  m_Name: '[ MODEL ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2692,7 +2692,6 @@ GameObject:
   - component: {fileID: 195551631310916598}
   - component: {fileID: 114155977746218872}
   - component: {fileID: 114109981160782168}
-  - component: {fileID: 114616836372916822}
   - component: {fileID: 114300895320811036}
   - component: {fileID: 114947576357003276}
   - component: {fileID: 114319133754893840}
@@ -3436,8 +3435,8 @@ MonoBehaviour:
   m_damage: {fileID: 114854940801286110}
   m_controls: {fileID: 114471684950803338}
   m_controlsFile: {fileID: 4900000, guid: 8c3745f3cb005cb4eb1f953a78b6697d, type: 3}
-  m_damageAlpha: 0.25
-  m_damageFade: 1
+  m_actionText: {fileID: 114047510569948672}
+  m_damageAlpha: 0.15
   m_onShowMenu:
     m_PersistentCalls:
       m_Calls: []
@@ -3449,7 +3448,6 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_showMenu: 1
-  m_damageTimer: 0
 --- !u!114 &114044880903464696
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3533,18 +3531,18 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: c0a605c91a92463499573ad3f1acd9d7, type: 3}
-    m_FontSize: 24
+    m_FontSize: 32
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Reticle Text
+  m_Text: "[E] [Down] Equip\n\t[Hold] Grab"
 --- !u!114 &114050251770991368
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3807,11 +3805,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0ac89c24fc7efc4fa26aabd7a05a176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_startingItem: 
   m_jumpHeight: 5
   m_moveSpeed: 5
   m_sprintSpeed: 7.5
   m_interactRange: 3
-  m_startingItem: 
   m_combatDelay: 5
   m_fire0:
     press: 0
@@ -3829,26 +3827,21 @@ MonoBehaviour:
   m_selectInput: -1
   m_scrollInput: 0
   m_jumpInput: 0
-  m_camera: {fileID: 114885346777538600}
   m_hud: {fileID: 114043576411512476}
+  m_camera: {fileID: 114885346777538600}
   m_playerIndex: 0
-  m_inventoryTime: 2.5
-  m_reticleSpeed: 10
-  m_fadeSpeed: 10
   m_zoomSpeed: 5
   m_aimSpeed: 0.5
-  m_holding: {fileID: 0}
-  m_rotSpeed: 2.5
-  m_curHoldDist: 2
-  m_minHoldDist: 1
-  m_maxHoldDist: 3
-  m_holdZoomSpeed: 5
+  m_editHoldRange: 1
+  m_editRotSpeed: 2.5
+  m_editing: {fileID: 0}
   m_isPaused: 0
   m_isAiming: 0
   m_zoomLevel: 0
   m_hasKeyboard: 0
   m_hasGamepad: 0
   m_canInteract: 0
+  m_controllerType: 0
 --- !u!114 &114109981160782168
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3918,6 +3911,23 @@ MonoBehaviour:
       m_TypeName: FPS.UnitTriggers+TriggerEvent, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 114098022149567224}
+          m_MethodName: set_inCombat
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+      m_TypeName: FPS.UnitTriggers+TriggerEvent, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  - eventID: 5
     callback:
       m_PersistentCalls:
         m_Calls:
@@ -4319,11 +4329,7 @@ MonoBehaviour:
     m_current: 100
     m_minimim: 0
     m_maximum: 100
-    m_dead: 0
-  m_status:
-    m_effect: 0
-    m_canMove: 1
-    m_canJump: 1
+    m_isDead: 0
 --- !u!114 &114156571578833522
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5144,9 +5150,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_fill: {fileID: 114360424479522936}
   m_hitmarker: {fileID: 114717739337940866}
-  m_text: {fileID: 114047510569948672}
-  m_textScalar: 2
+  m_speed: 10
   m_originalSize: {x: 0, y: 0}
+  m_targetSize: {x: 0, y: 0}
 --- !u!114 &114285173007268460
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5322,10 +5328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b4745273a34d3842a2361991ce49a18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_groundLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  m_enableGravity: 1
+  m_useGravity: 1
   m_velocity: {x: 0, y: 0, z: 0}
   m_isMoving: 0
   m_isGrounded: 0
@@ -5507,13 +5510,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5541dd0bbbf0ef40adebe527508bfcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_primary:
+  m_bagRoot: {fileID: 4428800623515364}
+  m_hand:
     transform: {fileID: 4287511366488360}
     item: {fileID: 0}
   m_capacity: 10
   m_index: 0
-  m_list: []
-  m_bagTransform: {fileID: 4428800623515364}
+  m_items: []
 --- !u!114 &114322124582207020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6707,13 +6710,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "<b>[ Controls ]</b>\r\n\r\n\tAction\t\t| Keyboard/Mouse\t\t| Controller\r\n------------------------------------------------------------\r\n\tPause\t\t|
-    Escape\t\t\t\t| Start\r\n\tRestart\t\t| F5 \t\t\t\t\t| Back\r\n\tMove\t\t| WASD
-    \t\t\t\t\t| Left Stick\r\n\tLook\t\t| Mouse  X/Y\t\t\t| Right Stick\r\n\tFire0\t\t|
-    Left Mouse \t\t\t| Right Trigger\r\n\tFire1\t\t| Right Mouse \t\t\t| Left Trigger\r\n\tSelect\t\t|
-    Scroll / Keys (0-9) \t| Left/Right Bumper\r\n\tSprint\t\t| Left Shift \t\t\t|
-    Left Stick Press\r\n\tJump \t\t| Space \t\t\t\t| A\r\n\tInteract\t| E \t\t\t\t\t|
-    B\r\n\tDrop \t\t| Q\t\t\t\t\t\t| Y\r\n\tReload\t\t| R \t\t\t\t\t| X\r\n\t"
+  m_Text: "<b>[ Controls ]</b>\n\n\tAction\t\t| Input\n----------------------------------------\n\tPause\t\t|
+    Escape\n\tRestart\t\t| F5\n\tMove\t\t| WASD\n\tLook\t\t| Mouse  X/Y\n\tFire0\t\t|
+    Left Mouse\n\tFire1\t\t| Right Mouse\n\tSelect\t\t| Scroll / Keys (0-9)\n\tSprint\t\t|
+    Left Shift\n\tJump \t\t| Space\n\tInteract\t| E\n\tDrop \t\t| Q\n\tReload\t\t|
+    R\n\t\n"
 --- !u!114 &114482657046657238
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7608,23 +7609,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 1
   m_VerticalFit: 2
---- !u!114 &114616836372916822
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1999563366591354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 430d03f4adc946e4f8ed10f7dae5e69a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timesSpawned: 0
-  timesKilled: 0
-  damageDealt: 0
-  damageRecieved: 0
-  healingDone: 0
-  healingRecieved: 0
 --- !u!114 &114629633775102030
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7901,6 +7885,7 @@ MonoBehaviour:
   m_slotCount: 10
   m_selector: {fileID: 114340462551187288}
   m_fadeSpeed: 1
+  m_showTime: 2
   m_slots: []
   m_inUse: 0
   m_graphics: []
@@ -9065,7 +9050,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224118914060662318}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.88440156
+  m_Size: 0.86346865
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -9421,12 +9406,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6672b1c75d2885647aee3fcffb1222c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_head: {fileID: 4527785979699418}
+  m_eye: {fileID: 4527785979699418}
   m_maxRange: 50
-  m_layerMask:
+  m_blockingLayers:
     serializedVersion: 2
     m_Bits: 1536
-  m_lookingAt: {x: 0, y: 2.5, z: -2}
+  m_lookingAt: {x: 0, y: 0, z: 0}
 --- !u!114 &114949720440789542
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10833,10 +10818,11 @@ RectTransform:
   - {fileID: 224038807959952706}
   - {fileID: 224015202567094852}
   - {fileID: 224994089274635126}
+  - {fileID: 224870802499887104}
   - {fileID: 224341539576106412}
+  - {fileID: 224485880980255914}
   - {fileID: 224206362033441628}
   - {fileID: 224687011424668840}
-  - {fileID: 224485880980255914}
   m_Father: {fileID: 4065856237734048}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10936,7 +10922,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 720, y: 0}
+  m_SizeDelta: {x: 480, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224038807959952706
 RectTransform:
@@ -11357,7 +11343,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224016222867787644}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -11726,7 +11712,7 @@ RectTransform:
   - {fileID: 224226209416957774}
   - {fileID: 224929104069159002}
   m_Father: {fileID: 224016222867787644}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -11972,7 +11958,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00024414062}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224407827422299696
@@ -12175,7 +12161,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224016222867787644}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -12420,7 +12406,6 @@ RectTransform:
   m_Children:
   - {fileID: 224310090011491102}
   - {fileID: 224675981139168884}
-  - {fileID: 224870802499887104}
   m_Father: {fileID: 224016222867787644}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12876,7 +12861,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224016222867787644}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
@@ -13290,14 +13275,14 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 224552942071784850}
-  m_RootOrder: 2
+  m_Father: {fileID: 224016222867787644}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -27.018467}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -160, y: 256}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1, y: 0}
 --- !u!224 &224893136092350274
 RectTransform:
   m_ObjectHideFlags: 1

@@ -112,7 +112,7 @@ namespace FPS
 
             for (int i = 0, imax = m_slots.Length; i < imax; i++)
             {
-                Item item;
+                BaseItem item;
                 if(inventory.GetFromBag(i, out item))
                 {
                     m_slots[i].gameObject.SetActive(true);

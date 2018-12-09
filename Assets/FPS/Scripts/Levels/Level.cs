@@ -45,6 +45,8 @@ namespace FPS
         [Header("Settings")]
         [SerializeField] bool           m_generateOnStart   = true;
         [SerializeField] bool           m_enableLog         = true;
+        [SerializeField] Transform      m_rootTransform;
+        [Space]
         [SerializeField] Mode           m_generationMode    = Mode.Sprawling;
         [SerializeField] Room           m_firstRoom;
         [SerializeField] Room           m_lastRoom;
@@ -180,39 +182,33 @@ namespace FPS
         {
             foreach (Room room in activeRooms)
             {
-                if (!room)
-                    continue;
-
-                if (Application.isPlaying)
+                if (room)
                 {
-                    Destroy(room.gameObject);
-                }
-                else
-                {
-                    DestroyImmediate(room.gameObject);
+                    if (Application.isPlaying)
+                    {
+                        Destroy(room.gameObject);
+                    }
+                    else
+                    {
+                        DestroyImmediate(room.gameObject);
+                    }
                 }
             }
 
-            int count = transform.childCount;
-            for (int i = count - 1; i >= 0; i--)
+            for (int i = m_rootTransform.childCount - 1; i >= 0; i--)
             {
-                Transform child = transform.GetChild(i);
+                Transform child = m_rootTransform.GetChild(i);
 
-                if (!child)
-                    continue;
-
-                GameObject obj = transform.GetChild(i).gameObject;
-
-                if (!obj)
-                    continue;
-
-                if (Application.isPlaying)
+                if (child && child.GetComponent<Room>())
                 {
-                    Destroy(obj);
-                }
-                else
-                {
-                    DestroyImmediate(obj);
+                    if (Application.isPlaying)
+                    {
+                        Destroy(child.gameObject);
+                    }
+                    else
+                    {
+                        DestroyImmediate(child.gameObject);
+                    }
                 }
             }
 
@@ -304,7 +300,7 @@ namespace FPS
 
         private void UpdatePositions()
         {
-            centerPos = transform.position;
+            centerPos = m_rootTransform.position;
 
             if (roomPositions.Count > 0)
             {
@@ -379,7 +375,7 @@ namespace FPS
             if (!prefab)
                 return null;
 
-            Room room = Instantiate(prefab, transform);
+            Room room = Instantiate(prefab, m_rootTransform);
 
             room.gameObject.SetActive(true);
 

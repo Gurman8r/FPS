@@ -6,44 +6,18 @@ namespace FPS
 {
     public class MeleeObject : CombatObject
     {
-
-        /* Variables
-        * * * * * * * * * * * * * * * */
-
-        /* Properties
-        * * * * * * * * * * * * * * * */
-
-
         /* Core
         * * * * * * * * * * * * * * * */
-        protected override void Start()
+        protected override void OnTriggerEnter(Collider c)
         {
-            base.Start();
+            base.OnTriggerEnter(c);
         }
 
-        protected override void Update()
+        protected override void OnTriggerStay(Collider c)
         {
+            base.OnTriggerStay(c);
         }
 
-        private void OnTriggerEnter(Collider collider)
-        {
-            if(active)
-            {
-                Unit other;
-                if (CheckHitUnit(collider, out other))
-                {
-                    if (AddHit(other))
-                    {
-                        OnHitUnit(other);
-                    }
-                }
-            }
-        }
-
-        private void OnTriggerStay(Collider other)
-        {
-            OnTriggerEnter(other);
-        }
 
         /* Functions
         * * * * * * * * * * * * * * * */
@@ -51,7 +25,7 @@ namespace FPS
         {
             if(active && !value)
             {
-                hitUnits.Clear();
+                ClearHits();
             }
             active = value;
         }

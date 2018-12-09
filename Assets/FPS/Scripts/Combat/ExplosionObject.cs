@@ -17,34 +17,25 @@ namespace FPS
         [SerializeField] float m_curSize;
 
 
-        /* Properties
-        * * * * * * * * * * * * * * * */
-
-
         /* Core
         * * * * * * * * * * * * * * * */
-        protected override void Start()
-        {
-            base.Start();
-        }
-
         protected override void Update()
         {
             if(Application.isPlaying)
             {
-                if (data.lifeSpan > 0f)
+                if (lifeSpan > 0f)
                 {
                     base.Update();
 
-                    m_curSize = Mathf.Lerp(m_curSize, m_maxSize, timer / data.lifeSpan);
+                    m_curSize = Mathf.Lerp(m_curSize, m_maxSize, timer / lifeSpan);
 
                     SetLocalScale(m_curSize);
                 }
-                else if(data.speed > 0f)
+                else if(motion.speed > 0f)
                 {
                     if(m_curSize < m_maxSize)
                     {
-                        m_curSize = Mathf.Lerp(m_curSize, m_maxSize, data.speed * Time.deltaTime);
+                        m_curSize = Mathf.Lerp(m_curSize, m_maxSize, motion.speed * Time.deltaTime);
 
                         SetLocalScale(m_curSize);
                     }
@@ -59,24 +50,6 @@ namespace FPS
                 }
             }
         }
-
-        private void OnTriggerEnter(Collider collider)
-        {
-            Unit other;
-            if(CheckHitUnit(collider, out other))
-            {
-                if(AddHit(other))
-                {
-                    OnHitUnit(other);
-                }
-            }
-        }
-
-        private void OnTriggerStay(Collider other)
-        {
-            OnTriggerEnter(other);
-        }
-
 
         /* Functions
         * * * * * * * * * * * * * * * */

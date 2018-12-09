@@ -45,10 +45,8 @@ GameObject:
   - component: {fileID: 195486938453381876}
   - component: {fileID: 114152308942545598}
   - component: {fileID: 114539830371490770}
-  - component: {fileID: 114251778967625324}
   - component: {fileID: 114324937755155956}
   - component: {fileID: 114803888688749708}
-  - component: {fileID: 114284298408297648}
   - component: {fileID: 114081637109253158}
   - component: {fileID: 114981945768954510}
   m_Layer: 10
@@ -84,7 +82,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4104884706606876}
   m_Layer: 10
-  m_Name: Head
+  m_Name: '[ EYE ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,7 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4854627461556968}
   m_Layer: 10
-  m_Name: Bag
+  m_Name: '[ BAG ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -131,7 +129,7 @@ GameObject:
   - component: {fileID: 33287876204958108}
   - component: {fileID: 23484316273131088}
   m_Layer: 10
-  m_Name: Model
+  m_Name: '[ MODEL ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,7 +146,7 @@ GameObject:
   - component: {fileID: 223778432147232084}
   - component: {fileID: 114165926666493142}
   m_Layer: 10
-  m_Name: HUD
+  m_Name: '[ HUD ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -218,8 +216,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1108763565594600}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.71, y: 1.6, z: -2.5}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2, y: 1.6, z: -2.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224214562262016298}
@@ -423,13 +421,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5541dd0bbbf0ef40adebe527508bfcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_primary:
-    transform: {fileID: 4284712650697786}
+  m_bagRoot: {fileID: 4854627461556968}
+  m_hand:
+    transform: {fileID: 0}
     item: {fileID: 0}
   m_capacity: 10
   m_index: 0
-  m_list: []
-  m_bagTransform: {fileID: 4854627461556968}
+  m_items: []
 --- !u!114 &114152308942545598
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -445,11 +443,7 @@ MonoBehaviour:
     m_current: 20
     m_minimim: 0
     m_maximum: 20
-    m_dead: 0
-  m_status:
-    m_effect: 0
-    m_canMove: 1
-    m_canJump: 1
+    m_isDead: 0
 --- !u!114 &114165926666493142
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -471,23 +465,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 2048
---- !u!114 &114251778967625324
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1108763565594600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 430d03f4adc946e4f8ed10f7dae5e69a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timesSpawned: 0
-  timesKilled: 0
-  damageDealt: 0
-  damageRecieved: 0
-  healingDone: 0
-  healingRecieved: 0
 --- !u!114 &114259754875749918
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -515,17 +492,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114284298408297648
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1108763565594600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a21dce653bb005c41a7086a4c0f608fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114324937755155956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -537,10 +503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b4745273a34d3842a2361991ce49a18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_groundLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  m_enableGravity: 1
+  m_useGravity: 1
   m_velocity: {x: 0, y: 0, z: 0}
   m_isMoving: 0
   m_isGrounded: 0
@@ -692,7 +655,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 114152308942545598}
-          m_MethodName: SpawnCombatObject
+          m_MethodName: SpawnAtSelf
           m_Mode: 2
           m_Arguments:
             m_ObjectArgument: {fileID: 114380639095367262, guid: 9d773b10095b5514bbf6d28834b46cfb,
@@ -701,10 +664,10 @@ MonoBehaviour:
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
-            m_BoolArgument: 1
+            m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 114152308942545598}
-          m_MethodName: Destroy
+          m_MethodName: DestroySelf
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -712,7 +675,7 @@ MonoBehaviour:
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
-            m_BoolArgument: 1
+            m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: FPS.UnitTriggers+TriggerEvent, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
@@ -754,12 +717,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6672b1c75d2885647aee3fcffb1222c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_head: {fileID: 4104884706606876}
+  m_eye: {fileID: 4104884706606876}
   m_maxRange: 10
-  m_layerMask:
+  m_blockingLayers:
     serializedVersion: 2
-    m_Bits: 3584
-  m_lookingAt: {x: 4.71, y: 2.1, z: 7.5}
+    m_Bits: 1536
+  m_lookingAt: {x: 2, y: 2.1, z: 3.925}
 --- !u!114 &114981945768954510
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -771,11 +734,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b978c5df76e5f1e4c87da7c8c5e28779, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_startingItem: 
   m_jumpHeight: 0
   m_moveSpeed: 0
   m_sprintSpeed: 0
   m_interactRange: 0
-  m_startingItem: 
   m_combatDelay: 5
   m_fire0:
     press: 0

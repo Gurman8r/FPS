@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace FPS
 {
-    public class Consumable : Item
+    public class Consumable : BaseItem
     {
         /* Variables
         * * * * * * * * * * * * * * * */
@@ -33,10 +33,10 @@ namespace FPS
             {
                 if(owner)
                 {
-                    if (!hasResource && m_removeOnEmpty)
+                    if (!resourceAvailable && m_removeOnEmpty)
                     {
                         interactable = false;
-                        owner.inventory.Drop(hand);
+                        owner.inventory.Drop(owner.inventory.hand);
                         Destroy(gameObject, m_destroyDelay);
                     }
                 }
@@ -46,13 +46,13 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public override void UpdatePrimary(InputState input)
+        public override void HandleInputPrimary(InputState input)
         {
             switch(useMode)
             {
             case UseMode.Single:
             {
-                if(input.press && !owner.health.full)
+                if(input.press && !owner.health.isFull)
                 {
                     DoHealing();
                     ConsumeResource();
@@ -61,7 +61,7 @@ namespace FPS
             break;
             case UseMode.Continuous:
             {
-                if (input.hold && !owner.health.full)
+                if (input.hold && !owner.health.isFull)
                 {
                     DoHealing();
                     ConsumeResource();
@@ -71,23 +71,13 @@ namespace FPS
             }
         }
 
-        public override void UpdateSecondary(InputState input)
+        public override void HandleInputSecondary(InputState input)
         {
         }
 
         private void DoHealing()
-        {            
-            UnitEvent ev = new UnitEvent
-            {
-                data = new ObjectData
-                {
-                    owner = owner,
-                    target = owner,
-                    healing = m_healing
-                }
-            };
-            owner.triggers.Broadcast(EventType.OnDoHealing, ev);
-            owner.triggers.Broadcast(EventType.OnReceiveHealing, ev);
+        {
+            owner.triggers.OnDoHealing(new HealingEvent(owner, owner, m_healing));
         }
     }
 

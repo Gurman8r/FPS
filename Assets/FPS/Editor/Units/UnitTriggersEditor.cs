@@ -33,17 +33,17 @@ namespace FPS
         protected virtual void OnEnable()
         {
             m_ListProperty = serializedObject.FindProperty("delegates");
-            m_AddButonContent = new GUIContent("Add New Event Type");
+            m_AddButonContent = new GUIContent("Add New Trigger");
             m_EventIDName = new GUIContent("");
             // Have to create a copy since otherwise the tooltip will be overwritten.
             m_IconToolbarMinus = new GUIContent(EditorGUIUtility.IconContent("Toolbar Minus"));
             m_IconToolbarMinus.tooltip = "Remove all events in this list.";
 
-            string[] eventNames = Enum.GetNames(typeof(EventType));
+            string[] eventNames = Enum.GetNames(typeof(UnitEventType));
             m_EventTypes = new GUIContent[eventNames.Length];
             for (int i = 0; i < eventNames.Length; ++i)
             {
-                m_EventTypes[i] = new GUIContent(eventNames[i]);
+                m_EventTypes[i] = new GUIContent(string.Format("[{0}] {1}", i, eventNames[i]));
             }
         }
 

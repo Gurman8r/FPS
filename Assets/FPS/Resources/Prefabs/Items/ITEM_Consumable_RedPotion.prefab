@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4892519766950744}
   m_Layer: 11
-  m_Name: Hold Position
+  m_Name: '[ HOLD ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,7 +35,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4287980658114420}
   m_Layer: 11
-  m_Name: Model
+  m_Name: '[ MODEL ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49,10 +49,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4843540163222180}
+  - component: {fileID: 95640555924850726}
+  - component: {fileID: 82278377885448698}
   - component: {fileID: 65705448305314798}
   - component: {fileID: 54193523864584198}
-  - component: {fileID: 82278377885448698}
-  - component: {fileID: 95640555924850726}
   - component: {fileID: 114530885471216062}
   m_Layer: 11
   m_Name: ITEM_Consumable_RedPotion
@@ -131,7 +131,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1790741681713756}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 3.75, y: 1.75, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -426,21 +426,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_model: {fileID: 4287980658114420}
-  m_holdPos: {fileID: 4892519766950744}
-  m_info:
+  m_holdRoot: {fileID: 4892519766950744}
+  m_itemInfo:
     name: Red Potion
-    desc: Description
+    desc: New Item Description
     color: {r: 1, g: 1, b: 1, a: 1}
     sprite: {fileID: 21300000, guid: a1d17c6f1e692a242bf644a0036850e5, type: 3}
   m_interactable: 1
   m_useMode: 0
   m_useDelay: 1
   m_staticReticle: 0
-  m_isReloadable: 0
-  m_maxResource: 10
-  m_reloadDelay: 2.5
-  m_fixedReload: 1
-  m_autoReload: 1
+  m_maxResource: 100
+  m_isRenewable: 0
+  m_cooldownDelay: 2.5
+  m_fixedCooldown: 1
+  m_autoCooldown: 1
   m_onDrop:
     m_PersistentCalls:
       m_Calls: []
@@ -456,17 +456,14 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_hand:
-    transform: {fileID: 0}
-    item: {fileID: 0}
   m_owner: {fileID: 0}
-  m_useTimer: 0
-  m_canUse: 0
+  m_originalRoot: {fileID: 0}
+  m_cooldownTimer: 0
   m_onCooldown: 0
+  m_canUse: 0
+  m_useTimer: 0
   m_curResource: 0
-  m_reloadTimer: 0
   m_healing:
-    m_amount: 10
-    m_duration: 5
+    m_value: 10
   m_removeOnEmpty: 1
-  m_destroyDelay: 0
+  m_destroyDelay: 1

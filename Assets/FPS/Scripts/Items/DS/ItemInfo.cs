@@ -6,19 +6,13 @@ using UnityEngine;
 namespace FPS
 {
     [Serializable]
-    public class ItemInfo
+    public sealed class ItemInfo
     {
-        /* Defaults
-        * * * * * * * * * * * * * * * */
-        public const string             DefaultName     = "New Item";
-        public const string             DefaultDesc     = "Description";
-        public static readonly Color    DefaultColor    = Color.white;
-
         /* Variables
         * * * * * * * * * * * * * * * */
-        public string   name    = DefaultName;
-        public string   desc    = DefaultDesc;
-        public Color    color   = DefaultColor;
+        public string   name    = "New Item";
+        public string   desc    = "New Item Description";
+        public Color    color   = Color.white;
         public Sprite   sprite  = null;
 
     }

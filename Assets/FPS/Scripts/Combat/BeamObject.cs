@@ -25,6 +25,12 @@ namespace FPS
             set { m_width = value; }
         }
 
+        public Vector2 target
+        {
+            get { return m_target; }
+            set { m_target = value; }
+        }
+
 
         /* Core
         * * * * * * * * * * * * * * * */
@@ -34,56 +40,27 @@ namespace FPS
 
             if(Application.isPlaying)
             {
-                if(data.speed > 0f && data.lifeSpan > 0f)
-                {
-                    data.pos = Vector3.Lerp(
-                        data.pos,
-                        data.dest,
-                        (timer / data.lifeSpan) * m_sourceSpeed);
-
-                    data.dest = Vector3.Lerp(
-                        data.dest,
-                        m_target,
-                        (timer / data.lifeSpan) * m_targetSpeed);
-                }
-                else 
-                {
-                    data.dest = m_target;
-                }
-
-                transform.position = (data.pos + data.dest) / 2f;
+                transform.position = (motion.origin + motion.target) / 2f;
 
                 transform.localScale = new Vector3(
-                    width, width, Vector3.Distance(data.pos, data.dest));
+                    width, 
+                    width, 
+                    Vector3.Distance(motion.origin, motion.target));
 
-                transform.LookAt(data.dest);
+                transform.LookAt(motion.target);
             }
         }
 
-        private void OnTriggerEnter(Collider collider)
+        protected override void OnTriggerEnter(Collider c)
         {
-            Unit other;
-            if (CheckHitUnit(collider, out other))
-            {
-                if (AddHit(other))
-                {
-                    OnHitUnit(other);
-                }
-            }
+            base.OnTriggerEnter(c);
         }
 
-
-        /* Functions
-        * * * * * * * * * * * * * * * */
-
-        public override void Spawn()
+        protected override void OnTriggerStay(Collider c)
         {
-            base.Spawn();
-
-            m_target = data.dest;
-
-            data.dest = data.pos;
+            base.OnTriggerStay(c);
         }
+
     }
 
 }

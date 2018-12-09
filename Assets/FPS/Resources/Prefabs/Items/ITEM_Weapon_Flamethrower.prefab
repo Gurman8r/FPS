@@ -53,10 +53,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4451043662430438}
+  - component: {fileID: 95468142807127792}
+  - component: {fileID: 82115976711836992}
   - component: {fileID: 65030956573314910}
   - component: {fileID: 54008599556975760}
-  - component: {fileID: 82115976711836992}
-  - component: {fileID: 95468142807127792}
   - component: {fileID: 114794492897902204}
   m_Layer: 11
   m_Name: ITEM_Weapon_Flamethrower
@@ -74,7 +74,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4403656938081546}
   m_Layer: 11
-  m_Name: Fire Position
+  m_Name: '[ FIRE ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89,7 +89,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4330804319998020}
   m_Layer: 11
-  m_Name: Hold Position
+  m_Name: '[ HOLD ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -104,7 +104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4071781051813302}
   m_Layer: 11
-  m_Name: Model
+  m_Name: '[ MODEL ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -154,7 +154,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4451043662430438}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4403656938081546
 Transform:
@@ -167,7 +167,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4451043662430438}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4451043662430438
 Transform:
@@ -175,13 +175,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1276987119706274}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
   m_LocalPosition: {x: -2, y: 1.75, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4071781051813302}
-  - {fileID: 4403656938081546}
   - {fileID: 4330804319998020}
+  - {fileID: 4403656938081546}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -502,21 +502,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_model: {fileID: 4071781051813302}
-  m_holdPos: {fileID: 4330804319998020}
-  m_info:
+  m_holdRoot: {fileID: 4330804319998020}
+  m_itemInfo:
     name: Flamethrower
-    desc: Description
+    desc: New Item Description
     color: {r: 1, g: 1, b: 1, a: 1}
     sprite: {fileID: 21300000, guid: ba82c9518dcd74c4fa4407d3c41efb0d, type: 3}
   m_interactable: 1
   m_useMode: 1
   m_useDelay: 0.05
   m_staticReticle: 1
-  m_isReloadable: 1
   m_maxResource: 50
-  m_reloadDelay: 5
-  m_fixedReload: 0
-  m_autoReload: 1
+  m_isRenewable: 1
+  m_cooldownDelay: 2.5
+  m_fixedCooldown: 0
+  m_autoCooldown: 1
   m_onDrop:
     m_PersistentCalls:
       m_Calls: []
@@ -532,43 +532,23 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_hand:
-    transform: {fileID: 0}
-    item: {fileID: 0}
   m_owner: {fileID: 0}
-  m_useTimer: 0
-  m_canUse: 0
+  m_originalRoot: {fileID: 0}
+  m_cooldownTimer: 0
   m_onCooldown: 0
+  m_canUse: 0
+  m_useTimer: 0
   m_curResource: 0
-  m_reloadTimer: 0
-  m_firePos: {fileID: 4403656938081546}
-  m_objectData:
-    solidLayer:
-      serializedVersion: 2
-      m_Bits: 512
-    unitLayer:
-      serializedVersion: 2
-      m_Bits: 1024
-    speed: 25
-    lifeSpan: 1
-    damage:
-      m_amount: 1
-    healing:
-      m_amount: 0
-      m_duration: 0
-    owner: {fileID: 0}
-    target: {fileID: 0}
-    pos: {x: 0, y: 0, z: 0}
-    dir: {x: 0, y: 0, z: 0}
-    dest: {x: 0, y: 0, z: 0}
-  m_lookingAt: {x: 0, y: 0, z: 0}
+  m_fireRoot: {fileID: 4403656938081546}
+  m_damage:
+    m_value: 1
   m_bulletCount: 5
   m_bulletDelay: 0
   m_allowAiming: 0
   m_spreadHip: 1
-  m_spreadAim: 0.1
+  m_spreadAim: 1
   m_zoomAiming: 1
   m_isAiming: 0
-  m_bulletSpread: 0.1
+  m_bulletSpread: 1
   m_bulletPrefab: {fileID: 114821140140099020, guid: 5d07c9669af483a44837f76914bff6c9,
     type: 2}

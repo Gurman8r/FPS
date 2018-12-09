@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4631729477633128}
   m_Layer: 11
-  m_Name: Fire Position
+  m_Name: '[ FIRE ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,7 +35,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4292268531692000}
   m_Layer: 11
-  m_Name: Model
+  m_Name: '[ MODEL ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,10 +83,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4602173292740034}
+  - component: {fileID: 95554570508616280}
+  - component: {fileID: 82888004182038698}
   - component: {fileID: 65025388403704212}
   - component: {fileID: 54914180177681092}
-  - component: {fileID: 82888004182038698}
-  - component: {fileID: 95554570508616280}
   - component: {fileID: 114069072145151682}
   m_Layer: 11
   m_Name: ITEM_Weapon_Launcher
@@ -104,7 +104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4623785349790880}
   m_Layer: 11
-  m_Name: Hold Position
+  m_Name: '[ HOLD ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -175,7 +175,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1369703672971166}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
   m_LocalPosition: {x: -3, y: 1.75, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -502,20 +502,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_model: {fileID: 4292268531692000}
-  m_holdPos: {fileID: 4623785349790880}
-  m_info:
+  m_holdRoot: {fileID: 4623785349790880}
+  m_itemInfo:
     name: Launcher
-    desc: Description
+    desc: New Item Description
     color: {r: 1, g: 1, b: 1, a: 1}
     sprite: {fileID: 21300000, guid: 3851c67834bb85846a519639c4240458, type: 3}
   m_interactable: 1
   m_useMode: 0
-  m_useDelay: 1
+  m_useDelay: 2
   m_staticReticle: 0
   m_maxResource: 4
-  m_reloadDelay: 5
-  m_fixedReload: 1
-  m_autoReload: 1
+  m_isRenewable: 1
+  m_cooldownDelay: 2.5
+  m_fixedCooldown: 1
+  m_autoCooldown: 1
   m_onDrop:
     m_PersistentCalls:
       m_Calls: []
@@ -531,42 +532,22 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_hand:
-    transform: {fileID: 0}
-    item: {fileID: 0}
   m_owner: {fileID: 0}
-  m_useTimer: 0
-  m_canUse: 0
+  m_originalRoot: {fileID: 0}
+  m_cooldownTimer: 0
   m_onCooldown: 0
+  m_canUse: 0
+  m_useTimer: 0
   m_curResource: 0
-  m_reloadTimer: 0
-  m_firePos: {fileID: 4631729477633128}
-  m_objectData:
-    solidLayer:
-      serializedVersion: 2
-      m_Bits: 512
-    unitLayer:
-      serializedVersion: 2
-      m_Bits: 1024
-    speed: 50
-    lifeSpan: 2.5
-    damage:
-      m_amount: 20
-    healing:
-      m_amount: 0
-      m_duration: 0
-    owner: {fileID: 0}
-    target: {fileID: 0}
-    pos: {x: 0, y: 0, z: 0}
-    dir: {x: 0, y: 0, z: 0}
-    dest: {x: 0, y: 0, z: 0}
-  m_lookingAt: {x: 0, y: 0, z: 0}
+  m_fireRoot: {fileID: 4631729477633128}
+  m_damage:
+    m_value: 25
   m_bulletCount: 1
-  m_bulletDelay: 0
+  m_bulletDelay: 0.1
   m_allowAiming: 0
   m_spreadHip: 1
   m_spreadAim: 1
-  m_zoomAiming: 1.5
+  m_zoomAiming: 1
   m_isAiming: 0
   m_bulletSpread: 0.1
   m_bulletPrefab: {fileID: 114821140140099020, guid: 6579570a0ca74df4593eedc30b3fad63,

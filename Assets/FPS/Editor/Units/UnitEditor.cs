@@ -18,15 +18,21 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         public override void OnInspectorGUI()
         {
+            EditorGUILayout.Space();
+
             GUI.enabled = false;
-            EditorGUILayout.ObjectField("Inventory", target.inventory, typeof(UnitInventory), false);
-            EditorGUILayout.ObjectField("Metrics", target.metrics, typeof(UnitMetrics), false);
-            EditorGUILayout.ObjectField("Motor", target.motor, typeof(UnitMotor), false);
             EditorGUILayout.ObjectField("Triggers", target.triggers, typeof(UnitTriggers), false);
+            EditorGUILayout.ObjectField("Motor", target.motor, typeof(UnitMotor), false);
+            EditorGUILayout.ObjectField("Inventory", target.inventory, typeof(UnitInventory), false);
             EditorGUILayout.ObjectField("Vision", target.vision, typeof(UnitVision), false);
             GUI.enabled = true;
 
             base.OnInspectorGUI();
+
+            EditorGUI.ProgressBar(EditorGUILayout.GetControlRect(), target.health.fillAmount, 
+                string.Format("Health ({0}/{1})", 
+                    target.health.current, 
+                    target.health.maximum));
         }
     }
 

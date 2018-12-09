@@ -11,11 +11,13 @@ namespace FPS
         /* Variables
         * * * * * * * * * * * * * * * */
         [Header("Settings")]
-        [SerializeField] HealthBar      m_fill;
-        [SerializeField] Hitmarker      m_hitmarker;
+        [SerializeField] HealthBar  m_fill;
+        [SerializeField] Hitmarker  m_hitmarker;
+        [SerializeField] float      m_speed = 10f;
 
         [Header("Runtime")]
         [SerializeField] Vector2    m_originalSize;
+        [SerializeField] Vector2    m_targetSize;
 
 
         /* Properties
@@ -26,10 +28,16 @@ namespace FPS
             private set { m_originalSize = value; }
         }
 
+        public Vector2 targetSize
+        {
+            get { return m_targetSize; }
+            set { m_targetSize = value; }
+        }
+
         public Vector2 sizeDelta
         {
             get { return m_fill.rectTransform.sizeDelta; }
-            set { m_fill.rectTransform.sizeDelta = value; }
+            private set { m_fill.rectTransform.sizeDelta = value; }
         }
 
 
@@ -40,6 +48,24 @@ namespace FPS
             if(Application.isPlaying)
             {
                 originalSize = m_fill.rectTransform.sizeDelta;
+            }
+        }
+
+        private void Update()
+        {
+            if(Application.isPlaying)
+            {
+                if(m_speed > 0f)
+                {
+                    sizeDelta = Vector2.Lerp(
+                        sizeDelta, 
+                        targetSize, 
+                        Time.deltaTime * m_speed);
+                }
+                else
+                {
+                    sizeDelta = targetSize;
+                }
             }
         }
 

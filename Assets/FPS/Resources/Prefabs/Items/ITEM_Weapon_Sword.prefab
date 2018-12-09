@@ -37,7 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4704019647169904}
   m_Layer: 11
-  m_Name: Model
+  m_Name: '[ MODEL ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 82452043995523260}
   - component: {fileID: 114203183407447364}
   m_Layer: 12
-  m_Name: Blade
+  m_Name: '[MELEE] Blade'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89,10 +89,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4593355600825332}
+  - component: {fileID: 95884295602667638}
+  - component: {fileID: 82260582648597958}
   - component: {fileID: 65905465224654828}
   - component: {fileID: 54903670985972540}
-  - component: {fileID: 82260582648597958}
-  - component: {fileID: 95884295602667638}
   - component: {fileID: 114084282297835516}
   m_Layer: 11
   m_Name: ITEM_Weapon_Sword
@@ -127,7 +127,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4125534153222106}
   m_Layer: 11
-  m_Name: Fire Position
+  m_Name: '[ FIRE ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142,7 +142,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4506187910320752}
   m_Layer: 11
-  m_Name: Hold Position
+  m_Name: '[ HOLD ]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -172,7 +172,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4593355600825332}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4166436100694758
 Transform:
@@ -211,7 +211,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4593355600825332}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4593355600825332
 Transform:
@@ -219,13 +219,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1617724416914872}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 3, y: 1.75, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4704019647169904}
-  - {fileID: 4125534153222106}
   - {fileID: 4506187910320752}
+  - {fileID: 4125534153222106}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -701,21 +701,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_model: {fileID: 4704019647169904}
-  m_holdPos: {fileID: 4506187910320752}
-  m_info:
+  m_holdRoot: {fileID: 4506187910320752}
+  m_itemInfo:
     name: Sword
-    desc: Description
+    desc: New Item Description
     color: {r: 1, g: 1, b: 1, a: 1}
     sprite: {fileID: 21300000, guid: bef7fccc530b30a4788e921d29c3cb7b, type: 3}
   m_interactable: 1
   m_useMode: 0
-  m_useDelay: 0.5
+  m_useDelay: 1
   m_staticReticle: 0
-  m_isReloadable: 0
   m_maxResource: 0
-  m_reloadDelay: 0
-  m_fixedReload: 1
-  m_autoReload: 1
+  m_isRenewable: 0
+  m_cooldownDelay: 2.5
+  m_fixedCooldown: 1
+  m_autoCooldown: 1
   m_onDrop:
     m_PersistentCalls:
       m_Calls: []
@@ -731,40 +731,17 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_hand:
-    transform: {fileID: 0}
-    item: {fileID: 0}
   m_owner: {fileID: 0}
-  m_useTimer: 0
-  m_canUse: 0
+  m_originalRoot: {fileID: 0}
+  m_cooldownTimer: 0
   m_onCooldown: 0
+  m_canUse: 0
+  m_useTimer: 0
   m_curResource: 0
-  m_reloadTimer: 0
-  m_firePos: {fileID: 4125534153222106}
-  m_objectData:
-    solidLayer:
-      serializedVersion: 2
-      m_Bits: 512
-    unitLayer:
-      serializedVersion: 2
-      m_Bits: 1024
-    speed: 0
-    lifeSpan: 0
-    damage:
-      m_amount: 35
-    healing:
-      m_amount: 0
-      m_duration: 0
-    owner: {fileID: 0}
-    target: {fileID: 0}
-    pos: {x: 0, y: 0, z: 0}
-    dir: {x: 0, y: 0, z: 0}
-    dest: {x: 0, y: 0, z: 0}
-  m_lookingAt: {x: 0, y: 0, z: 0}
+  m_fireRoot: {fileID: 4125534153222106}
+  m_damage:
+    m_value: 25
   m_meleeObject: {fileID: 114203183407447364}
-  m_state: 0
-  m_triggerName: 
-  m_canDamage: 0
 --- !u!114 &114203183407447364
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -776,26 +753,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e4a8a92d88881b499448b6c040314d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_solidLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  m_unitLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  m_damage:
+    m_value: 50
+  m_motion:
+    m_speed: 0
+    m_origin: {x: 0, y: 0, z: 0}
+    m_target: {x: 0, y: 0, z: 0}
+    m_forward: {x: 0, y: 0, z: 0}
+  m_lifeSpan: 0
+  m_canDamageSelf: 0
+  m_onSpawn:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  m_onKill:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  m_onStop:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  m_owner: {fileID: 0}
   m_active: 0
-  m_data:
-    solidLayer:
-      serializedVersion: 2
-      m_Bits: 0
-    unitLayer:
-      serializedVersion: 2
-      m_Bits: 0
-    speed: 0
-    lifeSpan: 0
-    damage:
-      m_amount: 0
-    healing:
-      m_amount: 0
-      m_duration: 0
-    owner: {fileID: 0}
-    target: {fileID: 0}
-    pos: {x: 0, y: 0, z: 0}
-    dir: {x: 0, y: 0, z: 0}
-    dest: {x: 0, y: 0, z: 0}
   m_timer: 0
-  m_maxTimer: 0
-  m_hitUnits: []
+  m_hits: []

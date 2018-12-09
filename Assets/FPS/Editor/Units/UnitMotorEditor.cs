@@ -22,6 +22,8 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         public override void OnInspectorGUI()
         {
+            EditorGUILayout.Space();
+
             GUI.enabled = false;
             EditorGUILayout.ObjectField("Collider", target.collider, typeof(Collider), false);
             EditorGUILayout.ObjectField("Rigidbody", target.rigidbody, typeof(Rigidbody), false);

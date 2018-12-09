@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace FPS
 {
@@ -17,13 +18,23 @@ namespace FPS
         private Rigidbody   m_rigidbody;
 
         [Header("Object Settings")]
-        [SerializeField] bool       m_active;
-        [SerializeField] ObjectData m_data;
+        [SerializeField] LayerMask  m_solidLayer;
+        [SerializeField] LayerMask  m_unitLayer;
+        [Space]
+        [SerializeField] Damage     m_damage;
+        [SerializeField] Motion     m_motion;
+        [SerializeField] float      m_lifeSpan;
+        [SerializeField] bool       m_canDamageSelf;
+        [Space]
+        [SerializeField] UnityEvent m_onSpawn;
+        [SerializeField] UnityEvent m_onKill;
+        [SerializeField] UnityEvent m_onStop;
 
         [Header("Object Runtime")]
+        [SerializeField] Unit       m_owner;
+        [SerializeField] bool       m_active;
         [SerializeField] float      m_timer;
-        [SerializeField] float      m_maxTimer;
-        [SerializeField] List<Unit> m_hitUnits;
+        [SerializeField] List<Unit> m_hits;
 
 
         /* Properties
@@ -52,16 +63,60 @@ namespace FPS
             }
         }
         
+        public LayerMask solidLayer
+        {
+            get { return m_solidLayer; }
+        }
+
+        public LayerMask unitLayer
+        {
+            get { return m_unitLayer; }
+        }
+
+        public float lifeSpan
+        {
+            get { return m_lifeSpan; }
+            protected set { m_lifeSpan = value; }
+        }
+
+        public Damage damage
+        {
+            get { return m_damage; }
+            set { m_damage = value; }
+        }
+
+        public Motion motion
+        {
+            get { return m_motion; }
+            set { m_motion = value; }
+        }
+
+        public UnityEvent onSpawn
+        {
+            get { return m_onSpawn; }
+        }
+
+        public UnityEvent onKill
+        {
+            get { return m_onKill; }
+        }
+
+        public UnityEvent onStop
+        {
+            get { return m_onStop; }
+        }
+
+
+        public Unit owner
+        {
+            get { return m_owner; }
+            set { m_owner = value; }
+        }
+
         public bool active
         {
             get { return m_active; }
             set { m_active = value; }
-        }
-
-        public ObjectData data
-        {
-            get { return m_data; }
-            set { m_data = value; }
         }
 
         public float timer
@@ -70,35 +125,21 @@ namespace FPS
             protected set { m_timer = value; }
         }
 
-        public float maxLifespan
+        public List<Unit> hits
         {
-            get { return m_maxTimer; }
-            protected set { m_maxTimer = value; }
-        }
-
-        public List<Unit> hitUnits
-        {
-            get { return m_hitUnits; }
+            get { return m_hits; }
         }
 
 
         /* Core
         * * * * * * * * * * * * * * * */
-        protected virtual void Start()
-        {
-            if(Application.isPlaying)
-            {
-                if (gameObject.tag != Tag) gameObject.tag = Tag;
-            }
-        }
-
         protected virtual void Update()
         {
             if(Application.isPlaying)
             {
-                if (maxLifespan > 0f)
+                if (lifeSpan > 0f)
                 {
-                    if (timer >= maxLifespan)
+                    if (timer >= lifeSpan)
                     {
                         Kill();
 
@@ -112,47 +153,62 @@ namespace FPS
             }
         }
 
-        /* Functions
-        * * * * * * * * * * * * * * * */
-        protected bool AddHit(Unit other)
+        protected virtual void OnTriggerEnter(Collider c)
         {
-            if (other && !hitUnits.Contains(other))
+            if (active)
             {
-                hitUnits.Add(other);
-                return true;
+                Unit u;
+                if (IsValidHit(c, out u))
+                {
+                    if (RegisterHit(u))
+                    {
+                        OnHit(u);
+                    }
+                }
             }
-            return false;
         }
 
-        protected bool CheckHitUnit(Collider hit, out Unit other)
+        protected virtual void OnTriggerStay(Collider c)
+        {
+            OnTriggerEnter(c);
+        }
+
+
+        /* Functions
+        * * * * * * * * * * * * * * * */
+        protected bool IsValidHit(Collider hit, out Unit other)
         {
             if (hit && (hit.gameObject.tag == Unit.Tag))
             {
                 if ((other = hit.gameObject.GetComponent<Unit>()))
                 {
-                    return (other != data.owner);
+                    return (m_canDamageSelf || (other != owner));
                 }
             }
             other = null;
             return false;
         }
 
-        protected virtual void OnHitUnit(Unit other)
+        protected void ClearHits()
         {
-            if(data.target = other)
-            {
-                data.target.triggers.Broadcast(EventType.OnReceiveDamage, new UnitEvent
-                {
-                    data = data
-                });
-            }
+            hits.Clear();
+        }
 
-            if (data.owner)
+        protected Unit RegisterHit(Unit other)
+        {
+            if (other && !hits.Contains(other))
             {
-                data.owner.triggers.Broadcast(EventType.OnDoDamage, new UnitEvent
-                {
-                    data = data
-                });
+                hits.Add(other);
+                return other;
+            }
+            return null;
+        }
+
+        protected virtual void OnHit(Unit other)
+        {
+            if (other)
+            {
+                other.triggers.OnReceiveDamage(new DamageEvent(owner, other, m_damage));
             }
         }
 
@@ -161,11 +217,8 @@ namespace FPS
         {
             if (Application.isPlaying)
             {
+                onKill.Invoke();
                 Destroy(gameObject);
-            }
-            else
-            {
-                DestroyImmediate(gameObject);
             }
         }
 
@@ -173,20 +226,18 @@ namespace FPS
         {
             active = true;
             timer = 0f;
-            maxLifespan = data.lifeSpan;
             gameObject.SetActive(true);
+            onSpawn.Invoke();
         }
 
 
-        public void SpawnObject(CombatObject value)
+        public void SpawnObject(CombatObject prefab)
         {
             CombatObject obj;
-            if(value && (obj = Instantiate(value, null)))
+            if (owner && (obj = owner.CreateAndSpawnObject(prefab)))
             {
                 obj.transform.position = transform.position;
                 obj.transform.rotation = transform.rotation;
-                obj.data.owner = data.owner;
-                obj.Spawn();
             }
         }
     }
