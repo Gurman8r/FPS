@@ -183,7 +183,7 @@ namespace FPS
             if(m_damage)
             {
                 Color c = m_damage.color;
-                c.a = 1f;
+                c.a = m_damageAlpha;
                 m_damage.color = c;
             }
         }
