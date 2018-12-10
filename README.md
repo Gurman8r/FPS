@@ -1,7 +1,7 @@
 # FPS
 
-Working on an combat/interaction system in Unity.
-I need better names for some things.
+Working on an combat system in Unity.
+It's supposed to be a sort of event system to handle lots of little interactions between _~things~_.
 
 ---------------------------------
 Unit
