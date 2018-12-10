@@ -54,7 +54,7 @@ Unit controllers are unit behaviours which supply inputs to the aforementioned b
 
 - BaseUnitController
 	- StaticUnit (DOES NOT require NavMeshAgent)
-		- BasicUnit
+		- BasicUnit (_Some_ destructable prop)
 	- DynamicUnit (DOES require NavMeshAgent)
 		- HumanoidUnit (Able to use Items)
 			- PlayerUnit (Controlled by a Player)
