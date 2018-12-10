@@ -5,8 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace FPS
 {
-    [ExecuteInEditMode]
-    public class PlayerController : BaseUnitController
+    public class PlayerUnit : HumanoidUnit
     {
         /* Variables
         * * * * * * * * * * * * * * * */
@@ -302,7 +301,7 @@ namespace FPS
         {
             switch (hit.transform.tag)
             {
-            case Item.Tag:
+            case CombatConsts.ItemTag:
             {
                 Item item;
                 if ((item = hit.transform.GetComponent<Item>()) && item.interactable && !item.owner)

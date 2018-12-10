@@ -12,15 +12,11 @@ namespace FPS
     [ExecuteInEditMode]
     public abstract class Item : MonoBehaviour
     {
-        public const float FireDelayThreshold = 0.09f;
-
         public enum UseMode
         {
             Single = 0,
             Continuous = 1,
         }
-
-        public const string Tag = "Item";
 
         /* Variables
         * * * * * * * * * * * * * * * */
@@ -305,11 +301,6 @@ namespace FPS
         {
             if(Application.isPlaying)
             {
-                if (gameObject.tag != Tag)
-                {
-                    gameObject.tag = Tag;
-                }
-
                 useTimer = useDelay;
 
                 SetResource(maxResource);
@@ -408,9 +399,9 @@ namespace FPS
         }
 
 
-        public abstract void HandleInputPrimary(InputState input);
+        public abstract void HandleInputPrimary(ItemInput input);
 
-        public abstract void HandleInputSecondary(InputState input);
+        public abstract void HandleInputSecondary(ItemInput input);
 
 
         protected void SetResource(int value)

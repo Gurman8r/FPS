@@ -12,13 +12,44 @@ namespace FPS
         {
             /* Variables
             * * * * * * * * * * * * * * * */
+            [SerializeField] bool m_active;
+            [Space]
             [SerializeField] Rect m_bounds;
 
             /* Properties
             * * * * * * * * * * * * * * * */
+            public static ForgeWindow instance
+            {
+                get; private set;
+            }
+
+            public bool active
+            {
+                get { return m_active; }
+                set { m_active = value; }
+            }
 
             /* Core
             * * * * * * * * * * * * * * * */
+            private void OnEnable()
+            {
+                if(!instance || instance == this)
+                {
+                    instance = this;
+
+                    if (Application.isPlaying)
+                    {
+                        DontDestroyOnLoad(gameObject);
+                    }
+                }
+                else
+                {
+                    if(Application.isPlaying)
+                    {
+                        Destroy(gameObject);
+                    }
+                }
+            }
             private void Start()
             {
 

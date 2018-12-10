@@ -10,8 +10,6 @@ namespace FPS
     [ExecuteInEditMode]
     public abstract class CombatObject : MonoBehaviour
     {
-        public static readonly string Tag = "Combat";
-
         /* Variables
         * * * * * * * * * * * * * * * */
         private Collider    m_collider;
@@ -178,7 +176,7 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         protected bool IsValidHit(Collider hit, out Unit other)
         {
-            if (hit && (hit.gameObject.tag == Unit.Tag))
+            if (hit && (hit.gameObject.tag == CombatConsts.UnitTag))
             {
                 if ((other = hit.gameObject.GetComponent<Unit>()))
                 {

@@ -39,7 +39,7 @@ namespace FPS
             m_IconToolbarMinus = new GUIContent(EditorGUIUtility.IconContent("Toolbar Minus"));
             m_IconToolbarMinus.tooltip = "Remove all events in this list.";
 
-            string[] eventNames = Enum.GetNames(typeof(UnitEventType));
+            string[] eventNames = Enum.GetNames(typeof(CombatEventType));
             m_EventTypes = new GUIContent[eventNames.Length];
             for (int i = 0; i < eventNames.Length; ++i)
             {

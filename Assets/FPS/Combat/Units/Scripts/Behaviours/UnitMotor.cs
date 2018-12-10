@@ -14,17 +14,17 @@ namespace FPS
 
         /* Variables
         * * * * * * * * * * * * * * * */
-        private Collider            m_collider;
-        private Rigidbody           m_rigidbody;
+        private Collider         m_collider;
+        private Rigidbody        m_rigidbody;
 
         [Header("Settings")]
-        [SerializeField] bool       m_useGravity = true;
+        [SerializeField] bool    m_useGravity = true;
 
         [Header("Runtime")]
-        [SerializeField] Vector3    m_velocity;
-        [SerializeField] bool       m_isMoving;
-        [SerializeField] bool       m_isGrounded;
-        [SerializeField] bool       m_isJumping;
+        [SerializeField] Vector3 m_velocity;
+        [SerializeField] bool    m_isMoving;
+        [SerializeField] bool    m_isGrounded;
+        [SerializeField] bool    m_isJumping;
 
 
         /* Properties
@@ -85,12 +85,12 @@ namespace FPS
 
         /* Core
         * * * * * * * * * * * * * * * */
-        protected override void FixedUpdate()
+        private void FixedUpdate()
         {
-            if(Application.isPlaying)
-            {
-                rigidbody.useGravity = false;
+            rigidbody.useGravity = false;
 
+            if (Application.isPlaying)
+            {
                 isGrounded = Physics.Raycast(
                     transform.position, 
                     -Vector3.up, 
@@ -124,18 +124,16 @@ namespace FPS
         {
             if(!isJumping && isGrounded)
             {
-                velocity = new Vector3(
-                    velocity.x,
-                    height,
-                    velocity.z);
+                velocity = new Vector3(velocity.x, height, velocity.z);
+
                 isJumping = true;
             }
         }
 
         public void Move(Vector2 axes, float speed)
         {
-            Vector3 fwd = (transform.forward * axes.y);
-            Vector3 stf = (transform.right * axes.x);
+            Vector3 fwd = (transform.forward * axes.y); // Forward
+            Vector3 stf = (transform.right * axes.x);   // Strafe
             Vector3 dir = (fwd + stf) * speed;
 
             velocity = new Vector3(dir.x, velocity.y,dir.z);

@@ -12,11 +12,9 @@ namespace FPS
 {
     [DisallowMultipleComponent]
     public class UnitTriggers : UnitBehaviour
-        , ISpawnHandler
-        , IDamageSource
-        , IHealingSource
-        , IDamageTarget
-        , IHealingTarget
+        , ISpawnHandler, IDeathHandler
+        , IDamageSource, IHealingSource
+        , IDamageTarget, IHealingTarget
     {
 
         /* DS
@@ -27,7 +25,7 @@ namespace FPS
         [Serializable]
         public class Entry
         {
-            public UnitEventType    eventID;
+            public CombatEventType    eventID;
             public TriggerEvent callback;
         }
 
@@ -39,7 +37,7 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        private void Execute(UnitEventType id, UnitEvent ev)
+        private void Execute(CombatEventType id, UnitEvent ev)
         {
             if (delegates != null)
             {
@@ -60,37 +58,37 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         public virtual void OnSpawn(UnitEvent ev)
         {
-            Execute(UnitEventType.OnSpawn, ev);
+            Execute(CombatEventType.OnSpawn, ev);
             UnitExecutes.OnSpawn(ev);
         }
 
         public virtual void OnDeath(UnitEvent ev)
         {
-            Execute(UnitEventType.OnDeath, ev);
+            Execute(CombatEventType.OnDeath, ev);
             UnitExecutes.OnDeath(ev);
         }
 
         public virtual void OnReceiveDamage(DamageEvent ev)
         {
-            Execute(UnitEventType.OnReceiveDamage, ev);
+            Execute(CombatEventType.OnReceiveDamage, ev);
             UnitExecutes.OnReceiveDamage(ev);
         }
 
         public virtual void OnDoDamage(DamageEvent ev)
         {
-            Execute(UnitEventType.OnDoDamage, ev);
+            Execute(CombatEventType.OnDoDamage, ev);
             UnitExecutes.OnDoDamage(ev);
         }
 
         public virtual void OnReceiveHealing(HealingEvent ev)
         {
-            Execute(UnitEventType.OnReceiveHealing, ev);
+            Execute(CombatEventType.OnReceiveHealing, ev);
             UnitExecutes.OnReceiveHealing(ev);
         }
 
         public virtual void OnDoHealing(HealingEvent ev)
         {
-            Execute(UnitEventType.OnDoHealing, ev);
+            Execute(CombatEventType.OnDoHealing, ev);
             UnitExecutes.OnDoHealing(ev);
         }
     }

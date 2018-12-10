@@ -23,7 +23,7 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public override void HandleInputPrimary(InputState input)
+        public override void HandleInputPrimary(ItemInput input)
         {
             switch (useMode)
             {
@@ -38,7 +38,7 @@ namespace FPS
             }
         }
 
-        public override void HandleInputSecondary(InputState input)
+        public override void HandleInputSecondary(ItemInput input)
         {
             if(allowAiming)
                 animator.SetBool("AimDownSights", !onCooldown && input.hold);

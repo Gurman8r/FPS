@@ -1,17 +1,104 @@
 # FPS
 
-First Person Shooter Framework in Unity
+Combat System Framework in Unity	
 
-Press 'Escape' in game for settings and a list of controls.
+---------------------------------
+Main Types:
+---------------------------------
 
-Ideas, Goals, & Intentions:
+Unit	| Any object that could conceivably have a healthbar or take damage
+		| Examples:
+		|	- Players
+		|	- Enemies
+		|	- Explosives
+		|	- Vehicles
+		|
+Object	| Any object that can interact with Units
+		| Examples:
+		|	- Bullets
+		|	- Blades
+		|	- Lasers
+		|	- Explosions
+		|	- Kill Zones
+		| 
+Item	| Any object that can be 'owned' by a Unit
+		| Examples:
+		|	- Consumables
+		|	- Weapons
+		|	- Spells
+		|	- Tools
+		|	- Abilities
+		
+---------------------------------
+Unit Behaviours:
+---------------------------------
 
-		- Design and implement a robust combat system.
-		- Ideally, it should be easily exportable into new, non-FPS projects.
+UnitTriggers	| Basically an event system for each unit
+				| 
+UnitInventory	| Manages units' held/stored items 
+				| 
+UnitMotor		| Controls physics & movement
+				| 
+UnitVision		| Tracks where units are looking and what they can see
+
+---------------------------------
+Unit Controllers:
+---------------------------------
+
+> BaseUnitController
+	> StaticUnit - Unit which DOES NOT move or require navigation 
+		> BasicUnit
+	> DynamicUnit - Unit which DOES move or require navigation 
+		> HumanoidUnit - Unit able to use Items
+			> PlayerUnit - Humanoid controlled by a Player
+			> RobotUnit - Humanoid controlled by an AI
+				> DummyUnit 
+
+---------------------------------
 	
-		- Build flexible in-game menus for settings & such.
-	
-		- Experiment with building in-game editor tools
-		- I want to try to make a map editor, something like Halo Forge.
-	
-		- Use Rewired to enable user defined controls.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

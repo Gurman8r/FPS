@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 namespace FPS
 {
-    [ExecuteInEditMode]
-    public class DummyController : BotController
+    public class DummyUnit : RobotUnit
     {
         /* Variables
         * * * * * * * * * * * * * * * */

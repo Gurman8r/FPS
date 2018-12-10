@@ -4,11 +4,13 @@ using UnityEngine;
 
 namespace FPS
 {
-    /* Interfaces
-    * * * * * * * * * * * * * * * */
     public interface ISpawnHandler
     {
         void OnSpawn(UnitEvent ev);
+    }
+
+    public interface IDeathHandler
+    {
         void OnDeath(UnitEvent ev);
     }
 

@@ -6,7 +6,7 @@ using UnityEngine;
 namespace FPS
 {
     [Serializable]
-    public class InputState
+    public sealed class ItemInput
     {
         /* Variables
         * * * * * * * * * * * * * * * */

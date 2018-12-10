@@ -1,6 +1,6 @@
 namespace FPS
 {
-    public enum UnitEventType
+    public enum CombatEventType
     {
         OnSpawn = 0,
         OnDeath,

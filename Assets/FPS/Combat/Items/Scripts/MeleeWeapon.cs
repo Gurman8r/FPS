@@ -74,7 +74,7 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public override void HandleInputPrimary(InputState input)
+        public override void HandleInputPrimary(ItemInput input)
         {
             if (input.press)
             {
@@ -83,7 +83,7 @@ namespace FPS
             }
         }
 
-        public override void HandleInputSecondary(InputState input)
+        public override void HandleInputSecondary(ItemInput input)
         {
             if (input.press)
             {

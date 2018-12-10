@@ -11,8 +11,6 @@ namespace FPS
     [DisallowMultipleComponent]
     public sealed class Unit : MonoBehaviour
     {
-        public const string Tag = "Unit";
-
         /* Variables
         * * * * * * * * * * * * * * * */
         private UnitTriggers    m_triggers;

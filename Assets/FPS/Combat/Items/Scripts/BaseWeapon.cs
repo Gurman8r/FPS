@@ -65,9 +65,9 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public abstract override void HandleInputPrimary(InputState input);
+        public abstract override void HandleInputPrimary(ItemInput input);
 
-        public abstract override void HandleInputSecondary(InputState input);
+        public abstract override void HandleInputSecondary(ItemInput input);
 
 
         protected void Shoot()

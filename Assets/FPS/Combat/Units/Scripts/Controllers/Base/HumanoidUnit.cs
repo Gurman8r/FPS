@@ -1,32 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace FPS
 {
-    [RequireComponent(typeof(NavMeshAgent))]
-    [DisallowMultipleComponent]
-    public abstract class BaseUnitController : UnitBehaviour
-    {
-
+    public abstract class HumanoidUnit : DynamicUnit
+    {        
         /* Variables
         * * * * * * * * * * * * * * * */
-        private NavMeshAgent    m_agent;
-
-        [Header("Controller Settings")]
+        [Header("Humanoid Settings")]
         [SerializeField] string     m_startingItem = "";
         [SerializeField] float      m_jumpHeight = 1f;
         [SerializeField] float      m_moveSpeed = 1f;
         [SerializeField] float      m_sprintSpeed = 2f;
         [SerializeField] float      m_interactRange = 2.5f;
-        [SerializeField] float      m_combatDelay =  5f;
 
-        [Header("Controller Runtime")]
-        [SerializeField] InputState m_fire0;
-        [SerializeField] InputState m_fire1;
-        [SerializeField] bool       m_inCombat;
-        [SerializeField] float      m_regenTimer;
+        [Header("Humanoid Runtime")]
+        [SerializeField] ItemInput  m_fire0;
+        [SerializeField] ItemInput  m_fire1;
         [SerializeField] Vector2    m_moveInput;
         [SerializeField] bool       m_sprintInput;
         [SerializeField] Vector2    m_lookInput;
@@ -37,18 +29,6 @@ namespace FPS
 
         /* Properties
         * * * * * * * * * * * * * * * */
-        public NavMeshAgent agent
-        {
-            get
-            {
-                if (!m_agent)
-                {
-                    m_agent = GetComponent<NavMeshAgent>();
-                }
-                return m_agent;
-            }
-        }
-
         public float jumpHeight
         {
             get { return m_jumpHeight; }
@@ -74,33 +54,18 @@ namespace FPS
             get { return m_startingItem; }
         }
 
-        public float combatDelay
-        {
-            get { return m_combatDelay; }
-        }
         
-        public InputState fire0
+        
+        public ItemInput fire0
         {
             get { return m_fire0; }
             protected set { m_fire0 = value; }
         }
 
-        public InputState fire1
+        public ItemInput fire1
         {
             get { return m_fire1; }
             protected set { m_fire1 = value; }
-        }
-
-        public bool inCombat
-        {
-            get { return m_inCombat = (combatTimer > 0f); }
-            set { combatTimer = (m_inCombat = value) ? combatDelay : 0f; }
-        }
-
-        public float combatTimer
-        {
-            get { return m_regenTimer; }
-            private set { m_regenTimer = value; }
         }
 
         public Vector2 moveInput
@@ -144,7 +109,9 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         protected override void Start()
         {
-            if(Application.isPlaying)
+            base.Update();
+
+            if (Application.isPlaying)
             {
                 if (ItemManager.instance)
                 {
@@ -159,11 +126,10 @@ namespace FPS
 
         protected override void Update()
         {
+            base.Update();
+
             if(Application.isPlaying)
             {
-                if (inCombat)
-                    combatTimer -= Time.deltaTime;
-
                 unit.motor.Move(moveInput, (sprintInput ? sprintSpeed : moveSpeed));
 
                 if(jumpInput)

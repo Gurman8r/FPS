@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace FPS
 {
-    public class BotController : BaseUnitController
+    public abstract class RobotUnit : HumanoidUnit
     {
 
         /* Variables
@@ -12,6 +12,15 @@ namespace FPS
 
         /* Core
         * * * * * * * * * * * * * * * */
+        protected override void Start()
+        {
+            base.Start();
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+        }
 
         /* Functions
         * * * * * * * * * * * * * * * */

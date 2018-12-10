@@ -25,6 +25,8 @@ namespace FPS
             {
                 EditorGUILayout.BeginVertical(GUI.skin.box);
                 {
+                    EditorGUILayout.ObjectField("Instance", ForgeWindow.instance, typeof(ForgeWindowEditor), false);
+
                     base.OnInspectorGUI();
                 }
                 EditorGUILayout.EndVertical();

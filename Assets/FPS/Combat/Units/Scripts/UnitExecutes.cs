@@ -7,8 +7,6 @@ namespace FPS
 {
     public static class UnitExecutes
     {
-        /* Functions
-        * * * * * * * * * * * * * * * */
         public static void OnSpawn(UnitEvent ev)
         {
             if (ev.source)

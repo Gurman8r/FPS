@@ -5,15 +5,12 @@ using UnityEngine;
 
 namespace FPS
 {
-    public class SimpleUnit : BaseUnitController
+    public class BasicUnit : StaticUnit
     {
         /* Variables
         * * * * * * * * * * * * * * * */
         [SerializeField] Canvas     m_canvas;
         [SerializeField] HealthBar  m_health;
-
-        /* Properties
-        * * * * * * * * * * * * * * * */
 
         /* Core
         * * * * * * * * * * * * * * * */
