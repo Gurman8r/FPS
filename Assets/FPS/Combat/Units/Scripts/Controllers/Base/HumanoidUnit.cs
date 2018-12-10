@@ -135,6 +135,7 @@ namespace FPS
                 if(jumpInput)
                 {
                     jumpInput = false;
+
                     unit.motor.Jump(jumpHeight);
                 }
 

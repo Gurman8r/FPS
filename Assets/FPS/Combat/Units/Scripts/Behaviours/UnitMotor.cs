@@ -138,12 +138,6 @@ namespace FPS
 
             velocity = new Vector3(dir.x, velocity.y,dir.z);
         }
-
-        public void Stop()
-        {
-            velocity = Vector3.zero;
-        }
-
     }
 
 }

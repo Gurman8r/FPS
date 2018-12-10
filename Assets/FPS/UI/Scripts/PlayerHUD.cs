@@ -16,6 +16,7 @@ namespace FPS
         private Canvas m_canvas;
 
         [Header("Settings")]
+        [SerializeField] SettingsMenu   m_settingsMenu;
         [SerializeField] TextFeed       m_textFeed;
         [SerializeField] Reticle        m_reticle;
         [SerializeField] InventoryUI    m_inventory;

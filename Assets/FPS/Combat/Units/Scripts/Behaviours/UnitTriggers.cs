@@ -25,8 +25,8 @@ namespace FPS
         [Serializable]
         public class Entry
         {
-            public CombatEventType    eventID;
-            public TriggerEvent callback;
+            public CombatEventType  eventID;
+            public TriggerEvent     callback;
         }
 
 

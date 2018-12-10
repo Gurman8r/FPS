@@ -6,12 +6,12 @@ using UnityEngine;
 
 namespace FPS
 {
-    [CustomEditor(typeof(FP_Camera))]
-    public class FP_CameraEditor : Editor
+    [CustomEditor(typeof(CameraController), true)]
+    public class CameraControllerEditor : Editor
     {
-        new FP_Camera target
+        new CameraController target
         {
-            get { return base.target as FP_Camera; }
+            get { return base.target as CameraController; }
         }
 
         /* Variables

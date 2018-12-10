@@ -42,7 +42,6 @@ GameObject:
   - component: {fileID: 54426538765086682}
   - component: {fileID: 95018452059776590}
   - component: {fileID: 82766623232739992}
-  - component: {fileID: 195486938453381876}
   - component: {fileID: 114152308942545598}
   - component: {fileID: 114539830371490770}
   - component: {fileID: 114324937755155956}
@@ -439,9 +438,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feb8254713784ce49aae625a99e5ba9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_id: 0
   m_health:
     m_current: 20
-    m_minimim: 0
+    m_minimum: 0
     m_maximum: 20
     m_isDead: 0
 --- !u!114 &114165926666493142
@@ -734,28 +734,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b978c5df76e5f1e4c87da7c8c5e28779, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_startingItem: 
-  m_jumpHeight: 0
-  m_moveSpeed: 0
-  m_sprintSpeed: 0
-  m_interactRange: 0
-  m_combatDelay: 5
-  m_fire0:
-    press: 0
-    hold: 0
-    release: 0
-  m_fire1:
-    press: 0
-    hold: 0
-    release: 0
   m_inCombat: 0
-  m_regenTimer: 0
-  m_moveInput: {x: 0, y: 0}
-  m_sprintInput: 0
-  m_lookInput: {x: 0, y: 0}
-  m_selectInput: -1
-  m_scrollInput: 0
-  m_jumpInput: 0
+  m_combatDelay: 5
+  m_combatTimer: 0
   m_canvas: {fileID: 223778432147232084}
   m_health: {fileID: 114380156431028412}
 --- !u!136 &136088226026113662
@@ -784,27 +765,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!195 &195486938453381876
-NavMeshAgent:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1108763565594600}
-  m_Enabled: 0
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 1
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!222 &222121177915079938
 CanvasRenderer:
   m_ObjectHideFlags: 1

@@ -118,43 +118,8 @@ namespace FPS
 
         /*  Core
         * * * * * * * * * * * * * * * * */
-        private void Update()
+        private void FixedUpdate()
         {
-            if (!wall || !door || !frame) // hand holding
-            {
-                Transform temp;
-
-                if (!wall && (temp = transform.Find("Wall")))
-                {
-                    wall = temp.gameObject;
-                }
-                else
-                {
-                    Debug.LogError("Wall Object Not Found", this);
-                    return;
-                }
-
-                if (!door && (temp = transform.Find("Door")))
-                {
-                    door = temp.gameObject;
-                }
-                else
-                {
-                    Debug.LogError("Door Object Not Found", this);
-                    return;
-                }
-
-                if (!frame && (temp = transform.Find("Frame")))
-                {
-                    frame = temp.gameObject;
-                }
-                else
-                {
-                    Debug.LogError("Frame Object Not Found", this);
-                    return;
-                }
-            }
-
             if (Application.isPlaying)
             {
                 isDoor = (targetWall != null);
