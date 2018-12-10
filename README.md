@@ -5,6 +5,7 @@ First Person Shooter Framework in Unity
 Press 'Escape' in game for settings and a list of controls.
 
 Ideas, Goals, & Intentions:
+
 		- Design and implement a robust combat system.
 		- Ideally, it should be easily exportable into new, non-FPS projects.
 	
