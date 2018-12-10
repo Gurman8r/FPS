@@ -1,53 +1,64 @@
 # FPS
 
-Combat System Framework in Unity	
+Working on an combat/interaction system in Unity.
+I need better names for some things.
 
 ---------------------------------
-Main Types
+Unit
 ---------------------------------
+Anything that can take damage or could conceivably require a healthbar
+- Players
+- Enemies
+- Explosives
+- Vehicles
 
-- Unit (Any object that can take damage or could conceivably require a healthbar)
-	- Players
-	- Enemies
-	- Explosives
-	- Vehicles
-- Object (An object that can interact with Units (needs a better name))
-	- Bullets
-	- Blades
-	- Lasers
-	- Explosions
-	- Kill Zones 
-- Item (An object that can be used/held/owned by a Unit)
-	- Consumables
-	- Weapons
-	- Spells
-	- Tools
-	- Abilities
-	
+---------------------------------
+Object
+---------------------------------
+Anything that can interact with Units
+- Bullets
+- Blades
+- Lasers
+- Explosions
+
+---------------------------------
+Item
+---------------------------------
+Anything that can be used/held/owned by a Unit
+- Consumables
+- Weapons
+- Spells
+- Tools
+- Abilities
+
 ---------------------------------
 Unit Behaviours
 ---------------------------------
 
+Units just hold data, they depend on the following behaviour scripts to _do something_ with the data.
+
 - UnitTriggers
 	- Basically an event system for each unit
 - UnitInventory
-	- Manages units' held/stored items 
+	- Manages a unit's item usage
 - UnitMotor
-	- Controls physics & movement
+	- Controls an unit's physics & movement
 - UnitVision
-	- Tracks where units are looking and what they can see
+	- Tracks and updates where a unit is looking and what it can see.
 
 ---------------------------------
 Unit Controllers
 ---------------------------------
 
+Unit controllers are unit behaviours which supply inputs to the aforementioned behaviours
+
 - BaseUnitController
-	- StaticUnit - Unit which DOES NOT move or require navigation 
-		- BasicUnit - Unit which just sits there
-	- DynamicUnit - Unit which DOES move or require navigation 
-		- HumanoidUnit - Unit able to use Items
-			- PlayerUnit - Humanoid controlled by a Player
-			- RobotUnit - Humanoid controlled by an AI
-				- DummyUnit - Unit used for training/practice
+	- StaticUnit (DOES NOT require NavMeshAgent)
+		- BasicUnit
+	- DynamicUnit (DOES require NavMeshAgent)
+		- HumanoidUnit (Able to use Items)
+			- PlayerUnit (Controlled by a Player)
+			- RobotUnit (Controlled by an AI)
+				- DummyUnit
 
 ---------------------------------
