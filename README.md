@@ -6,18 +6,18 @@ Combat System Framework in Unity
 Main Types
 ---------------------------------
 
-- Unit - Any object that could conceivably have a healthbar or take damage
+- Unit (Any object that can take damage or could conceivably require a healthbar)
 	- Players
 	- Enemies
 	- Explosives
 	- Vehicles
-- Object - An object that can interact with Units
+- Object (An object that can interact with Units (needs a better name))
 	- Bullets
 	- Blades
 	- Lasers
 	- Explosions
 	- Kill Zones 
-- Item - An object that can be 'owned' by a Unit
+- Item (An object that can be owned/used by a Unit)
 	- Consumables
 	- Weapons
 	- Spells
