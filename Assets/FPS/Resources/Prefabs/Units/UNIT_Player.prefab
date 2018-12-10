@@ -4508,9 +4508,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feb8254713784ce49aae625a99e5ba9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_id: 0
   m_health:
     m_current: 100
-    m_minimim: 1
+    m_minimum: 1
     m_maximum: 100
     m_isDead: 0
 --- !u!114 &114156571578833522

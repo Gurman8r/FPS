@@ -5,12 +5,12 @@ using UnityEngine;
 
 namespace FPS
 {
-    [CustomEditor(typeof(UnitSystem))]
-    public class UnitSystemEditor : Editor
+    [CustomEditor(typeof(UnitManager))]
+    public class UnitManagerEditor : Editor
     {
-        new UnitSystem target
+        new UnitManager target
         {
-            get { return base.target as UnitSystem; }
+            get { return base.target as UnitManager; }
         }
 
         /* Functions

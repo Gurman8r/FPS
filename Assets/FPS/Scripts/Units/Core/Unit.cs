@@ -20,6 +20,7 @@ namespace FPS
         private UnitInventory   m_inventory;
         private UnitVision      m_vision;
 
+        [SerializeField] int    m_id;
         [SerializeField] Health m_health;
 
 
@@ -73,6 +74,12 @@ namespace FPS
             }
         }
 
+        public int id
+        {
+            get { return m_id; }
+            set { m_id = value; }
+        }
+
         public Health health
         {
             get { return m_health; }
@@ -86,14 +93,11 @@ namespace FPS
         {
             if(Application.isPlaying)
             {
-                if (gameObject.tag != Tag) gameObject.tag = Tag;
-
-                triggers.OnSpawn(new UnitEvent(this)
-                {
-                });
+                triggers.OnSpawn(new UnitEvent(this){});
             }
         }
         
+
         /* Functions
         * * * * * * * * * * * * * * * */
         public void DestroySelf()

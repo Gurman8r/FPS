@@ -115,6 +115,7 @@ namespace FPS
                         active = false;
                     }
                 }
+
                 if (active)
                     menu.AddItem(m_EventTypes[i], false, OnAddNewSelected, i);
                 else

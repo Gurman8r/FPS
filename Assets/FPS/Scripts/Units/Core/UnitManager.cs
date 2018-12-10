@@ -5,7 +5,7 @@ using UnityEngine;
 namespace FPS
 {
     [DisallowMultipleComponent]
-    public class UnitSystem : MonoBehaviour
+    public class UnitManager : MonoBehaviour
     {
 
         /* Variables
@@ -15,7 +15,7 @@ namespace FPS
 
         /* Properties
         * * * * * * * * * * * * * * * */
-        public static UnitSystem instance
+        public static UnitManager instance
         {
             get; set;
         }
@@ -58,8 +58,9 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         public bool Register(Unit value)
         {
-            if(!units.Contains(value))
+            if(value && !units.Contains(value))
             {
+                value.id = units.Count;
                 units.Add(value);
                 return true;
             }
@@ -68,13 +69,14 @@ namespace FPS
 
         public bool Unregister(Unit value)
         {
-            if(units.Contains(value))
+            if(value && units.Contains(value))
             {
-                units.Remove(value);
+                units.RemoveAt(value.id);
                 return true;
             }
             return false;
         }
+
     }
 
 }

@@ -11,10 +11,11 @@ namespace FPS
         * * * * * * * * * * * * * * * */
         public static void OnSpawn(UnitEvent ev)
         {
-            if(ev.source)
+            if (ev.source)
             {
+                UnitManager.instance?.Register(ev.source);
                 ev.source.health.SetDead(false);
-                ev.source.health.Set(ev.source.health.maximum);
+                ev.source.health.SetCurrent(ev.source.health.maximum);
             }
         }
 
@@ -22,6 +23,7 @@ namespace FPS
         {
             if (ev.source && !ev.source.health.isDead)
             {
+                UnitManager.instance?.Unregister(ev.source);
                 ev.source.health.SetDead(true);
             }
         }
@@ -29,17 +31,14 @@ namespace FPS
 
         public static void OnDoDamage(DamageEvent ev)
         {
-            if(ev.source)
-            {
-
-            }
+            if (ev.source) { }
         }
 
         public static void OnReceiveDamage(DamageEvent ev)
         {
             if (ev.target)
             {
-                ev.target.health.Modify(ev.damage);
+                ev.target.health.ApplyDamage(ev.damage);
 
                 if (ev.source)
                 {
@@ -56,7 +55,7 @@ namespace FPS
 
         public static void OnDoHealing(HealingEvent ev)
         {
-            if(ev.target)
+            if (ev.target)
             {
                 ev.target.triggers.OnReceiveHealing(ev);
             }
@@ -64,9 +63,9 @@ namespace FPS
 
         public static void OnReceiveHealing(HealingEvent ev)
         {
-            if(ev.target)
+            if (ev.target)
             {
-                ev.target.health.Modify(ev.healing);
+                ev.target.health.ApplyHealing(ev.healing);
             }
         }
     }

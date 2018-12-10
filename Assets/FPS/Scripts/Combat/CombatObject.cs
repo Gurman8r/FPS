@@ -206,10 +206,7 @@ namespace FPS
 
         protected virtual void OnHit(Unit other)
         {
-            if (other)
-            {
-                other.triggers.OnReceiveDamage(new DamageEvent(owner, other, m_damage));
-            }
+            other?.triggers.OnReceiveDamage(new DamageEvent(owner, other, m_damage));
         }
 
 

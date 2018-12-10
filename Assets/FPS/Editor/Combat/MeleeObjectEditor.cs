@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace FPS
 {
-    [CustomEditor(typeof(MeleeObject))]
+    [CustomEditor(typeof(MeleeObject), true)]
     [CanEditMultipleObjects]
     public class MeleeObjectEditor : Editor
     {

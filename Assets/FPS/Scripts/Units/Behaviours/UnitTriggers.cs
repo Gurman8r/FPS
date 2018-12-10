@@ -37,7 +37,7 @@ namespace FPS
         public List<Entry> delegates;
 
 
-        /* Core
+        /* Functions
         * * * * * * * * * * * * * * * */
         private void Execute(UnitEventType id, UnitEvent ev)
         {
@@ -56,7 +56,7 @@ namespace FPS
         }
 
 
-        /* Functions
+        /* Triggers
         * * * * * * * * * * * * * * * */
         public virtual void OnSpawn(UnitEvent ev)
         {

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace FPS
 {
-    [CustomEditor(typeof(BulletObject))]
+    [CustomEditor(typeof(BulletObject), true)]
     [CanEditMultipleObjects]
     public class BulletObjectEditor : CombatObjectEditor
     {
