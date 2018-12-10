@@ -17,7 +17,7 @@ Main Types
 	- Lasers
 	- Explosions
 	- Kill Zones 
-- Item (An object that can be owned/used by a Unit)
+- Item (An object that can be used/held/owned by a Unit)
 	- Consumables
 	- Weapons
 	- Spells
