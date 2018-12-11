@@ -27,34 +27,20 @@ namespace FPS
         {
             serializedObject.Update();
 
-            // Info
             EditorGUILayout.BeginVertical(GUI.skin.box);
             {
-                EditorGUILayout.LabelField(
-                    new GUIContent(
-                        string.Format("ID: {0}", (target.id)),
-                        "The ID of this Unit"),
-                    EditorStyles.boldLabel);
-            }
-            EditorGUILayout.EndVertical();
-
-            // Behaviours
-            EditorGUILayout.BeginVertical(GUI.skin.box);
-            {
-                EditorGUILayout.LabelField("Behaviours", EditorStyles.boldLabel);
-                BehaviourToggle("Triggers", target.triggers);
+                EditorGUILayout.LabelField("Behaviour", EditorStyles.boldLabel);
+                BehaviourToggle("Combat", target.inventory);
                 BehaviourToggle("Motor", target.motor);
                 BehaviourToggle("Inventory", target.inventory);
+                BehaviourToggle("Triggers", target.triggers);
                 BehaviourToggle("Vision", target.vision);
             }
             EditorGUILayout.EndVertical();
 
-            // Health
-            HealthEditor(target.health);
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("m_health"));
             
             serializedObject.ApplyModifiedProperties();
-
-            //base.OnInspectorGUI();
         }
 
         private void BehaviourToggle<T>(string label, T scr, float maxWidth = 64f) where T : MonoBehaviour
@@ -73,59 +59,6 @@ namespace FPS
                     "Button");
             }
             EditorGUILayout.EndHorizontal();
-        }
-
-        private void HealthEditor(Health value)
-        {
-            EditorGUILayout.BeginVertical(GUI.skin.box);
-            {
-                EditorGUILayout.LabelField("Health", EditorStyles.boldLabel);
-                EditorGUI.ProgressBar(
-                    EditorGUILayout.GetControlRect(),
-                    value.fillAmount,
-                    string.Format("({0}/{1})",
-                    value.current,
-                    value.maximum));
-
-                EditorGUILayout.BeginVertical();
-                {
-                    EditorGUILayout.BeginHorizontal();
-                    {
-                        EditorGUILayout.LabelField("Min/Max", GUILayout.MaxWidth(64));
-
-                        EditorGUI.BeginChangeCheck();
-                        float min = EditorGUILayout.FloatField(value.minimum);
-                        if (EditorGUI.EndChangeCheck())
-                        {
-                            Undo.RecordObject(base.target, "Changed Target Minimum Health ");
-                            value.SetMinMax(min, value.maximum);
-                        }
-
-                        EditorGUI.BeginChangeCheck();
-                        float max = EditorGUILayout.FloatField(value.maximum);
-                        if (EditorGUI.EndChangeCheck())
-                        {
-                            Undo.RecordObject(base.target, "Changed Target Maximum Health ");
-                            value.SetMinMax(value.minimum, max);
-                        }
-                    }
-                    EditorGUILayout.EndHorizontal();
-
-                    EditorGUI.BeginChangeCheck();
-                    float cur = EditorGUILayout.Slider(
-                        new GUIContent("Current"),
-                        value.current,
-                        value.minimum,
-                        value.maximum);
-                    if (EditorGUI.EndChangeCheck())
-                    {
-                        Undo.RecordObject(base.target, "Changed Target Current Health ");
-                        value.SetCurrent(cur);
-                    }
-                }
-                EditorGUILayout.EndVertical();
-            }
-            EditorGUILayout.EndVertical();
         }
     }
 

@@ -7,31 +7,40 @@ namespace FPS
     [RequireComponent(typeof(Unit))]
     public abstract class UnitBehaviour : MonoBehaviour
     {
-
         /* Variables
         * * * * * * * * * * * * * * * */
-        private Unit m_unit;
+        private Unit m_self;
 
         /* Properties
         * * * * * * * * * * * * * * * */
-        public Unit unit
+        public Unit self
         {
             get
             {
-                if(!m_unit)
+                if(!m_self)
                 {
-                    m_unit = GetComponent<Unit>();
+                    m_self = GetComponent<Unit>();
                 }
-                return m_unit;
+                return m_self;
             }
         }
 
-
         /* Core
         * * * * * * * * * * * * * * * */
+        protected virtual void Awake() { }
+
+        protected virtual void OnEnable() { }
+        
+        protected virtual void OnDisable() { }
+
         protected virtual void Start() { }
 
+        protected virtual void OnDestroy() { }
+
         protected virtual void Update() { }
+
+        protected virtual void FixedUpdate() { }
+
     }
 
 }

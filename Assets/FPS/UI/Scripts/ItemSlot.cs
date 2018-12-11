@@ -54,7 +54,7 @@ namespace FPS
             if(item)
             {
                 m_item = item;
-                m_sprite = m_item.info.sprite;
+                m_sprite = m_item.UID.sprite;
             }
             else
             {

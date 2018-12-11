@@ -6,45 +6,36 @@ namespace FPS
 {
     [RequireComponent(typeof(UnitTriggers))]
     [RequireComponent(typeof(UnitMotor))]
+    [RequireComponent(typeof(UnitCombat))]
     [RequireComponent(typeof(UnitInventory))]
     [RequireComponent(typeof(UnitVision))]
     [DisallowMultipleComponent]
     public sealed class Unit : MonoBehaviour
     {
+        public const string Tag = "Unit";
+
         /* Variables
         * * * * * * * * * * * * * * * */
         private UnitTriggers    m_triggers;
         private UnitMotor       m_motor;
+        private UnitCombat      m_combat;
         private UnitInventory   m_inventory;
         private UnitVision      m_vision;
 
-        [SerializeField] int    m_id;
         [SerializeField] Health m_health;
 
 
         /* Properties
         * * * * * * * * * * * * * * * */
-        public UnitTriggers triggers
+        public UnitCombat combat
         {
             get
             {
-                if(!m_triggers)
+                if(!m_combat)
                 {
-                    m_triggers = GetComponent<UnitTriggers>();
+                    m_combat = GetComponent<UnitCombat>();
                 }
-                return m_triggers;
-            }
-        }
-
-        public UnitInventory inventory
-        {
-            get
-            {
-                if (!m_inventory)
-                {
-                    m_inventory = GetComponent<UnitInventory>();
-                }
-                return m_inventory;
+                return m_combat;
             }
         }
 
@@ -60,6 +51,30 @@ namespace FPS
             }
         }
 
+        public UnitInventory inventory
+        {
+            get
+            {
+                if (!m_inventory)
+                {
+                    m_inventory = GetComponent<UnitInventory>();
+                }
+                return m_inventory;
+            }
+        }
+
+        public UnitTriggers triggers
+        {
+            get
+            {
+                if(!m_triggers)
+                {
+                    m_triggers = GetComponent<UnitTriggers>();
+                }
+                return m_triggers;
+            }
+        }
+
         public UnitVision vision
         {
             get
@@ -70,12 +85,6 @@ namespace FPS
                 }
                 return m_vision;
             }
-        }
-
-        public int id
-        {
-            get { return m_id; }
-            set { m_id = value; }
         }
 
         public Health health
@@ -91,7 +100,7 @@ namespace FPS
         {
             if(Application.isPlaying)
             {
-                triggers.OnSpawn(new UnitEvent(this){});
+                triggers.OnSpawn(new SpawnEvent(this) { });
             }
         }
         
@@ -106,9 +115,9 @@ namespace FPS
             }
         }
 
-        public CombatObject CreateObject(CombatObject prefab)
+        public BaseEntity CreateObject(BaseEntity prefab)
         {
-            CombatObject obj = null;
+            BaseEntity obj = null;
             if (prefab && (obj = Instantiate(prefab, null, true)))
             {
                 obj.owner = this;
@@ -116,9 +125,9 @@ namespace FPS
             return obj;
         }
 
-        public CombatObject CreateAndSpawnObject(CombatObject prefab)
+        public BaseEntity CreateAndSpawnObject(BaseEntity prefab)
         {
-            CombatObject obj = null;
+            BaseEntity obj = null;
             if (prefab && (obj = Instantiate(prefab, null, true)))
             {
                 obj.gameObject.SetActive(true);
@@ -128,9 +137,9 @@ namespace FPS
             return obj;
         }
 
-        public void SpawnAtSelf(CombatObject prefab)
+        public void SpawnAtSelf(BaseEntity prefab)
         {
-            CombatObject obj;
+            BaseEntity obj;
             if (prefab && (obj = Instantiate(prefab, null, true)))
             {
                 obj.transform.position = transform.position;

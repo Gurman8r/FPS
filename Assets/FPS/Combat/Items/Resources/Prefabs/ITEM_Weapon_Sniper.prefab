@@ -793,13 +793,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b24537f7cfaf8b942b0521e2151d6bc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_UID:
+    m_ID: ITEM_Weapon_Sniper
+    m_name: Sniper
+    m_sprite: {fileID: 21300000, guid: 569eb8c93754c6943bb2d6e7dd05f252, type: 3}
+    m_description: 
   m_model: {fileID: 4264203998229590}
   m_holdRoot: {fileID: 4769695784928372}
-  m_itemInfo:
-    name: Sniper
-    desc: New Item Description
-    color: {r: 1, g: 1, b: 1, a: 1}
-    sprite: {fileID: 21300000, guid: 569eb8c93754c6943bb2d6e7dd05f252, type: 3}
   m_interactable: 1
   m_useMode: 0
   m_useDelay: 1

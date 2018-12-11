@@ -66,21 +66,6 @@ namespace FPS
             current = Mathf.Clamp(value, minimum, maximum);
         }
 
-        public void SetMinMax(float min, float max)
-        {
-            if (min >= 0f)
-            {
-                minimum = min;
-            }
-
-            if (max > min)
-            {
-                maximum = max;
-            }
-
-            SetCurrent(current); // clamp current value just in case
-        }
-
         public void Modify(float value)
         {
             SetCurrent(current + value);

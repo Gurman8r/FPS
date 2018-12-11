@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 // Basically per-unit event system
 // Based on UnityEngine.EventSystems.EventTrigger
-// https://github.com/tenpn/unity3d-ui/blob/master/UnityEngine.UI/EventSystem/EventTrigger.cs
+// https://github.com/Pinkuburu/Unity-Technologies-ui/blob/master/UnityEngine.UI/EventSystem/EventTrigger.cs
 
 namespace FPS
 {
@@ -20,13 +20,13 @@ namespace FPS
         /* DS
         * * * * * * * * * * * * * * * */
         [Serializable]
-        public class TriggerEvent : UnityEvent<UnitEvent> { }
+        public class TriggerEvent : UnityEvent<UnitEventData> { }
 
         [Serializable]
         public class Entry
         {
-            public CombatEventType  eventID;
-            public TriggerEvent     callback;
+            public TriggerType  eventID;
+            public TriggerEvent callback;
         }
 
 
@@ -37,7 +37,7 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        private void Execute(CombatEventType id, UnitEvent ev)
+        private void Execute(TriggerType id, UnitEventData ev)
         {
             if (delegates != null)
             {
@@ -56,40 +56,40 @@ namespace FPS
 
         /* Triggers
         * * * * * * * * * * * * * * * */
-        public virtual void OnSpawn(UnitEvent ev)
+        public virtual void OnSpawn(SpawnEvent ev)
         {
-            Execute(CombatEventType.OnSpawn, ev);
-            UnitExecutes.OnSpawn(ev);
+            Execute(TriggerType.OnSpawn, ev);
+            CombatExecutes.OnSpawn(ev);
         }
 
-        public virtual void OnDeath(UnitEvent ev)
+        public virtual void OnDeath(DeathEventData ev)
         {
-            Execute(CombatEventType.OnDeath, ev);
-            UnitExecutes.OnDeath(ev);
+            Execute(TriggerType.OnDeath, ev);
+            CombatExecutes.OnDeath(ev);
         }
 
-        public virtual void OnReceiveDamage(DamageEvent ev)
+        public virtual void OnReceiveDamage(DamageEventData ev)
         {
-            Execute(CombatEventType.OnReceiveDamage, ev);
-            UnitExecutes.OnReceiveDamage(ev);
+            Execute(TriggerType.OnReceiveDamage, ev);
+            CombatExecutes.OnReceiveDamage(ev);
         }
 
-        public virtual void OnDoDamage(DamageEvent ev)
+        public virtual void OnDoDamage(DamageEventData ev)
         {
-            Execute(CombatEventType.OnDoDamage, ev);
-            UnitExecutes.OnDoDamage(ev);
+            Execute(TriggerType.OnDoDamage, ev);
+            CombatExecutes.OnDoDamage(ev);
         }
 
-        public virtual void OnReceiveHealing(HealingEvent ev)
+        public virtual void OnReceiveHealing(HealingEventData ev)
         {
-            Execute(CombatEventType.OnReceiveHealing, ev);
-            UnitExecutes.OnReceiveHealing(ev);
+            Execute(TriggerType.OnReceiveHealing, ev);
+            CombatExecutes.OnReceiveHealing(ev);
         }
 
-        public virtual void OnDoHealing(HealingEvent ev)
+        public virtual void OnDoHealing(HealingEventData ev)
         {
-            Execute(CombatEventType.OnDoHealing, ev);
-            UnitExecutes.OnDoHealing(ev);
+            Execute(TriggerType.OnDoHealing, ev);
+            CombatExecutes.OnDoHealing(ev);
         }
     }
 

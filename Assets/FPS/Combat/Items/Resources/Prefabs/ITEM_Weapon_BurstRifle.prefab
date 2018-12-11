@@ -574,13 +574,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 814744a65617b1a40b158a5a8f5cd7a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_UID:
+    m_ID: ITEM_Weapon_BurstRifle
+    m_name: Burst Rifle
+    m_sprite: {fileID: 21300000, guid: ef59f89fbe8c3cc4f95301394b329fcc, type: 3}
+    m_description: 
   m_model: {fileID: 4939475243309142}
   m_holdRoot: {fileID: 4586376381250892}
-  m_itemInfo:
-    name: Burst Rifle
-    desc: New Item Description
-    color: {r: 1, g: 1, b: 1, a: 1}
-    sprite: {fileID: 21300000, guid: ef59f89fbe8c3cc4f95301394b329fcc, type: 3}
   m_interactable: 1
   m_useMode: 1
   m_useDelay: 1.25

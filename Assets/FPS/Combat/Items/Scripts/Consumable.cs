@@ -36,7 +36,7 @@ namespace FPS
                     if (!resourceAvailable && m_removeOnEmpty)
                     {
                         interactable = false;
-                        owner.inventory.Drop(owner.inventory.hand);
+                        owner.inventory.Drop(owner.combat.right);
                         Destroy(gameObject, m_destroyDelay);
                     }
                 }
@@ -46,7 +46,7 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public override void HandleInputPrimary(ItemInput input)
+        public override void HandleInputPrimary(ButtonState input)
         {
             switch(useMode)
             {
@@ -71,13 +71,13 @@ namespace FPS
             }
         }
 
-        public override void HandleInputSecondary(ItemInput input)
+        public override void HandleInputSecondary(ButtonState input)
         {
         }
 
         private void DoHealing()
         {
-            owner.triggers.OnDoHealing(new HealingEvent(owner, owner, m_healing));
+            owner.triggers.OnDoHealing(new HealingEventData(owner, owner, m_healing));
         }
     }
 

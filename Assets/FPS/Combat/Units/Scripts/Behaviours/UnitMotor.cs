@@ -85,8 +85,10 @@ namespace FPS
 
         /* Core
         * * * * * * * * * * * * * * * */
-        private void FixedUpdate()
+        protected override void FixedUpdate()
         {
+            base.FixedUpdate();
+
             rigidbody.useGravity = false;
 
             if (Application.isPlaying)

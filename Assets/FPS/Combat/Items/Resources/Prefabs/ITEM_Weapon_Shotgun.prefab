@@ -501,13 +501,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 814744a65617b1a40b158a5a8f5cd7a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_UID:
+    m_ID: ITEM_Weapon_Shotgun
+    m_name: Shotgun
+    m_sprite: {fileID: 21300000, guid: 90d95a10fbbf3b14490cfd7a2c5a80cc, type: 3}
+    m_description: 
   m_model: {fileID: 4866301739842508}
   m_holdRoot: {fileID: 4111251939861592}
-  m_itemInfo:
-    name: Shotgun
-    desc: New Item Description
-    color: {r: 1, g: 1, b: 1, a: 1}
-    sprite: {fileID: 21300000, guid: 90d95a10fbbf3b14490cfd7a2c5a80cc, type: 3}
   m_interactable: 1
   m_useMode: 0
   m_useDelay: 1

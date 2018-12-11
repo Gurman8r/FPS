@@ -96,7 +96,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4854627461556968}
   m_Layer: 10
-  m_Name: '[ BAG ]'
+  m_Name: '[ ITEMS ] '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -420,10 +420,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5541dd0bbbf0ef40adebe527508bfcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_bagRoot: {fileID: 4854627461556968}
   m_hand:
     transform: {fileID: 0}
     item: {fileID: 0}
+  m_itemRoot: {fileID: 4854627461556968}
   m_capacity: 10
   m_index: 0
   m_items: []

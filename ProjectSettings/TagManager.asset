@@ -10,6 +10,7 @@ TagManager:
   - Level
   - Wall
   - Door
+  - Magic
   layers:
   - Default
   - TransparentFX
@@ -23,8 +24,8 @@ TagManager:
   - Level
   - Unit
   - Item
-  - Combat
-  - 
+  - Entity
+  - Magic
   - 
   - 
   - 

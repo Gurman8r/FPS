@@ -1,0 +1,21 @@
+Systems
+	Entity
+		Ballistic
+		Explosion
+		Beam
+		Melee
+	Effect
+		Damage
+		Healing
+	Source
+		Spell
+			Item
+				Consumable
+				Weapon
+					Melee
+						Sword
+						Shield
+					Ranged
+						Ballistic
+						Beam
+

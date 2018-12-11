@@ -501,13 +501,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 814744a65617b1a40b158a5a8f5cd7a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_UID:
+    m_ID: ITEM_Weapon_Flamethrower
+    m_name: Flamethrower
+    m_sprite: {fileID: 21300000, guid: ba82c9518dcd74c4fa4407d3c41efb0d, type: 3}
+    m_description: 
   m_model: {fileID: 4071781051813302}
   m_holdRoot: {fileID: 4330804319998020}
-  m_itemInfo:
-    name: Flamethrower
-    desc: New Item Description
-    color: {r: 1, g: 1, b: 1, a: 1}
-    sprite: {fileID: 21300000, guid: ba82c9518dcd74c4fa4407d3c41efb0d, type: 3}
   m_interactable: 1
   m_useMode: 1
   m_useDelay: 0.05

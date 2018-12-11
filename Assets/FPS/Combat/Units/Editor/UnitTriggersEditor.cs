@@ -6,12 +6,11 @@ using System;
 
 // Editor for FPS.UnitTriggers
 // Based on UnityEditor.EventSystems.EventTriggerEditor
-// https://github.com/tenpn/unity3d-ui/blob/master/UnityEditor.UI/EventSystem/EventTriggerEditor.cs
+// https://github.com/Pinkuburu/Unity-Technologies-ui/blob/master/UnityEditor.UI/EventSystem/EventTriggerEditor.cs
 
 namespace FPS
 {
     [CustomEditor(typeof(UnitTriggers), true)]
-    [CanEditMultipleObjects]
     public class UnitTriggersEditor : Editor
     {
         new UnitTriggers target
@@ -39,7 +38,7 @@ namespace FPS
             m_IconToolbarMinus = new GUIContent(EditorGUIUtility.IconContent("Toolbar Minus"));
             m_IconToolbarMinus.tooltip = "Remove all events in this list.";
 
-            string[] eventNames = Enum.GetNames(typeof(CombatEventType));
+            string[] eventNames = Enum.GetNames(typeof(TriggerType));
             m_EventTypes = new GUIContent[eventNames.Length];
             for (int i = 0; i < eventNames.Length; ++i)
             {

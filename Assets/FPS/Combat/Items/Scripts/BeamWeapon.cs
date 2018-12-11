@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace FPS
 {
-    public class BeamWeapon : RangedWeapon
+    public class BeamWeapon : BaseRangedWeapon
     {
         /* Variables
         * * * * * * * * * * * * * * * */
         [Header("Beam Weapon Settings")]
-        [SerializeField] BeamObject m_beamPrefab;
+        [SerializeField] BeamEntity m_beamPrefab;
         [SerializeField] float      m_beamWidth     = 0.1f;
         [SerializeField] float      m_beamRange     = 100f;
         [Range(0f, 2f)]
@@ -18,7 +18,7 @@ namespace FPS
 
         /* Properties
         * * * * * * * * * * * * * * * */
-        public BeamObject beamPrefab
+        public BeamEntity beamPrefab
         {
             get { return m_beamPrefab; }
             set { m_beamPrefab = value; }
@@ -33,7 +33,7 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public override void HandleInputPrimary(ItemInput input)
+        public override void HandleInputPrimary(ButtonState input)
         {   
             switch (useMode)
             {
@@ -50,7 +50,7 @@ namespace FPS
             }
         }
 
-        public override void HandleInputSecondary(ItemInput input)
+        public override void HandleInputSecondary(ButtonState input)
         {
             if(allowAiming)
                 animator.SetBool("AimDownSights", !onCooldown && input.hold);
@@ -59,7 +59,7 @@ namespace FPS
 
         protected override IEnumerator ShootCoroutine()
         {
-            BeamObject obj;
+            BeamEntity obj;
             if(obj = SpawnLaser(beamPrefab))
             {
                 obj.Spawn();
@@ -72,10 +72,10 @@ namespace FPS
             yield return new WaitForSeconds(useDelay);
         }
         
-        private BeamObject SpawnLaser(BeamObject prefab)
+        private BeamEntity SpawnLaser(BeamEntity prefab)
         {
-            BeamObject obj;
-            if (obj = owner.CreateAndSpawnObject(prefab) as BeamObject)
+            BeamEntity obj;
+            if (obj = owner.CreateAndSpawnObject(prefab) as BeamEntity)
             {
                 obj.owner = owner;
                 obj.damage = damage;

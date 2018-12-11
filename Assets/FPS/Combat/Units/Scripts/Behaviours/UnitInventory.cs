@@ -7,38 +7,22 @@ namespace FPS
 {
     public class UnitInventory : UnitBehaviour
     {
-        [Serializable]
-        public class Hand
-        {
-            public Transform transform;
-            public Item item;
-
-            public static implicit operator bool(Hand value)
-            {
-                return !object.ReferenceEquals(value, null);
-            }
-        }
-
         /* Variables
         * * * * * * * * * * * * * * * */
-        [SerializeField] Transform  m_bagRoot;
-        [SerializeField] Hand       m_hand;
-        [SerializeField] int        m_capacity = 10;
+        [Header("Settings")]
+        [SerializeField] Transform      m_itemRoot;
+        [SerializeField] int            m_capacity = 10;
+
+        [Header("Runtime")]
         [SerializeField] int        m_index = 0;
-        [Space]
         [SerializeField] List<Item> m_items;
 
 
         /* Properties
         * * * * * * * * * * * * * * * */
-        public Transform bagRoot
+        public Transform itemRoot
         {
-            get { return m_bagRoot; }
-        }
-
-        public Hand hand
-        {
-            get { return m_hand; }
+            get { return m_itemRoot; }
         }
 
         public int capacity
@@ -113,7 +97,7 @@ namespace FPS
         }
 
 
-        public bool Drop(Hand hand)
+        public bool Drop(CastingSource hand)
         {
             Item item;
             if((item = hand.item) && item.SetOwner(null))
@@ -125,7 +109,7 @@ namespace FPS
                 item.SetRoot(null, true);
                 item.EnablePhysics(true);
                 item.EnableAnimator(false);
-                item.transform.position = unit.vision.origin + unit.vision.direction;
+                item.transform.position = self.vision.origin + self.vision.direction;
                 return true;
             }
             return false;
@@ -133,9 +117,9 @@ namespace FPS
 
         public void Drop(Item item) { }
 
-        public bool Equip(Hand hand, Item item)
+        public bool Equip(CastingSource hand, Item item)
         {
-            if (HasRoom() && item && item.SetOwner(unit))
+            if (HasRoom() && item && item.SetOwner(self))
             {
                 if (CanAdd(item)) AddToBag(item);
 
@@ -150,12 +134,12 @@ namespace FPS
             return false;
         }
 
-        public bool Equip(Hand hand)
+        public bool Equip(CastingSource hand)
         {
             return Equip(hand, hand.item);
         }
 
-        public bool Equip(Hand hand, int index)
+        public bool Equip(CastingSource hand, int index)
         {
             Item item;
             if(GetFromBag(index, out item))
@@ -174,7 +158,7 @@ namespace FPS
             return false;
         }
         
-        public bool Store(Hand hand)
+        public bool Store(CastingSource hand)
         {
             Item item;
             if((item = hand.item))
@@ -195,7 +179,7 @@ namespace FPS
                 if (CanAdd(item)) AddToBag(item);
 
                 item.onStore.Invoke();
-                item.SetRoot(bagRoot, false);
+                item.SetRoot(itemRoot, false);
                 item.EnablePhysics(false);
                 item.EnableAnimator(false);
                 item.EnableGameObject(false);
