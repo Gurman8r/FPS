@@ -38,7 +38,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4683382357834884}
   - component: {fileID: 136166835485460932}
-  - component: {fileID: 136088226026113662}
   - component: {fileID: 54426538765086682}
   - component: {fileID: 95018452059776590}
   - component: {fileID: 82766623232739992}
@@ -46,6 +45,7 @@ GameObject:
   - component: {fileID: 114539830371490770}
   - component: {fileID: 114324937755155956}
   - component: {fileID: 114803888688749708}
+  - component: {fileID: 114183158948593948}
   - component: {fileID: 114081637109253158}
   - component: {fileID: 114981945768954510}
   m_Layer: 10
@@ -420,9 +420,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5541dd0bbbf0ef40adebe527508bfcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_hand:
-    transform: {fileID: 0}
-    item: {fileID: 0}
   m_itemRoot: {fileID: 4854627461556968}
   m_capacity: 10
   m_index: 0
@@ -438,7 +435,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feb8254713784ce49aae625a99e5ba9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_id: 0
   m_health:
     m_current: 20
     m_minimum: 0
@@ -465,6 +461,29 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 2048
+--- !u!114 &114183158948593948
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1108763565594600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75b76c6d6bc1277499713b6d0100a4af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_right:
+    transform: {fileID: 0}
+    item: {fileID: 0}
+  m_left:
+    transform: {fileID: 0}
+    item: {fileID: 0}
+  m_instant:
+    transform: {fileID: 0}
+    item: {fileID: 0}
+  m_outOfCombatDelay: 5
+  m_inCombat: 0
+  m_outOfCombatTimer: 0
 --- !u!114 &114259754875749918
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -637,7 +656,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114981945768954510}
+        - m_Target: {fileID: 114183158948593948}
           m_MethodName: set_inCombat
           m_Mode: 6
           m_Arguments:
@@ -660,7 +679,7 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 114380639095367262, guid: 9d773b10095b5514bbf6d28834b46cfb,
               type: 2}
-            m_ObjectArgumentAssemblyTypeName: FPS.CombatObject, Assembly-CSharp
+            m_ObjectArgumentAssemblyTypeName: FPS.BaseEntity, Assembly-CSharp
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -734,24 +753,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b978c5df76e5f1e4c87da7c8c5e28779, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_inCombat: 0
-  m_combatDelay: 5
-  m_combatTimer: 0
   m_canvas: {fileID: 223778432147232084}
   m_health: {fileID: 114380156431028412}
---- !u!136 &136088226026113662
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1108763565594600}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &136166835485460932
 CapsuleCollider:
   m_ObjectHideFlags: 1

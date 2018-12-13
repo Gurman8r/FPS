@@ -1,21 +1,41 @@
-Systems
-	Entity
-		Ballistic
-		Explosion
-		Beam
-		Melee
-	Effect
-		Damage
-		Healing
-	Source
-		Spell
-			Item
-				Consumable
-				Weapon
-					Melee
-						Sword
-						Shield
-					Ranged
-						Ballistic
-						Beam
 
+Entity
+	Projectile
+	Beam
+	Explosion
+	MeleeEntity
+
+Item
+	Consumable
+		BluPotion
+		RedPotion
+	Weapon
+		RangedWeapon
+			ProjectileWeapon
+				BurstRifle
+				Flamethrower
+				Launcher
+				Shotgun
+				SMG
+			BeamWeapon
+				Sniper
+		MeleeWeapon
+			Sword
+Magic
+	Spell
+	Enchantment
+	MagicEffect
+
+Unit
+	Controllers
+		UnitController
+			ActorController
+				PlayerController
+				DummyController
+			PropController
+	Behaviours
+		UnitTriggers
+		UnitMotor
+		UnitVision
+		UnitCombat
+		UnitInventory

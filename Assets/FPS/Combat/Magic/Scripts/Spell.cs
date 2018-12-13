@@ -5,8 +5,7 @@ using UnityEngine;
 
 namespace FPS
 {
-    // Spells are the most common means of using or applying Magic Effects.
-    // Spells include actual Spells, Powers, Perk effects, Diseases, and Poisons.
+    [DisallowMultipleComponent]
     [ExecuteInEditMode]
     public class Spell : MonoBehaviour
     {

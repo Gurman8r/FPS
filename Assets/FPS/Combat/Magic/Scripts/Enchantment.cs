@@ -5,8 +5,7 @@ using UnityEngine;
 
 namespace FPS
 {
-    // An Enchantment is a collection of one or more effects
-    // An Enchantment can be added to a weapon or piece of armor.
+    [DisallowMultipleComponent]
     [ExecuteInEditMode]
     public class Enchantment : MonoBehaviour
     {

@@ -49,14 +49,16 @@ namespace FPS
             {
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("m_UID"));
                 EditorGUILayout.BeginVertical(GUI.skin.box);
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("m_spellType"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("m_castingType"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("m_deliveryType"));
-                GUI.enabled = target.deliveryType == DeliveryType.Aimed;
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("m_range"));
-                GUI.enabled = target.castingType == CastingType.FireAndForget;
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("m_chargeTime"));
-                GUI.enabled = true;
+                {
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_spellType"));
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_castingType"));
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_deliveryType"));
+                    GUI.enabled = target.deliveryType == DeliveryType.Aimed;
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_range"));
+                    GUI.enabled = target.castingType == CastingType.FireAndForget;
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_chargeTime"));
+                    GUI.enabled = true;
+                }
                 EditorGUILayout.EndVertical();
 
                 EditorGUILayout.BeginVertical(GUI.skin.box);

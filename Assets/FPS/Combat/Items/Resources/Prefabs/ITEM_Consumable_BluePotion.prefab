@@ -426,8 +426,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UID:
-    m_ID: ITEM_Consumable_BluePotion
-    m_name: Blue Potion
+    m_ID: ITEM_Consumable_BluPotion
+    m_name: Blu Potion
     m_sprite: {fileID: 21300000, guid: 23be2aea5ebc8014b9a25be23a00beb3, type: 3}
     m_description: 
   m_model: {fileID: 4743251884577420}

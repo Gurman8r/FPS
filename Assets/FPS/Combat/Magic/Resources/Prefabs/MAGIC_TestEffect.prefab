@@ -56,7 +56,7 @@ MonoBehaviour:
     m_name: Test Magic Effect
     m_sprite: {fileID: 0}
     m_description: 
-  m_effectType: 0
+  m_effectType: 1
   m_castingType: 0
   m_deliveryType: 0
   m_taperCurve:

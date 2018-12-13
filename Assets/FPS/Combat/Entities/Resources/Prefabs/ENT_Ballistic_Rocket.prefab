@@ -259,7 +259,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
@@ -304,7 +304,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 114380639095367262, guid: 9d773b10095b5514bbf6d28834b46cfb,
             type: 2}
-          m_ObjectArgumentAssemblyTypeName: FPS.CombatObject, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: FPS.BaseEntity, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

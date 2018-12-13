@@ -295,14 +295,14 @@ namespace FPS
             }
         }
 
-        private bool CheckInteraction(RaycastHit hit)
+        private bool CheckInteraction(RaycastHit value)
         {
-            switch (hit.transform.tag)
+            switch (value.transform.tag)
             {
             case Item.Tag:
             {
                 Item item;
-                if ((item = hit.transform.GetComponent<Item>()) && item.interactable && !item.owner)
+                if ((item = value.transform.GetComponent<Item>()) && item.interactable && !item.owner)
                 {
                     hud.ShowActions(string.Format(
                         "[{0}] {1} {2}", 
@@ -332,7 +332,7 @@ namespace FPS
             case Wall.DoorTag:
             {
                 Wall wall;
-                if ((wall = hit.transform.parent.GetComponent<Wall>()) && wall.isDoor)
+                if ((wall = value.transform.parent.GetComponent<Wall>()) && wall.isDoor)
                 {
                     hud.ShowActions(string.Format(
                         "[{0}] {1}", 
@@ -352,10 +352,10 @@ namespace FPS
             return false;
         }
 
-        private void UpdateCastingSource(CastingSource hand)
+        private void UpdateCastingSource(CastingSource value)
         {
             Item item;
-            if (item = hand.item)
+            if (item = value.item)
             {
                 BaseRangedWeapon gun;
                 m_zoomLevel = (gun = item as BaseRangedWeapon) ? gun.zoomLevel : FP_Camera.MinZoom;
@@ -378,7 +378,7 @@ namespace FPS
 
                 if (m_input.GetButtonDoublePressDown("Drop"))
                 {
-                    if (self.inventory.Drop(hand))
+                    if (self.inventory.Drop(value))
                     {
                         hud.inventory.Show();
                         hud.textFeed.Print("-" + item.UID.name);
@@ -388,7 +388,7 @@ namespace FPS
                 }
                 else if(m_input.GetButtonLongPressDown("Drop"))
                 {
-                    if(self.inventory.Drop(hand))
+                    if(self.inventory.Drop(value))
                     {
                         hud.textFeed.Print("-" + item.UID.name);
                         self.inventory.index--;
@@ -407,7 +407,7 @@ namespace FPS
             camera.cursorLock = !isPaused;
             camera.lookSpeed = m_isAiming ? m_aimSpeed : 1f;
             camera.SetLookDelta(lookInput);
-            camera.zoomLevel = Mathf.Lerp(
+            camera.zoomLevel = Mathf.MoveTowards(
                 camera.zoomLevel,
                 m_zoomLevel,
                 Time.deltaTime * m_zoomSpeed);

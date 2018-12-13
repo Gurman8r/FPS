@@ -146,10 +146,24 @@ namespace FPS
             protected set { m_currentFieldOfView = value; }
         }
 
-        /* Core
-        * * * * * * * * * * * * * * * */
 
         /* Functions
         * * * * * * * * * * * * * * * */
+        public void SetLookDelta(Vector2 value)
+        {
+            lookDelta = new Vector2(
+                (value.x * lookSensitivity.x),
+                Mathf.Clamp(
+                    lookDelta.y - (value.y * lookSensitivity.y),
+                    minHeight,
+                    maxHeight));
+        }
+
+        protected void ApplyRotation(Vector2 value)
+        {
+            camera.transform.localRotation = Quaternion.Euler(value.y, 0f, 0f);
+
+            parent.Rotate(0f, value.x, 0f);
+        }
     }
 }

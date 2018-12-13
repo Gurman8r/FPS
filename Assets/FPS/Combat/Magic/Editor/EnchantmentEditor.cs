@@ -50,8 +50,10 @@ namespace FPS
             {
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("m_UID"));
                 EditorGUILayout.BeginVertical(GUI.skin.box);
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("m_castingType"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("m_deliveryType"));
+                {
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_castingType"));
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("m_deliveryType"));
+                }
                 EditorGUILayout.EndVertical();
 
                 EditorGUILayout.BeginVertical(GUI.skin.box);
@@ -60,19 +62,19 @@ namespace FPS
                     if (EditorGUILayout.BeginFadeGroup(m_showEntries.faded))
                     {
                         DisplayListEntries();
+
+                        Rect addRect = GUILayoutUtility.GetRect(m_addContent, GUI.skin.button);
+                        const float addWidth = 200f;
+                        addRect.x = addRect.x + (addRect.width - addWidth) / 2;
+                        addRect.width = addWidth;
+                        if (GUI.Button(addRect, m_addContent))
+                        {
+                            AddNewEffect();
+                        }
                     }
                     EditorGUILayout.EndFadeGroup();
                 }
                 EditorGUILayout.EndVertical();
-
-                Rect addRect = GUILayoutUtility.GetRect(m_addContent, GUI.skin.button);
-                const float addWidth = 200f;
-                addRect.x = addRect.x + (addRect.width - addWidth) / 2;
-                addRect.width = addWidth;
-                if (GUI.Button(addRect, m_addContent))
-                {
-                    AddNewEffect();
-                }
             }
             serializedObject.ApplyModifiedProperties();
         }

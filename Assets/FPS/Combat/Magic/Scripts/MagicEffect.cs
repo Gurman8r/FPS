@@ -42,7 +42,7 @@ namespace FPS
         HandsFree,      // Always active
     }
 
-    // Magic Effects represent the primary visual and functional effects of a Spell
+    [DisallowMultipleComponent]
     [ExecuteInEditMode]
     public class MagicEffect : MonoBehaviour
     {

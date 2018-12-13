@@ -10,8 +10,8 @@ namespace FPS
         /* Variables
         * * * * * * * * * * * * * * * */
         [Header("Settings")]
-        [SerializeField] Transform      m_itemRoot;
-        [SerializeField] int            m_capacity = 10;
+        [SerializeField] Transform  m_itemRoot;
+        [SerializeField] int        m_capacity = 10;
 
         [Header("Runtime")]
         [SerializeField] int        m_index = 0;
@@ -114,8 +114,6 @@ namespace FPS
             }
             return false;
         }
-
-        public void Drop(Item item) { }
 
         public bool Equip(CastingSource hand, Item item)
         {

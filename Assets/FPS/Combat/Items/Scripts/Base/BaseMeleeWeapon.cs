@@ -22,7 +22,7 @@ namespace FPS
 
         protected override void Update()
         {
-            base.Start();
+            base.Update();
         }
 
         /* Functions

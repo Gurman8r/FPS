@@ -31,8 +31,11 @@ namespace FPS
         [Header("Post Processing")]
         [SerializeField] Toggle     m_antialiasing;
         [SerializeField] Toggle     m_ambientOcclusion;
-        [SerializeField] Toggle     m_bloom;
+        [SerializeField] Toggle     m_depthOfField;
         [SerializeField] Toggle     m_motionBlur;
+        [SerializeField] Toggle     m_eyeAdaptation;
+        [SerializeField] Toggle     m_bloom;
+        [SerializeField] Toggle     m_colorGrading;
         [SerializeField] Toggle     m_vignette;
 
         [Header("UI Reference")]
@@ -179,16 +182,34 @@ namespace FPS
                 FP_Camera.main.postProcessing.profile.ambientOcclusion.enabled = t.isOn;
             });
 
-            // Bloom
-            SetupToggle(m_bloom, "EnableBloom", true, (Toggle t) =>
+            // Depth of Field
+            SetupToggle(m_depthOfField, "EnableDepthOfField", true, (Toggle t) =>
             {
-                FP_Camera.main.postProcessing.profile.bloom.enabled = t.isOn;
+                FP_Camera.main.postProcessing.profile.depthOfField.enabled = t.isOn;
             });
 
             // Motion Blur
             SetupToggle(m_motionBlur, "EnableMotionBlur", true, (Toggle t) =>
             {
                 FP_Camera.main.postProcessing.profile.motionBlur.enabled = t.isOn;
+            });
+
+            // Eye Adaptation
+            SetupToggle(m_eyeAdaptation, "EnableEyeAdaptation", true, (Toggle t) =>
+            {
+                FP_Camera.main.postProcessing.profile.eyeAdaptation.enabled = t.isOn;
+            });
+
+            // Bloom
+            SetupToggle(m_bloom, "EnableBloom", true, (Toggle t) =>
+            {
+                FP_Camera.main.postProcessing.profile.bloom.enabled = t.isOn;
+            });
+
+            // Color Grading
+            SetupToggle(m_colorGrading, "EnableColorGrading", true, (Toggle t) =>
+            {
+                FP_Camera.main.postProcessing.profile.colorGrading.enabled = t.isOn;
             });
 
             // Vignette
