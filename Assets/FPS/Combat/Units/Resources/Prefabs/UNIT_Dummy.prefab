@@ -736,6 +736,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1536
   m_lookingAt: {x: 0, y: 0, z: 0}
+  m_normal: {x: 0, y: 0, z: 0}
+  m_target: {fileID: 0}
 --- !u!114 &114715933664700976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -818,6 +820,23 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: FPS.UnitTriggers+TriggerEvent, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 114979198259251968}
+          m_MethodName: DestroySelf
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+      m_TypeName: FPS.UnitTriggers+TriggerEvent, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
 --- !u!114 &114868908442980682
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -858,13 +877,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_right:
     transform: {fileID: 4916839863374328}
-    item: {fileID: 0}
   m_left:
     transform: {fileID: 4607931941665842}
-    item: {fileID: 0}
   m_instant:
     transform: {fileID: 4673465085362168}
-    item: {fileID: 0}
   m_outOfCombatDelay: 5
   m_inCombat: 0
   m_outOfCombatTimer: 0

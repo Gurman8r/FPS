@@ -20,7 +20,7 @@ namespace FPS
         /* DS
         * * * * * * * * * * * * * * * */
         [Serializable]
-        public class TriggerEvent : UnityEvent<UnitEventData> { }
+        public class TriggerEvent : UnityEvent<BaseEventData> { }
 
         [Serializable]
         public class Entry
@@ -37,7 +37,7 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        private void Execute(TriggerType id, UnitEventData ev)
+        private void Execute(TriggerType id, BaseEventData ev)
         {
             if (delegates != null)
             {
@@ -59,37 +59,37 @@ namespace FPS
         public virtual void OnSpawn(SpawnEvent ev)
         {
             Execute(TriggerType.OnSpawn, ev);
-            CombatExecutes.OnSpawn(ev);
+            TriggerExecutes.OnSpawn(ev);
         }
 
         public virtual void OnDeath(DeathEventData ev)
         {
             Execute(TriggerType.OnDeath, ev);
-            CombatExecutes.OnDeath(ev);
+            TriggerExecutes.OnDeath(ev);
         }
 
         public virtual void OnReceiveDamage(DamageEventData ev)
         {
             Execute(TriggerType.OnReceiveDamage, ev);
-            CombatExecutes.OnReceiveDamage(ev);
+            TriggerExecutes.OnReceiveDamage(ev);
         }
 
         public virtual void OnDoDamage(DamageEventData ev)
         {
             Execute(TriggerType.OnDoDamage, ev);
-            CombatExecutes.OnDoDamage(ev);
+            TriggerExecutes.OnDoDamage(ev);
         }
 
         public virtual void OnReceiveHealing(HealingEventData ev)
         {
             Execute(TriggerType.OnReceiveHealing, ev);
-            CombatExecutes.OnReceiveHealing(ev);
+            TriggerExecutes.OnReceiveHealing(ev);
         }
 
         public virtual void OnDoHealing(HealingEventData ev)
         {
             Execute(TriggerType.OnDoHealing, ev);
-            CombatExecutes.OnDoHealing(ev);
+            TriggerExecutes.OnDoHealing(ev);
         }
     }
 

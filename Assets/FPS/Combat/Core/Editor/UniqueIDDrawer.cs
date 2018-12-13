@@ -12,12 +12,15 @@ namespace FPS
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
+            EditorGUI.PrefixLabel(position, label);
             EditorGUILayout.BeginVertical(GUI.skin.box);
-            EditorGUILayout.LabelField(label, EditorStyles.boldLabel);
+            EditorGUI.indentLevel++;
             EditorGUILayout.PropertyField(property.FindPropertyRelative("m_ID"));
             EditorGUILayout.PropertyField(property.FindPropertyRelative("m_name"));
             EditorGUILayout.PropertyField(property.FindPropertyRelative("m_sprite"));
             EditorGUILayout.PropertyField(property.FindPropertyRelative("m_description"));
+            EditorGUI.indentLevel--;
+            EditorGUILayout.Space();
             EditorGUILayout.EndVertical();
             EditorGUI.EndProperty();
         }

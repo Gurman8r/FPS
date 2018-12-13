@@ -127,12 +127,16 @@ namespace FPS
         {
             base.Update();
 
-            if (Application.isPlaying)
+            if (Application.isPlaying && startingItem != "")
             {
                 Item item;
                 if (ItemDatabase.instance.GetPrefab(startingItem, out item))
                 {
                     self.inventory.Equip(self.combat.right, Instantiate(item));
+                }
+                else
+                {
+                    Debug.LogError("Failed Spawning Item Prefab: " + startingItem, this);
                 }
             }
         }

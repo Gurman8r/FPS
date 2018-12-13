@@ -17,6 +17,8 @@ namespace FPS
 
         [Header("Runtime")]
         [SerializeField] Vector3    m_lookingAt;
+        [SerializeField] Vector3    m_normal;
+        [SerializeField] Unit       m_target;
 
         private RaycastHit m_hit;
 
@@ -54,6 +56,18 @@ namespace FPS
             get { return eye.forward; }
         }
 
+        public Vector3 normal
+        {
+            get { return m_normal; }
+            private set { m_normal = value; }
+        }
+
+        public Unit target
+        {
+            get { return m_target; }
+            private set { m_target = value; }
+        }
+
 
         /* Core
         * * * * * * * * * * * * * * * */
@@ -64,10 +78,25 @@ namespace FPS
                 if (Physics.Raycast(origin, direction, out m_hit, maxRange, blockingLayers))
                 {
                     lookingAt = m_hit.point;
+                    normal = m_hit.normal;
+
+                    if(m_hit.transform.tag == Unit.Tag)
+                    {
+                        if (!target || (target && (target.gameObject != m_hit.transform.gameObject)))
+                        {
+                            target = m_hit.transform.GetComponent<Unit>();
+                        }
+                    }
+                    else
+                    {
+                        target = null;
+                    }
                 }
                 else
                 {
                     lookingAt = origin + (direction * maxRange);
+                    normal = direction;
+                    target = null;
                 }
             }
         }

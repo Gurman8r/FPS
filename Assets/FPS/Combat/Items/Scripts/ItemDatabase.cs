@@ -61,15 +61,14 @@ namespace FPS
                 Element e = m_items[i];
                 if(e.value)
                 {
-                    e.name = e.value.UID.name;
                     if (!RegisterPrefab(e.name, e.value))
                     {
-                        Debug.LogError("Item \'" + e.name + "\' already exists: " + e.value.name);
+                        Debug.LogError("Duplicate Item Found: \'" + e.name + "\'");
                     }
                 }
                 else
                 {
-                    Debug.LogWarning("Item Prefab Not Found: " + e.name);
+                    Debug.LogError("Item Prefab Not Found: " + e.name);
                 }
             }
         }

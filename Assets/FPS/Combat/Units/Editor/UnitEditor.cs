@@ -27,9 +27,9 @@ namespace FPS
         {
             serializedObject.Update();
 
+            EditorGUILayout.LabelField("Behaviour");
             EditorGUILayout.BeginVertical(GUI.skin.box);
             {
-                EditorGUILayout.LabelField("Behaviour", EditorStyles.boldLabel);
                 BehaviourToggle("Combat", target.inventory);
                 BehaviourToggle("Motor", target.motor);
                 BehaviourToggle("Inventory", target.inventory);

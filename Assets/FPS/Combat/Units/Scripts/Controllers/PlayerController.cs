@@ -18,6 +18,9 @@ namespace FPS
         [SerializeField] float      m_aimSpeed = 0.5f;
         [SerializeField] float      m_editHoldRange = 1f;
         [SerializeField] float      m_editRotSpeed = 2.5f;
+        [Space]
+        [SerializeField] SpriteRenderer m_target;
+        [SerializeField] float          m_targetSize = 0.1f;
 
         [Header("Player Runtime")]
         [SerializeField] Item       m_editing;
@@ -99,6 +102,24 @@ namespace FPS
         {
             if (Application.isPlaying)
             {
+                if(m_target)
+                {
+                    if(self.vision.target)
+                    {
+                        m_target.color = Color.green;
+                        m_target.transform.position = self.vision.target.transform.position;
+                        m_target.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
+                        m_target.transform.localScale = Vector3.one * self.motor.collider.bounds.extents.x;
+                    }
+                    else
+                    {
+                        m_target.color = Color.white * 0.5f;
+                        m_target.transform.position = self.vision.lookingAt + (self.vision.normal * m_targetSize);
+                        m_target.transform.LookAt(self.vision.lookingAt);
+                        m_target.transform.localScale = Vector3.one * m_targetSize;
+                    }
+                }
+
                 // Detect input source
                 DetectController();
 
@@ -146,20 +167,6 @@ namespace FPS
 
                         if (!self.inventory.empty)
                         {
-                            // Select Input
-                            selectInput = -1;
-                            for (KeyCode key = KeyCode.Alpha0; key <= KeyCode.Alpha9; key++)
-                            {
-                                if (Input.GetKeyDown(key))
-                                {
-                                    selectInput = (key == KeyCode.Alpha0)
-                                        ? (9)
-                                        : (8 - Mathf.Abs((int)key - (int)KeyCode.Alpha9));
-                                    hud.inventory.Show();
-                                    break;
-                                }
-                            }
-
                             // Scroll Input
                             if ((scrollInput = m_input.GetAxis("Select Scroll")) != 0f)
                             {
@@ -357,19 +364,15 @@ namespace FPS
             Item item;
             if (item = value.item)
             {
-                BaseRangedWeapon gun;
-                m_zoomLevel = (gun = item as BaseRangedWeapon) ? gun.zoomLevel : FP_Camera.MinZoom;
-                m_isAiming = (m_zoomLevel != FP_Camera.MinZoom);
-
                 fire0.press = m_input.GetButtonDown("Fire0");
                 fire0.hold = m_input.GetButton("Fire0");
                 fire0.release = m_input.GetButtonUp("Fire0");
-                item.HandleInputPrimary(fire0);
 
                 fire1.press = m_input.GetButtonDown("Fire1");
                 fire1.hold = m_input.GetButton("Fire1");
                 fire1.release = m_input.GetButtonUp("Fire1");
-                item.HandleInputSecondary(fire1);
+                
+                item.HandleInput(fire0, fire1);
 
                 if (m_input.GetButtonDown("Reload"))
                 {
@@ -404,13 +407,31 @@ namespace FPS
 
         private void UpdateCamera()
         {
+            float speed = m_zoomSpeed;
+            Item item;
+            if(item = self.combat.right.item)
+            {
+                BaseRangedWeapon gun;
+                if (gun = item as BaseRangedWeapon)
+                {
+                    m_zoomLevel = gun.zoomLevel;
+                    speed *= gun.zoomSpeedMult;
+                }
+                else
+                {
+                    m_zoomLevel = FP_Camera.MinZoom;
+                }
+
+                m_isAiming = (m_zoomLevel != FP_Camera.MinZoom);                
+            }
+
             camera.cursorLock = !isPaused;
             camera.lookSpeed = m_isAiming ? m_aimSpeed : 1f;
             camera.SetLookDelta(lookInput);
             camera.zoomLevel = Mathf.MoveTowards(
                 camera.zoomLevel,
                 m_zoomLevel,
-                Time.deltaTime * m_zoomSpeed);
+                Time.deltaTime * speed);
         }
 
         private void UpdateHUD()

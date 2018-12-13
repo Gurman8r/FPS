@@ -97,73 +97,64 @@ namespace FPS
         }
 
 
-        public bool Drop(CastingSource hand)
+        public bool Drop(CastingSource source)
         {
             Item item;
-            if((item = hand.item) && item.SetOwner(null))
+            if((item = source.item) && item.SetOwner(null))
             {
                 if (BagContains(item)) items.Remove(item);
 
-                hand.item = null;
-                item.onDrop.Invoke();
-                item.SetRoot(null, true);
-                item.EnablePhysics(true);
-                item.EnableAnimator(false);
-                item.transform.position = self.vision.origin + self.vision.direction;
+                source.item = null;
+                item.OnDrop(null);
+                transform.position = self.vision.origin + self.vision.direction;
                 return true;
             }
             return false;
         }
 
-        public bool Equip(CastingSource hand, Item item)
+        public bool Equip(CastingSource source, Item item)
         {
             if (HasRoom() && item && item.SetOwner(self))
             {
                 if (CanAdd(item)) AddToBag(item);
-
-                hand.item = item;
-                item.SetRoot(hand.transform, false);
-                item.EnablePhysics(false);
-                item.EnableAnimator(true);
-                item.EnableGameObject(true);
-                item.onEquip.Invoke();
+                source.item = item;
+                item.OnEquip(source.transform);
                 return true;
             }
             return false;
         }
 
-        public bool Equip(CastingSource hand)
+        public bool Equip(CastingSource source)
         {
-            return Equip(hand, hand.item);
+            return Equip(source, source.item);
         }
 
-        public bool Equip(CastingSource hand, int index)
+        public bool Equip(CastingSource source, int index)
         {
             Item item;
             if(GetFromBag(index, out item))
             {
-                if(hand.item && (hand.item != item))
+                if(source.item && (source.item != item))
                 {
-                    Store(hand);
+                    Store(source);
                 }
-                else if(hand.item == item)
+                else if(source.item == item)
                 {
                     return true;
                 }
-
-                return Equip(hand, item);
+                return Equip(source, item);
             }
             return false;
         }
         
-        public bool Store(CastingSource hand)
+        public bool Store(CastingSource source)
         {
             Item item;
-            if((item = hand.item))
+            if((item = source.item))
             {
                 if(Store(item))
                 {
-                    hand.item = null;
+                    source.item = null;
                     return true;
                 }
             }
@@ -175,12 +166,7 @@ namespace FPS
             if (HasRoom() && item)
             {
                 if (CanAdd(item)) AddToBag(item);
-
-                item.onStore.Invoke();
-                item.SetRoot(itemRoot, false);
-                item.EnablePhysics(false);
-                item.EnableAnimator(false);
-                item.EnableGameObject(false);
+                item.OnStore(itemRoot);
                 return true;
             }
             return false;

@@ -18,13 +18,14 @@ namespace FPS
         {
             EditorGUI.BeginProperty(position, label, property);
             {
+                EditorGUI.PrefixLabel(position, label);
+
                 SerializedProperty current = property.FindPropertyRelative("m_current");
                 SerializedProperty minimum = property.FindPropertyRelative("m_minimum");
                 SerializedProperty maximum = property.FindPropertyRelative("m_maximum");
 
                 EditorGUILayout.BeginVertical(GUI.skin.box);
                 {
-                    EditorGUILayout.LabelField("Health", EditorStyles.boldLabel);
                     EditorGUI.ProgressBar(
                         EditorGUILayout.GetControlRect(),
                         (current.floatValue / maximum.floatValue),
@@ -55,11 +56,6 @@ namespace FPS
                 EditorGUILayout.EndVertical();
             }
             EditorGUI.EndProperty();
-        }
-
-        private void HealthEditor(Health value)
-        {
-            
         }
     }
 

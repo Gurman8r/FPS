@@ -19,7 +19,7 @@ namespace FPS
         private SerializedProperty m_list;
         private GUIContent m_addContent;
         private GUIContent m_removeButton;
-        private AnimBool m_showElements;
+        private AnimBool m_showList;
 
         /* Functions
         * * * * * * * * * * * * * * * */
@@ -29,26 +29,34 @@ namespace FPS
             m_addContent = new GUIContent("Add New Item");
             m_removeButton = new GUIContent(EditorGUIUtility.IconContent("Toolbar Minus"));
             m_removeButton.tooltip = "Remove this item from the list.";
-            m_showElements = new AnimBool(true);
-            m_showElements.valueChanged.AddListener(Repaint);
+            m_showList = new AnimBool(true);
+            m_showList.valueChanged.AddListener(Repaint);
         }
 
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
+            {
+                ShowDatabase();
 
+                if (GUILayout.Button("Validate"))
+                {
+                    target.ReloadPrefabs();
+                }
+            }
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        private void ShowDatabase()
+        {
             EditorGUILayout.BeginVertical(GUI.skin.box);
             {
-                m_showElements.target = GUILayout.Toggle(m_showElements.target, ("Items" + (m_showElements.target ? "" : "...")), "Foldout");
-                if (EditorGUILayout.BeginFadeGroup(m_showElements.faded))
+                m_showList.target = GUILayout.Toggle(m_showList.target, ("Items" + (m_showList.target ? "" : "...")), "Foldout");
+                if (EditorGUILayout.BeginFadeGroup(m_showList.faded))
                 {
-                    DisplayListEntries();
+                    ShowListEntries();
 
-                    Rect addRect = GUILayoutUtility.GetRect(m_addContent, GUI.skin.button);
-                    const float addWidth = 200f;
-                    addRect.x = addRect.x + (addRect.width - addWidth) / 2;
-                    addRect.width = addWidth;
-                    if (GUI.Button(addRect, m_addContent))
+                    if (ShowAddButton())
                     {
                         AddNewItem();
                     }
@@ -56,11 +64,9 @@ namespace FPS
                 EditorGUILayout.EndFadeGroup();
             }
             EditorGUILayout.EndVertical();
-
-            serializedObject.ApplyModifiedProperties();
         }
 
-        private void DisplayListEntries()
+        private void ShowListEntries()
         {
             int toRemove = -1;
 
@@ -83,21 +89,15 @@ namespace FPS
                     }
 
 
-                    Item item;
-                    if(item = (elemValue.objectReferenceValue as Item))
+                    Item obj;
+                    if (obj = (elemValue.objectReferenceValue as Item))
                     {
-                        GUI.enabled = false;
-                        if (item.UID.ID == "") elemValue
-                                .FindPropertyRelative("m_UID")
-                                .FindPropertyRelative("m_ID")
-                                .stringValue = item.name;
-                        EditorGUILayout.LabelField(new GUIContent(item.UID.name, item.UID.ID), GUILayout.MaxWidth(96));
+                        EditorGUILayout.LabelField((elemName.stringValue = obj.UID.ID));
                     }
                     else
                     {
                         EditorGUILayout.LabelField("EMPTY", EditorStyles.boldLabel, GUILayout.MaxWidth(96));
                     }
-                    GUI.enabled = true;
                     EditorGUILayout.PropertyField(elemValue, new GUIContent(""));
                 }
                 EditorGUILayout.EndHorizontal();
@@ -107,6 +107,15 @@ namespace FPS
             {
                 m_list.DeleteArrayElementAtIndex(toRemove);
             }
+        }
+
+        private bool ShowAddButton()
+        {
+            Rect addRect = GUILayoutUtility.GetRect(m_addContent, GUI.skin.button);
+            const float addWidth = 200f;
+            addRect.x = addRect.x + (addRect.width - addWidth) / 2;
+            addRect.width = addWidth;
+            return GUI.Button(addRect, m_addContent);
         }
 
         private void AddNewItem()

@@ -793,22 +793,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b24537f7cfaf8b942b0521e2151d6bc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UID:
-    m_ID: ITEM_Weapon_Sniper
-    m_name: Sniper
-    m_sprite: {fileID: 21300000, guid: 569eb8c93754c6943bb2d6e7dd05f252, type: 3}
-    m_description: 
   m_model: {fileID: 4264203998229590}
   m_holdRoot: {fileID: 4769695784928372}
-  m_interactable: 1
-  m_useMode: 0
-  m_useDelay: 1
-  m_staticReticle: 0
-  m_maxResource: 4
-  m_isRenewable: 1
-  m_cooldownDelay: 2.5
-  m_fixedCooldown: 1
-  m_autoCooldown: 1
   m_onDrop:
     m_PersistentCalls:
       m_Calls: []
@@ -824,8 +810,20 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_owner: {fileID: 0}
-  m_originalRoot: {fileID: 0}
+  m_UID:
+    m_ID: ITEM_Weapon_Sniper
+    m_name: Sniper
+    m_sprite: {fileID: 21300000, guid: 569eb8c93754c6943bb2d6e7dd05f252, type: 3}
+    m_description: 
+  m_interactable: 1
+  m_useMode: 0
+  m_useDelay: 1
+  m_staticReticle: 0
+  m_maxResource: 4
+  m_isRenewable: 1
+  m_cooldownDelay: 2.5
+  m_fixedCooldown: 1
+  m_autoCooldown: 1
   m_cooldownTimer: 0
   m_onCooldown: 0
   m_canUse: 0
@@ -840,6 +838,7 @@ MonoBehaviour:
   m_spreadHip: 15
   m_spreadAim: 1
   m_zoomAiming: 5
+  m_zoomSpeedMult: 2.5
   m_isAiming: 0
   m_bulletSpread: 0.1
   m_beamPrefab: {fileID: 114599389230684376, guid: ebd592993358af740bc105cfed1ecba7,

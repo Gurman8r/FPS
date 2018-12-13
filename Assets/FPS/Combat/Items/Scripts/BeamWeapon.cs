@@ -9,7 +9,7 @@ namespace FPS
         /* Variables
         * * * * * * * * * * * * * * * */
         [Header("Beam Weapon Settings")]
-        [SerializeField] BeamEntity m_beamPrefab;
+        [SerializeField] Beam m_beamPrefab;
         [SerializeField] float      m_beamWidth     = 0.1f;
         [SerializeField] float      m_beamRange     = 100f;
         [Range(0f, 2f)]
@@ -18,7 +18,7 @@ namespace FPS
 
         /* Properties
         * * * * * * * * * * * * * * * */
-        public BeamEntity beamPrefab
+        public Beam beamPrefab
         {
             get { return m_beamPrefab; }
             set { m_beamPrefab = value; }
@@ -33,33 +33,32 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public override void HandleInputPrimary(ButtonState input)
+        public override void HandleInput(ButtonState lhs, ButtonState rhs)
         {   
             switch (useMode)
             {
             case UseMode.Single:
             {
-                if(input.press) { Shoot(); }
+                if(lhs.press) { Shoot(); }
             }
             break;
             case UseMode.Continuous:
             {
-                if(input.hold) { Shoot(); }
+                if(lhs.hold) { Shoot(); }
             }
             break;
             }
-        }
-
-        public override void HandleInputSecondary(ButtonState input)
-        {
+        
             if(allowAiming)
-                animator.SetBool("AimDownSights", !onCooldown && input.hold);
+            {
+                animator.SetBool("AimDownSights", !onCooldown && rhs.hold);
+            }
         }
 
 
         protected override IEnumerator ShootCoroutine()
         {
-            BeamEntity obj;
+            Beam obj;
             if(obj = SpawnLaser(beamPrefab))
             {
                 obj.Spawn();
@@ -72,10 +71,10 @@ namespace FPS
             yield return new WaitForSeconds(useDelay);
         }
         
-        private BeamEntity SpawnLaser(BeamEntity prefab)
+        private Beam SpawnLaser(Beam prefab)
         {
-            BeamEntity obj;
-            if (obj = owner.CreateAndSpawnObject(prefab) as BeamEntity)
+            Beam obj;
+            if (obj = owner.CreateAndSpawnObject(prefab) as Beam)
             {
                 obj.owner = owner;
                 obj.damage = damage;

@@ -46,13 +46,13 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public override void HandleInputPrimary(ButtonState input)
+        public override void HandleInput(ButtonState lhs, ButtonState rhs)
         {
             switch(useMode)
             {
             case UseMode.Single:
             {
-                if(input.press && !owner.health.isFull)
+                if(lhs.press && !owner.health.isFull)
                 {
                     DoHealing();
                     ConsumeResource();
@@ -61,7 +61,7 @@ namespace FPS
             break;
             case UseMode.Continuous:
             {
-                if (input.hold && !owner.health.isFull)
+                if (lhs.hold && !owner.health.isFull)
                 {
                     DoHealing();
                     ConsumeResource();
@@ -69,10 +69,6 @@ namespace FPS
             }
             break;
             }
-        }
-
-        public override void HandleInputSecondary(ButtonState input)
-        {
         }
 
         private void DoHealing()

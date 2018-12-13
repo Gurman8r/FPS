@@ -8,7 +8,7 @@
 	Look		| Mouse  X/Y
 	Fire0		| Left Mouse
 	Fire1		| Right Mouse
-	Select		| Scroll / Keys (0-9)
+	Select		| Scroll
 	Sprint		| Left Shift
 	Jump 		| Space
 	Interact	| E

@@ -474,13 +474,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_right:
     transform: {fileID: 0}
-    item: {fileID: 0}
   m_left:
     transform: {fileID: 0}
-    item: {fileID: 0}
   m_instant:
     transform: {fileID: 0}
-    item: {fileID: 0}
   m_outOfCombatDelay: 5
   m_inCombat: 0
   m_outOfCombatTimer: 0
@@ -742,6 +739,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1536
   m_lookingAt: {x: 2, y: 2.1, z: 3.925}
+  m_normal: {x: 0, y: 0, z: 0}
+  m_target: {fileID: 0}
 --- !u!114 &114981945768954510
 MonoBehaviour:
   m_ObjectHideFlags: 1

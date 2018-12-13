@@ -52,12 +52,7 @@ namespace FPS
 
             if (Application.isPlaying)
             {
-                Item item;
-                if(item = self.combat.right.item)
-                {
-                    item.HandleInputPrimary(fire0);
-                    item.HandleInputSecondary(fire1);
-                }
+                UpdateCasting(self.combat.right);
 
                 if (self.combat.inCombat)
                 {
@@ -119,7 +114,7 @@ namespace FPS
 
         /* Functions
         * * * * * * * * * * * * * * * */
-        public void OnReceiveDamage(UnitEventData ev)
+        public void OnReceiveDamage(BaseEventData ev)
         {
             DamageEventData d;
             if (d = ev as DamageEventData)
@@ -156,6 +151,15 @@ namespace FPS
                 }
             }
             return "0";
+        }
+
+        private void UpdateCasting(CastingSource source)
+        {
+            Item item;
+            if(item = source.item)
+            {
+                item.HandleInput(fire0, fire1);
+            }
         }
     }
 

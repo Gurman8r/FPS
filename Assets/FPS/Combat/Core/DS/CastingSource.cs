@@ -9,7 +9,8 @@ namespace FPS
     public class CastingSource
     {
         public Transform transform;
-        public Item item;
+
+        public Item item { get; set; }
 
         public static implicit operator bool(CastingSource value)
         {
